@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>One question at a time</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+  --ink: #171D2B;
+  --ink-2: #10141F;
+  --paper: #F4ECE0;
+  --paper-2: #E4D7C5;
+  --honey: #E0A34E;
+  --sage: #7FA292;
+  --muted: #8A93A6;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  min-height: 100vh;
+  background: radial-gradient(120% 90% at 50% 0%, #202940 0%, var(--ink) 45%, var(--ink-2) 100%);
+  background-attachment: fixed;
+  color: var(--paper);
+  font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  display: flex;
+  justify-content: center;
+  padding: 22px 18px 40px;
+  -webkit-font-smoothing: antialiased;
+}
+.shell { width: 100%; max-width: 520px; display: flex; flex-direction: column; gap: 20px; }
+
+.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.eyebrow { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+.linkbtn {
+  background: none; border: none; padding: 0; cursor: pointer; white-space: nowrap;
+  font-family: inherit; font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--paper-2); opacity: 0.8;
+}
+.linkbtn:hover { opacity: 1; }
+
+.vibes {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;
+  background: rgba(255,255,255,0.05); padding: 4px; border-radius: 999px;
+}
+.vibe {
+  border: none; background: none; cursor: pointer; padding: 9px 0; border-radius: 999px;
+  font-family: inherit; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted); transition: background 160ms ease, color 160ms ease;
+}
+.vibe[data-on="true"] { background: var(--paper); color: var(--ink); }
+
+.stack { position: relative; padding-bottom: 14px; }
+.ghost { position: absolute; inset: 0 0 auto 0; height: 100%; border-radius: 16px; background: var(--paper-2); }
+.ghost.g1 { transform: translateY(7px) scale(0.975); opacity: 0.34; }
+.ghost.g2 { transform: translateY(14px) scale(0.95); opacity: 0.18; }
+
+.card {
+  position: relative; background: var(--paper); color: var(--ink);
+  border-radius: 16px; padding: 26px 24px 24px; min-height: 250px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  box-shadow: 0 22px 44px rgba(0,0,0,0.42);
+  animation: rise 420ms cubic-bezier(0.2, 0.8, 0.25, 1);
+}
+@keyframes rise {
+  from { transform: translateY(16px) rotate(-0.6deg); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+.cardtop { display: flex; align-items: center; justify-content: space-between; }
+.tag {
+  font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 7px; color: #5C5344;
+}
+.dot { width: 7px; height: 7px; border-radius: 50%; }
+.star {
+  background: none; border: none; cursor: pointer; padding: 2px 0 2px 12px;
+  font-size: 19px; line-height: 1; color: #C0B4A2; transition: transform 140ms ease;
+}
+.star[data-on="true"] { color: var(--honey); }
+.star:active { transform: scale(0.86); }
+
+.q {
+  font-family: "Newsreader", Georgia, serif; font-weight: 300;
+  font-size: 27px; line-height: 1.28; letter-spacing: -0.01em;
+  margin: 26px 0 22px; color: #1A2030; text-wrap: balance;
+}
+.rule { height: 1px; background: rgba(26,32,48,0.14); }
+.foot {
+  display: flex; justify-content: space-between; padding-top: 12px;
+  font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #7A705F;
+}
+
+.actions { display: flex; flex-direction: column; gap: 9px; }
+.next {
+  width: 100%; border: none; cursor: pointer; border-radius: 12px; padding: 16px;
+  background: var(--paper); color: var(--ink); font-family: inherit;
+  font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
+  transition: transform 120ms ease;
+}
+.next:active { transform: translateY(1px); }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.row.one { grid-template-columns: 1fr; }
+.ghostbtn {
+  border: 1px solid rgba(244,236,224,0.22); background: none; color: var(--paper-2);
+  border-radius: 12px; padding: 13px; cursor: pointer; font-family: inherit;
+  font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.ghostbtn:hover { border-color: rgba(244,236,224,0.45); }
+.ghostbtn:disabled { opacity: 0.4; cursor: default; }
+
+.note { font-size: 11px; color: var(--muted); text-align: center; min-height: 15px; line-height: 1.5; }
+.meta {
+  display: flex; justify-content: space-between; font-size: 10px;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+}
+
+.empty {
+  background: rgba(255,255,255,0.04); border: 1px dashed rgba(244,236,224,0.22);
+  border-radius: 16px; padding: 34px 24px; text-align: center;
+}
+.empty p { font-family: "Newsreader", Georgia, serif; font-size: 21px; font-weight: 300; margin: 0 0 18px; }
+
+.saved-list { display: flex; flex-direction: column; gap: 10px; }
+.saveditem {
+  background: rgba(255,255,255,0.045); border-radius: 12px; padding: 14px 15px;
+  display: flex; gap: 12px; align-items: flex-start; justify-content: space-between;
+}
+.savedtext { font-family: "Newsreader", Georgia, serif; font-size: 17px; font-weight: 300; line-height: 1.35; }
+.x { background: none; border: none; color: var(--muted); cursor: pointer; font-family: inherit; font-size: 15px; line-height: 1; padding: 0 2px; }
+.x:hover { color: var(--paper); }
+
+.hidden { display: none !important; }
+button:focus-visible { outline: 2px solid var(--honey); outline-offset: 2px; }
+
+@media (max-width: 380px) {
+  .q { font-size: 24px; }
+  .vibe { font-size: 10px; letter-spacing: 0.05em; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card { animation: none; }
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top">
+    <span class="eyebrow">Take turns. One question at a time.</span>
+    <button class="linkbtn" id="toggleView">Saved (0)</button>
+  </div>
+
+  <noscript>
+    <div class="empty" style="margin-bottom:20px">
+      <p>This preview can't run the deck.</p>
+      <span class="eyebrow">You're seeing a file preview with JavaScript turned off. Open this file in Safari or Chrome instead, or use the hosted link.</span>
+    </div>
+  </noscript>
+  <div id="deckView">
+    <div class="vibes" id="vibes"></div>
+    <div id="cardHost" style="margin-top:20px"></div>
+
+    <div class="actions" style="margin-top:20px">
+      <button class="next" id="nextBtn">Next question</button>
+      <div class="row" id="secondaryRow">
+        <button class="ghostbtn" id="passBtn">Pass on this</button>
+        <button class="ghostbtn" id="genBtn">Write new ones</button>
+      </div>
+    </div>
+
+    <div class="note" id="note" style="margin-top:16px"></div>
+
+    <div class="meta" style="margin-top:8px">
+      <span id="counter"></span>
+      <button class="linkbtn" id="reshuffleBtn">Reshuffle deck</button>
+    </div>
+  </div>
+
+  <div id="savedView" class="hidden"></div>
+</div>
+
+<script>
+/* ---------------- question bank ---------------- */
+const RAW = [
+["If we had to swap jobs for a week, what would you dread most about mine?","playful"],
+["What's a small, weird thing I do that you'd miss if I stopped?","playful"],
+["If we got dropped in any city tomorrow with no plan, where should the plane land?","playful"],
+["What's the most ridiculous argument we've ever had, and who was actually right?","playful"],
+["If our relationship had a theme song, what's playing?","playful"],
+["What's a hobby you secretly think you'd be great at if you had six months free?","playful"],
+["Which fictional couple do we most resemble, and is that a compliment?","playful"],
+["What would you buy immediately if money stopped being a factor?","playful"],
+["If you could master one skill overnight, what would you pick?","playful"],
+["What's the best meal we've ever eaten together?","playful"],
+["If we opened a business together, what would it be and who gets fired first?","playful"],
+["What's a movie you'd happily watch with me a hundred more times?","playful"],
+["What's the pettiest thing you've ever held a grudge about?","playful"],
+["If you had to describe me to a stranger in three words, what are they?","playful"],
+["What's a trend you refuse to participate in?","playful"],
+["Where would you want to live for one year if we had to move?","playful"],
+["What's the strangest thing you believed as a kid?","playful"],
+["If we had a completely free Saturday with no obligations, what does it look like?","playful"],
+["What's a compliment you got years ago that you still think about?","playful"],
+["Which of my habits would you keep if you could build a better version of me?","playful"],
+["What's your idea of a perfect lazy day?","playful"],
+["If you had to give up either coffee or your phone for a year, which one goes?","playful"],
+["What's a food you pretend to like for social reasons?","playful"],
+["What's the funniest thing you've ever seen me do?","playful"],
+["If we hosted a dinner party with any four people, alive or dead, who's coming?","playful"],
+["What song puts you in a good mood within about four seconds?","playful"],
+["What's the best gift you've ever received, and why did it land?","playful"],
+["If you had to compete on any game show, which one, and would you win?","playful"],
+["What are you weirdly competitive about?","playful"],
+["What's the last thing that made you laugh so hard you couldn't breathe?","playful"],
+["If someone wrote a book about our life together, what's the title?","playful"],
+["What smell takes you straight back to childhood?","playful"],
+["What's a place we've been that you'd go back to tomorrow?","playful"],
+["If you could relive one day of our relationship exactly as it happened, which one?","playful"],
+["What's a small luxury you think is completely worth the money?","playful"],
+["If I planned a surprise trip, what's the one thing that would make it perfect?","playful"],
+["What's your most irrational fear?","playful"],
+["What would you do with an unexpected free weekend, entirely alone?","playful"],
+["What's a talent of mine you think I underrate?","playful"],
+["Which season of your life so far has been the most fun?","playful"],
+["What's something you want to try that you've never told anyone about?","playful"],
+["If we had a mascot as a couple, what animal is it?","playful"],
+["What's the most spontaneous thing you've ever done?","playful"],
+["What's an unspoken rule between us that you'd quietly like to break?","playful"],
+["What's the best advice you've ever ignored?","playful"],
+["What does your ideal morning look like, start to finish?","playful"],
+["What's a story about me you like telling other people?","playful"],
+["If you had to pick a brand new first name, what are you going with?","playful"],
+["What do you find attractive that has nothing to do with looks?","playful"],
+["What's the most overrated thing everyone else seems to love?","playful"],
+["If we could add one room to our place, what's in it?","playful"],
+["What piece of my clothing would you quietly like to set on fire?","playful"],
+["What's the best trip you took before we met?","playful"],
+["If you had a week completely off the grid, where are you?","playful"],
+["What's something small I could do this week that would make you smile?","playful"],
+["What's the last thing you learned that genuinely surprised you?","playful"],
+["If our life were a TV show, what genre is it?","playful"],
+["What did you love as a teenager that you would still defend today?","playful"],
+["Which of us lasts longer in a zombie apocalypse, and what's your evidence?","playful"],
+["What's a tradition you want us to start?","playful"],
+["What's a chore you'd never give up, and one you'd outsource in a heartbeat?","playful"],
+["What's the pettiest reason you've ever judged a stranger?","playful"],
+["If we won a modest amount of money tomorrow, what's the first thing we do with it?","playful"],
+["What's a skill of mine you'd steal if you could?","playful"],
+["What's the strangest job you'd actually be good at?","playful"],
+["What song would you put on to get me dancing in the kitchen?","playful","music"],
+["What's the first album you bought with your own money?","playful","music"],
+["What song do you know every word to that you'd rather not admit?","playful","music"],
+["If our relationship got a soundtrack, what plays over the opening credits?","playful","music"],
+["What concert would you go back in time to see?","playful","music"],
+["What's a song you can't listen to anymore because something ruined it?","playful","music"],
+["What music did your parents play in the house, and did any of it stick?","playful","music"],
+["What's your karaoke song, and what's your backup when someone else takes it?","playful","music"],
+["What artist do you think I'd love if I gave them a real chance?","playful","music"],
+["What's the best live show you've ever been to?","playful","music"],
+["What song would you want playing when you walk into a room?","playful","music"],
+["What genre did you used to make fun of and now secretly like?","playful","music"],
+["If we could only listen to one artist for a twelve hour drive, who survives the vote?","playful","music"],
+["What's the most overplayed song that still works on you every time?","playful","music"],
+["What did you have on repeat at seventeen?","playful","music"],
+["What lyric do you think about more often than you'd expect?","playful","music"],
+["What would our wedding song be if we picked it today instead?","playful","music"],
+["What's a song you'd never skip, no matter how many times it comes around?","playful","music"],
+["What do you put on when you want the whole house to feel good?","playful","music"],
+["What artist did you find on your own and feel weirdly possessive about?","playful","music"],
+["What's a dream you quietly set aside that you'd like to pick back up?","deep"],
+["What does feeling loved actually look like on an ordinary Tuesday?","deep"],
+["What are you proud of that nobody ever congratulated you for?","deep"],
+["What are you most afraid of losing?","deep"],
+["When you picture us in ten years, what's the first image that comes to mind?","deep"],
+["What part of your childhood do you want to recreate for us, and what do you want to leave behind?","deep"],
+["What's a fear you have about us that you don't usually say out loud?","deep"],
+["When do you feel most like yourself?","deep"],
+["What have you changed your mind about in the last few years?","deep"],
+["What do you wish I asked you about more often?","deep"],
+["What was the hardest thing you went through before we met, and how did it shape you?","deep"],
+["What does a successful life look like to you, with money taken out of the picture?","deep"],
+["When was the last time you felt truly rested?","deep"],
+["How have I changed since we met in a way you appreciate?","deep"],
+["What do you need more of right now?","deep"],
+["What's a value we both hold but handle differently?","deep"],
+["Who do you miss?","deep"],
+["What's a conversation you've been avoiding?","deep"],
+["What do you want people to say about you at the end of your life?","deep"],
+["What are you carrying right now that you'd like to put down?","deep"],
+["When you're stressed, what does real support look like, specifically?","deep"],
+["What's a mistake you made that you're grateful for now?","deep"],
+["What part of your work actually matters to you?","deep"],
+["When was a moment you felt proud of us?","deep"],
+["Where do you think I sell myself short?","deep"],
+["Is there a relationship in your life you'd like to repair?","deep"],
+["What did your parents get right, and what will we do differently?","deep"],
+["What do you want to be better at as a partner?","deep"],
+["When have you felt most alone in the last year?","deep"],
+["What's a risk you want to take in the next five years?","deep"],
+["What do you believe that most people around you don't?","deep"],
+["What's the kindest thing anyone has ever done for you?","deep"],
+["How do you want us to handle money differently than we do now?","deep"],
+["What have you forgiven yourself for, and what haven't you?","deep"],
+["What does home mean to you, apart from a place?","deep"],
+["How has this relationship made your life bigger?","deep"],
+["What's a stress in your life right now that I might be underestimating?","deep"],
+["When you imagine us old together, what are we doing on a normal day?","deep"],
+["What do you most want to pass on to the people who come after us?","deep"],
+["What's the last thing that made you cry?","deep"],
+["What do you need from me when we disagree?","deep"],
+["What's a goal you have for yourself that has nothing to do with anyone else?","deep"],
+["What have you been thinking about lately when it comes to your health?","deep"],
+["Where do you feel most at peace?","deep"],
+["Which memory of us would you protect above all the others?","deep"],
+["How have you grown in a way that took you by surprise?","deep"],
+["What are we best at as a team?","deep"],
+["What's something you've never told me because the timing was never right?","deep"],
+["What hard truth have you accepted this year?","deep"],
+["How are our families more alike than you expected?","deep"],
+["What promise do you want us to make to each other now?","deep"],
+["What do you want us to spend more money on, and what should we stop funding?","deep"],
+["What role does faith or meaning play in your life right now?","deep"],
+["What boundary do you wish you were better at holding?","deep"],
+["When did you know you wanted this with me?","deep"],
+["What season of our relationship would you like to bring back?","deep"],
+["What do I do that makes you feel safe?","deep"],
+["What's a fear you've outgrown?","deep"],
+["What do you hope is true about us in twenty years that isn't guaranteed?","deep"],
+["What does rest look like for you that we never actually schedule?","deep"],
+["What's a version of yourself you're glad you left behind?","deep"],
+["Where do you feel unseen, at work or anywhere else?","deep"],
+["What would you want said about our marriage by someone who watched it closely?","deep"],
+["What's a decision we made together that you'd make again without hesitating?","deep"],
+["What do you think I'm avoiding?","deep"],
+["What song takes you straight back to a specific person or year?","deep","music"],
+["What music do you reach for when you're low, and does it lift you or just keep you company?","deep","music"],
+["What song do you want played at your funeral, and what should everyone be doing while it plays?","deep","music"],
+["What's a piece of music that made you feel something you couldn't name?","deep","music"],
+["What did music mean to you as a teenager that it doesn't mean now?","deep","music"]
+];
+
+const BASE = RAW.map((r, i) => ({ id: "b" + i, text: r[0], vibe: r[1], topic: r[2] || null }));
+const KEY = "question-deck-v1";
+const CAN_GENERATE = typeof window.storage !== "undefined";
+
+/* ---------------- storage ---------------- */
+const store = {
+  async load() {
+    if (window.storage) {
+      try { const r = await window.storage.get(KEY); return r && r.value ? JSON.parse(r.value) : null; }
+      catch (e) { return null; }
+    }
+    try { const v = localStorage.getItem(KEY); return v ? JSON.parse(v) : null; }
+    catch (e) { return null; }
+  },
+  async save(obj) {
+    const s = JSON.stringify(obj);
+    if (window.storage) { try { await window.storage.set(KEY, s); } catch (e) {} return; }
+    try { localStorage.setItem(KEY, s); } catch (e) {}
+  }
+};
+
+/* ---------------- state ---------------- */
+let state = { vibe: "mixed", generated: [], used: [], retired: [], saved: [] };
+let current = null;
+let view = "deck";
+let busy = false;
+let note = "";
+
+const all = () => BASE.concat(state.generated);
+const persist = () => store.save(state);
+
+function matches(q, v) {
+  if (v === "mixed") return true;
+  if (v === "music") return q.topic === "music";
+  return q.vibe === v;
+}
+
+function pool(excludeId) {
+  return all().filter(q =>
+    matches(q, state.vibe) &&
+    state.used.indexOf(q.id) === -1 &&
+    state.retired.indexOf(q.id) === -1 &&
+    q.id !== excludeId
+  );
+}
+
+function draw(excludeId) {
+  const p = pool(excludeId);
+  if (!p.length) { current = null; render(); return; }
+  current = p[Math.floor(Math.random() * p.length)];
+  if (state.used.indexOf(current.id) === -1) state.used.push(current.id);
+  persist();
+  render();
+}
+
+/* ---------------- actions ---------------- */
+function setVibe(v) {
+  state.vibe = v;
+  if (!current || !matches(current, v)) draw(null);
+  else { persist(); render(); }
+}
+
+function next() { note = ""; draw(current ? current.id : null); }
+
+function pass() {
+  if (!current) return;
+  state.retired.push(current.id);
+  state.saved = state.saved.filter(s => s.id !== current.id);
+  note = "Passed. That one is out of the deck for good.";
+  draw(current.id);
+}
+
+function toggleSave() {
+  if (!current) return;
+  const on = state.saved.some(s => s.id === current.id);
+  if (on) {
+    state.saved = state.saved.filter(s => s.id !== current.id);
+    note = "Removed from saved.";
+  } else {
+    state.saved.push({ id: current.id, text: current.text, vibe: current.vibe });
+    note = CAN_GENERATE ? "Saved. New questions will lean this direction." : "Saved.";
+  }
+  persist(); render();
+}
+
+function reshuffle() {
+  state.used = [];
+  note = "Deck reshuffled. Everything you didn't pass is back in play.";
+  draw(null);
+}
+
+async function generate() {
+  busy = true; note = ""; render();
+  const taste = state.saved.slice(-10).map(s => s.text);
+  const recent = state.used.map(id => all().find(q => q.id === id)).filter(Boolean).slice(-25).map(q => q.text);
+  const vibeLine = state.vibe === "playful"
+    ? "Light, funny, curious. Nothing heavy."
+    : state.vibe === "deep"
+      ? "Reflective and revealing, the kind that opens a long conversation."
+      : state.vibe === "music"
+        ? "Every question must be about music. Songs, albums, concerts, artists, what music does to them, what it meant at different points in their life. Mix light ones with a few that go deep."
+        : "Half light and funny, half reflective and revealing.";
+
+  const prompt = [
+    "You write open ended questions for a married couple doing a Gottman informed check in. They take turns asking each other one question at a time.",
+    "", "Generate 8 new questions.", "Vibe: " + vibeLine, "", "Rules:",
+    "- Open ended. Never answerable with yes or no.",
+    "- One sentence, addressed to the partner as you.",
+    "- Specific and vivid, not generic self help phrasing.",
+    "- No therapy jargon, no clinical language, no em dashes.",
+    "- Fun ones should be genuinely funny, not cute.",
+    taste.length ? "\nThe couple saved these as favorites. Match this taste:\n" + taste.map(t => "- " + t).join("\n") : "",
+    recent.length ? "\nDo not repeat or closely mirror these:\n" + recent.map(t => "- " + t).join("\n") : "",
+    "", 'Return only a JSON array, no preamble and no markdown: [{"text": "...", "vibe": "playful"}]',
+    'vibe must be either "playful" or "deep".'
+  ].join("\n");
+
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ model: "claude-sonnet-4-6", max_tokens: 1000, messages: [{ role: "user", content: prompt }] })
+    });
+    const data = await res.json();
+    const text = data.content.filter(c => c.type === "text").map(c => c.text).join("\n").replace(/```json|```/g, "").trim();
+    const parsed = JSON.parse(text);
+    const stamp = Date.now();
+    const fresh = parsed.filter(q => q && typeof q.text === "string").map((q, i) => ({
+      id: "g" + stamp + "-" + i,
+      text: q.text.trim(),
+      vibe: q.vibe === "deep" ? "deep" : "playful",
+      topic: state.vibe === "music" ? "music" : null,
+      fresh: true
+    }));
+    if (!fresh.length) throw new Error("empty");
+    state.generated = state.generated.concat(fresh);
+    const match = fresh.filter(q => matches(q, state.vibe));
+    current = (match.length ? match : fresh)[0];
+    state.used.push(current.id);
+    note = "Added " + fresh.length + " fresh questions to the deck.";
+    persist();
+  } catch (e) {
+    note = "Couldn't reach the question writer. Check your connection and try again.";
+  }
+  busy = false; render();
+}
+
+/* ---------------- render ---------------- */
+const el = id => document.getElementById(id);
+const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+function renderVibes() {
+  const opts = [["playful", "Playful"], ["mixed", "Mixed"], ["deep", "Deep"], ["music", "Music"]];
+  el("vibes").innerHTML = opts.map(o =>
+    '<button class="vibe" data-on="' + (state.vibe === o[0]) + '" data-v="' + o[0] + '">' + o[1] + '</button>'
+  ).join("");
+  Array.prototype.forEach.call(el("vibes").children, b => {
+    b.onclick = () => setVibe(b.getAttribute("data-v"));
+  });
+}
+
+function renderCard() {
+  const host = el("cardHost");
+  if (!current) {
+    host.innerHTML =
+      '<div class="empty"><p>You have been through every question in this vibe.</p>' +
+      '<div class="row' + (CAN_GENERATE ? '' : ' one') + '">' +
+      '<button class="ghostbtn" id="emptyShuffle">Reshuffle</button>' +
+      (CAN_GENERATE ? '<button class="ghostbtn" id="emptyGen">Write new ones</button>' : '') +
+      '</div></div>';
+    el("emptyShuffle").onclick = reshuffle;
+    if (CAN_GENERATE) el("emptyGen").onclick = generate;
+    return;
+  }
+  const on = state.saved.some(s => s.id === current.id);
+  const accent = current.vibe === "deep" ? "var(--sage)" : "var(--honey)";
+  const left = pool(null).length + 1;
+  host.innerHTML =
+    '<div class="stack"><div class="ghost g2"></div><div class="ghost g1"></div>' +
+    '<div class="card"><div class="cardtop">' +
+    '<span class="tag"><span class="dot" style="background:' + accent + '"></span>' +
+    (state.vibe === "music" ? "All about music" : current.vibe === "deep" ? "Goes deep" : "Keeps it light") + '</span>' +
+    '<button class="star" id="starBtn" data-on="' + on + '" aria-label="Save this question">' + (on ? "\u2605" : "\u2606") + '</button>' +
+    '</div><p class="q">' + esc(current.text) + '</p>' +
+    '<div><div class="rule"></div><div class="foot"><span>' +
+    (current.fresh ? "Freshly written" : "From the deck") + '</span><span>' + left + ' left</span></div></div>' +
+    '</div></div>';
+  el("starBtn").onclick = toggleSave;
+}
+
+function renderSaved() {
+  const host = el("savedView");
+  if (!state.saved.length) {
+    host.innerHTML = '<div class="empty"><p>Nothing saved yet.</p><span class="eyebrow">' +
+      (CAN_GENERATE ? "Star the ones that land. New questions get written in their image." : "Star the ones that land so you can come back to them.") +
+      '</span></div>';
+    return;
+  }
+  host.innerHTML = '<div class="saved-list">' + state.saved.map(s =>
+    '<div class="saveditem"><span class="savedtext">' + esc(s.text) +
+    '</span><button class="x" data-id="' + s.id + '" aria-label="Remove">\u2715</button></div>'
+  ).join("") + '</div>';
+  Array.prototype.forEach.call(host.querySelectorAll(".x"), b => {
+    b.onclick = () => {
+      state.saved = state.saved.filter(s => s.id !== b.getAttribute("data-id"));
+      persist(); render();
+    };
+  });
+}
+
+function render() {
+  el("toggleView").textContent = view === "deck" ? "Saved (" + state.saved.length + ")" : "Back to deck";
+  el("deckView").classList.toggle("hidden", view !== "deck");
+  el("savedView").classList.toggle("hidden", view !== "saved");
+  if (view === "deck") {
+    renderVibes();
+    renderCard();
+    el("passBtn").disabled = !current;
+    el("genBtn").disabled = busy;
+    el("genBtn").textContent = busy ? "Writing..." : "Write new ones";
+    el("genBtn").classList.toggle("hidden", !CAN_GENERATE);
+    el("secondaryRow").classList.toggle("one", !CAN_GENERATE);
+    el("note").textContent = note;
+    el("counter").textContent = CAN_GENERATE
+      ? state.generated.length + " written for you"
+      : all().length + " questions total";
+  } else {
+    renderSaved();
+  }
+}
+
+/* ---------------- wire up ---------------- */
+el("nextBtn").onclick = next;
+el("passBtn").onclick = pass;
+el("genBtn").onclick = generate;
+el("reshuffleBtn").onclick = reshuffle;
+el("toggleView").onclick = () => { view = view === "deck" ? "saved" : "deck"; render(); };
+
+document.addEventListener("keydown", e => {
+  if (view !== "deck") return;
+  if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); next(); }
+  if (e.key === "s") toggleSave();
+});
+
+(async function init() {
+  const saved = await store.load();
+  if (saved) state = Object.assign(state, saved);
+  draw(null);
+})();
+</script>
+</body>
+</html>
