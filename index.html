@@ -62,9 +62,10 @@
   --shadow-md: 0 0 0 1px #405056, 0 6px 18px rgba(0,0,0,0.55);
   --shadow-lg: 0 0 0 1px #6d8086, 0 16px 40px rgba(0,0,0,0.65);
   --radius-lg: 8px;
+  --radius-md: 10px;
 }
 * { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; }
+html, body { margin: 0; padding: 0; overflow-x: hidden; }
 body {
   min-height: 100vh;
   min-height: 100svh;
@@ -78,7 +79,10 @@ body {
 }
 
 .rail { width: 100%; max-width: 840px; display: flex; flex-wrap: wrap; gap: 32px; justify-content: center; align-items: flex-start; }
-.deck-col { flex: 1 1 420px; max-width: 480px; min-width: 300px; display: flex; flex-direction: column; gap: 20px; }
+.deck-col {
+  flex: 1 1 420px; max-width: 480px; min-width: 300px; display: flex; flex-direction: column; gap: 20px;
+  container-type: inline-size; container-name: deck;
+}
 .saved-col { flex: 1 1 280px; max-width: 340px; min-width: 260px; display: flex; flex-direction: column; gap: 14px; }
 .setup-row { flex: 1 0 100%; display: flex; justify-content: center; padding-top: 8px; }
 
@@ -103,43 +107,75 @@ h4 { font-family: var(--font-heading); font-weight: 500; font-size: 17px; margin
 .btn-secondary { border-color: var(--color-neutral-700); }
 .btn-ghost { border: none; padding: 6px 4px; min-height: 0; color: color-mix(in srgb, var(--color-text) 65%, transparent); font-size: 12px; }
 .btn-ghost:hover { border: none; background: none; color: var(--color-accent); }
-.btn-icon { padding: 6px; min-height: 0; width: 32px; height: 32px; border: none; color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+.btn-icon { padding: 6px; min-height: 44px; min-width: 44px; border: none; color: color-mix(in srgb, var(--color-text) 55%, transparent); }
 .btn-icon:hover { border: none; background: none; color: var(--color-accent); }
 .btn-block { width: 100%; }
 .row2 { display: grid; gap: 9px; }
 .row2.cols-2 { grid-template-columns: 1fr 1fr; }
 .row2.cols-1 { grid-template-columns: 1fr; }
 
-/* segmented vibe filter */
-.seg { display: flex; gap: 4px; padding: 4px; border-radius: 999px; border: 1px solid var(--color-neutral-700); background: color-mix(in srgb, var(--color-surface) 55%, transparent); align-self: flex-start; }
+/* segmented vibe filter, glass */
+.seg {
+  display: flex; align-self: flex-start; border-radius: var(--radius-md); overflow: hidden;
+  background-color: color-mix(in srgb, var(--color-surface) 68%, transparent);
+  background-image:
+    url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48ZmlsdGVyIGlkPSJuIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC44NSIgbnVtT2N0YXZlcz0iMyIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIiBmaWx0ZXI9InVybCgjbikiIG9wYWNpdHk9IjAuNSIvPjwvc3ZnPg=="),
+    linear-gradient(168deg, color-mix(in srgb, var(--color-neutral-100) 4%, transparent) 0%, transparent 60%);
+  background-blend-mode: overlay, normal;
+  background-size: 140px 140px, auto;
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  backdrop-filter: blur(20px) saturate(1.5);
+  box-shadow: var(--shadow-md), inset 0 1px 0 color-mix(in srgb, var(--color-neutral-100) 9%, transparent);
+}
 .seg-opt {
-  display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 8px 12px; border-radius: 999px;
-  font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent);
-  border: 1px solid transparent; transition: border-color 140ms ease, color 140ms ease, background 140ms ease;
+  display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 7px 12px;
+  font-size: 13px; color: color-mix(in srgb, var(--color-text) 55%, transparent);
+  transition: color 140ms ease, background 140ms ease, box-shadow 140ms ease;
 }
 .seg-opt input { position: absolute; opacity: 0; width: 0; height: 0; }
-.seg-opt:has(input:checked) { border-color: var(--color-accent); color: var(--color-text); background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
+.seg-opt:has(input:checked) { color: var(--color-text); background: color-mix(in srgb, var(--color-accent) 10%, transparent); box-shadow: inset 0 0 0 1px var(--color-accent); }
 .seg-opt:hover { color: var(--color-text); }
+.seg-opt:first-of-type { border-top-left-radius: calc(var(--radius-md) - 1px); border-bottom-left-radius: calc(var(--radius-md) - 1px); }
+.seg-opt:last-of-type { border-top-right-radius: calc(var(--radius-md) - 1px); border-bottom-right-radius: calc(var(--radius-md) - 1px); }
 
 /* card stack */
 .stack { position: relative; padding-bottom: 14px; }
+.qd-glow {
+  position: absolute; inset: -18% -12% 8%; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(50% 50% at 30% 35%, var(--color-accent-2) 0%, transparent 70%),
+              radial-gradient(46% 46% at 78% 68%, var(--color-accent) 0%, transparent 72%);
+  filter: blur(46px); opacity: 0.4;
+}
 .ghost { position: absolute; inset: 0 0 auto 0; height: 100%; border-radius: var(--radius-lg); }
 .ghost.g1 { background: var(--color-neutral-900); transform: translateY(14px) scale(0.95); opacity: 0.5; }
 .ghost.g2 { background: var(--color-neutral-800); transform: translateY(7px) scale(0.975); opacity: 0.7; }
 
 .qd-card {
-  position: relative; background-color: var(--color-surface);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E"),
+  position: relative; background-color: color-mix(in srgb, var(--color-surface) 68%, transparent);
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48ZmlsdGVyIGlkPSJuIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC44NSIgbnVtT2N0YXZlcz0iMyIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIiBmaWx0ZXI9InVybCgjbikiIG9wYWNpdHk9IjAuNSIvPjwvc3ZnPg=="),
     radial-gradient(120% 90% at 12% 0%, color-mix(in srgb, var(--color-accent-2-800) 55%, transparent) 0%, transparent 62%),
     linear-gradient(168deg, color-mix(in srgb, var(--color-neutral-100) 4%, transparent) 0%, transparent 45%);
   background-blend-mode: overlay, normal, normal;
   background-size: 140px 140px, auto, auto;
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  backdrop-filter: blur(20px) saturate(1.5);
   border-radius: var(--radius-lg); padding: 26px 24px 22px; min-height: 260px;
   display: flex; flex-direction: column; justify-content: space-between;
   box-shadow: var(--shadow-lg), inset 0 1px 0 color-mix(in srgb, var(--color-neutral-100) 9%, transparent);
   animation: qdRise 420ms cubic-bezier(0.2, 0.8, 0.25, 1);
+  touch-action: pan-y; cursor: grab; will-change: transform; user-select: none;
 }
+.qd-card:active { cursor: grabbing; }
 @keyframes qdRise { from { opacity: 0; transform: translateY(14px) rotate(-0.4deg); } to { opacity: 1; transform: none; } }
+
+.qd-verdict {
+  position: absolute; top: 20px; pointer-events: none; opacity: 0;
+  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  padding: 7px 12px; border-radius: var(--radius-lg); border: 1px solid currentColor;
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+}
+.qd-pass { left: 20px; color: var(--color-hot); }
+.qd-save { right: 20px; color: var(--color-accent); }
 
 .card-top { display: flex; align-items: center; justify-content: space-between; }
 .tag { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
@@ -147,9 +183,28 @@ h4 { font-family: var(--font-heading); font-weight: 500; font-size: 17px; margin
 .star-btn { background: none; border: none; cursor: pointer; padding: 2px; color: color-mix(in srgb, var(--color-text) 45%, transparent); }
 .star-btn:hover { color: var(--color-accent); }
 
-.q { font-family: var(--font-heading); font-weight: 400; font-size: clamp(22px, 3.6vw, 28px); line-height: 1.3; letter-spacing: -0.01em; margin: 24px 0 20px; text-wrap: balance; }
+.qd-q { font-family: var(--font-heading); font-weight: 400; font-size: 24px; line-height: 1.3; letter-spacing: -0.01em; margin: 24px 0 20px; text-wrap: balance; view-transition-name: qd-question; }
+@container deck (min-width: 400px) {
+  .qd-q { font-size: 30px; }
+  .qd-card { padding: 32px 30px 26px; min-height: 300px; }
+}
+@container deck (max-width: 340px) {
+  .qd-q { font-size: 20px; }
+  .row2 { grid-template-columns: 1fr !important; }
+}
 .hr { height: 1px; background: color-mix(in srgb, var(--color-text) 14%, transparent); margin: 0 0 12px; }
-.foot { display: flex; justify-content: space-between; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+.qd-meta { display: flex; justify-content: space-between; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent); view-transition-name: qd-meta; }
+
+@keyframes qdVtOut { to { opacity: 0; transform: translateY(-10px) scale(0.98); filter: blur(3px); } }
+@keyframes qdVtIn { from { opacity: 0; transform: translateY(14px) scale(0.98); filter: blur(3px); } }
+::view-transition-old(qd-question) { animation: qdVtOut 200ms cubic-bezier(0.4,0,1,1) both; }
+::view-transition-new(qd-question) { animation: qdVtIn 340ms cubic-bezier(0.2,0.8,0.25,1) both; }
+::view-transition-old(qd-meta) { animation: qdVtOut 160ms ease-in both; }
+::view-transition-new(qd-meta) { animation: qdVtIn 260ms ease-out both; }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(qd-question), ::view-transition-new(qd-question),
+  ::view-transition-old(qd-meta), ::view-transition-new(qd-meta) { animation: none !important; }
+}
 
 .note { font-size: 12px; color: color-mix(in srgb, var(--color-text) 55%, transparent); text-align: center; min-height: 30px; line-height: 1.5; }
 .meta { display: flex; justify-content: space-between; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent); }
@@ -163,6 +218,7 @@ h4 { font-family: var(--font-heading); font-weight: 500; font-size: 17px; margin
 .saved-list { display: flex; flex-direction: column; gap: 8px; }
 .saveditem { background: var(--color-surface); box-shadow: var(--shadow-sm); border-radius: var(--radius-lg); padding: 12px 14px; display: flex; gap: 10px; align-items: flex-start; justify-content: space-between; }
 .savedtext { font-family: var(--font-heading); font-weight: 400; font-size: 14px; line-height: 1.4; margin: 0; }
+.saveditem .btn-icon { min-width: 28px; min-height: 28px; width: 28px; height: 28px; flex: none; }
 
 .hidden { display: none !important; }
 button:focus-visible, a:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
@@ -171,9 +227,6 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--color-accent); 
 .setuplink:hover { color: var(--color-accent); border-color: var(--color-accent); }
 @media (display-mode: standalone) { .setuplink { display: none; } }
 
-@media (max-width: 380px) {
-  .q { font-size: 24px; }
-}
 @media (prefers-reduced-motion: reduce) {
   .qd-card { animation: none; }
   * { transition: none !important; }
@@ -395,9 +448,15 @@ const CAN_GENERATE = typeof window !== "undefined" && typeof window.claude !== "
 
 const ICONS = {
   playful: '<svg width="12" height="12" viewBox="0 0 256 256" fill="currentColor"><path d="M48,64 h160 a16,16 0 0 1 16,16 v96 a16,16 0 0 1 -16,16 H112 l-40,36 v-36 H48 a16,16 0 0 1 -16,-16 V80 A16,16 0 0 1 48,64 Z"/></svg>',
-  mixed: '<svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><rect x="40" y="40" width="120" height="120" rx="20" opacity="0.55"/><rect x="96" y="96" width="120" height="120" rx="20"/></svg>',
+  mixed: '<svg width="12" height="12" viewBox="0 0 256 256" fill="currentColor"><rect x="40" y="40" width="120" height="120" rx="20" opacity="0.55"/><rect x="96" y="96" width="120" height="120" rx="20"/></svg>',
   deep: '<svg width="12" height="12" viewBox="0 0 256 256" fill="currentColor"><path d="M128,24A104,104,0,1,0,128,232 A84,84,0,1,1,128,24 Z"/></svg>',
   music: '<svg width="12" height="12" viewBox="0 0 256 256" fill="currentColor"><ellipse cx="90" cy="188" rx="38" ry="30" transform="rotate(-18 90 188)"/><rect x="118" y="50" width="14" height="150" rx="6"/><path d="M132,50 C170,60 190,90 190,120 L176,120 C176,96 160,74 132,66 Z"/></svg>'
+};
+const SEG_ICONS = {
+  playful: '<svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M48,64 h160 a16,16 0 0 1 16,16 v96 a16,16 0 0 1 -16,16 H112 l-40,36 v-36 H48 a16,16 0 0 1 -16,-16 V80 A16,16 0 0 1 48,64 Z"/></svg>',
+  deep: '<svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M128,24A104,104,0,1,0,128,232 A84,84,0,1,1,128,24 Z"/></svg>',
+  music: '<svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><ellipse cx="90" cy="188" rx="38" ry="30" transform="rotate(-18 90 188)"/><rect x="118" y="50" width="14" height="150" rx="6"/><path d="M132,50 C170,60 190,90 190,120 L176,120 C176,96 160,74 132,66 Z"/></svg>',
+  mixed: '<svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><rect x="40" y="40" width="120" height="120" rx="20" opacity="0.55"/><rect x="96" y="96" width="120" height="120" rx="20"/></svg>'
 };
 const STAR_ON = '<svg width="18" height="18" viewBox="0 0 256 256" fill="var(--color-accent)"><polygon points="128,24 152.7,94.0 226.9,95.9 168.0,141.0 189.1,212.1 128,170 66.9,212.1 88.0,141.0 29.1,95.9 103.3,94.0"/></svg>';
 const STAR_OFF = '<svg width="18" height="18" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="10" stroke-linejoin="round"><polygon points="128,24 152.7,94.0 226.9,95.9 168.0,141.0 189.1,212.1 128,170 66.9,212.1 88.0,141.0 29.1,95.9 103.3,94.0"/></svg>';
@@ -454,6 +513,20 @@ function draw(excludeId) {
   if (state.used.indexOf(current.id) === -1) state.used.push(current.id);
   persist();
   render();
+}
+
+/* ---------------- reduced motion / view transitions ---------------- */
+function reduceMotion() {
+  try { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; }
+}
+
+function withTransition(fn) {
+  if (!document.startViewTransition || reduceMotion()) { fn(); return; }
+  document.startViewTransition(() => fn());
+}
+
+function buzz(pattern) {
+  try { if (navigator.vibrate) navigator.vibrate(pattern); } catch (e) {}
 }
 
 /* ---------------- actions ---------------- */
@@ -549,20 +622,87 @@ async function generate() {
   busy = false; render();
 }
 
+/* ---------------- swipe gesture ---------------- */
+let drag = null;
+let dragRaf = null;
+
+function paintSwipe(d, dx, animate) {
+  const t = Math.max(-1, Math.min(1, dx / 120));
+  d.card.style.transition = animate ? "transform 260ms cubic-bezier(0.2,0.8,0.25,1)" : "none";
+  d.card.style.transform = "translateX(" + dx + "px) rotate(" + (t * 5).toFixed(2) + "deg)";
+  if (d.passEl) d.passEl.style.opacity = String(Math.max(0, -t));
+  if (d.saveEl) d.saveEl.style.opacity = String(Math.max(0, t));
+}
+
+function flingOut(d, dir, then) {
+  d.card.style.transition = "transform 220ms ease-in, opacity 220ms ease-in";
+  d.card.style.transform = "translateX(" + (dir * 520) + "px) rotate(" + (dir * 14) + "deg)";
+  d.card.style.opacity = "0";
+  setTimeout(then, 200);
+}
+
+function onCardPointerDown(e) {
+  if (e.target.closest && e.target.closest("button")) return;
+  const card = e.currentTarget;
+  drag = {
+    id: e.pointerId, x: e.clientX, y: e.clientY, active: false, buzzed: 0, pending: 0,
+    card, passEl: card.querySelector(".qd-pass"), saveEl: card.querySelector(".qd-save")
+  };
+  if (card.setPointerCapture) { try { card.setPointerCapture(e.pointerId); } catch (err) {} }
+}
+
+function onCardPointerMove(e) {
+  if (!drag || drag.id !== e.pointerId) return;
+  const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+  if (!drag.active) {
+    if (Math.abs(dx) < 8 || Math.abs(dx) < Math.abs(dy)) return;
+    drag.active = true;
+  }
+  const past = Math.abs(dx) > 100 ? Math.sign(dx) : 0;
+  if (past && past !== drag.buzzed) { buzz(8); drag.buzzed = past; }
+  if (!past) drag.buzzed = 0;
+  drag.pending = dx;
+  if (dragRaf == null) {
+    dragRaf = requestAnimationFrame(() => {
+      dragRaf = null;
+      if (drag) paintSwipe(drag, drag.pending, false);
+    });
+  }
+}
+
+function onCardPointerUp(e) {
+  if (!drag || drag.id !== e.pointerId) return;
+  const d = drag; drag = null;
+  if (dragRaf != null) { cancelAnimationFrame(dragRaf); dragRaf = null; }
+  if (!d.active) { paintSwipe(d, 0, true); return; }
+  const dx = e.clientX - d.x;
+  if (dx < -100) {
+    buzz([12, 40, 12]);
+    flingOut(d, -1, () => pass());
+  } else if (dx > 100) {
+    buzz(18);
+    const already = current && state.saved.some(s => s.id === current.id);
+    if (!already) toggleSave();
+    flingOut(d, 1, () => next());
+  } else {
+    paintSwipe(d, 0, true);
+  }
+}
+
 /* ---------------- render ---------------- */
 const el = id => document.getElementById(id);
 const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 function renderVibes() {
-  const opts = [["playful", "Playful"], ["mixed", "Mixed"], ["deep", "Deep"], ["music", "Music"]];
+  const opts = [["playful", "Playful"], ["deep", "Deep"], ["music", "Music"], ["mixed", "Mixed"]];
   el("vibes").innerHTML = opts.map(o =>
     '<label class="seg-opt">' +
       '<input type="radio" name="qd-vibe" data-v="' + o[0] + '"' + (state.vibe === o[0] ? " checked" : "") + ' />' +
-      ICONS[o[0]] + o[1] +
+      SEG_ICONS[o[0]] + o[1] +
     '</label>'
   ).join("");
   Array.prototype.forEach.call(el("vibes").querySelectorAll("input"), inp => {
-    inp.onchange = () => setVibe(inp.getAttribute("data-v"));
+    inp.onchange = () => withTransition(() => setVibe(inp.getAttribute("data-v")));
   });
 }
 
@@ -575,7 +715,7 @@ function renderCard() {
       '<button class="btn btn-secondary" id="emptyShuffle">Reshuffle</button>' +
       (CAN_GENERATE ? '<button class="btn btn-secondary" id="emptyGen">Write new ones</button>' : '') +
       '</div></div>';
-    el("emptyShuffle").onclick = reshuffle;
+    el("emptyShuffle").onclick = () => withTransition(reshuffle);
     if (CAN_GENERATE) el("emptyGen").onclick = generate;
     return;
   }
@@ -584,15 +724,22 @@ function renderCard() {
   const tagLabel = state.vibe === "music" ? "All about music" : current.vibe === "deep" ? "Goes deep" : "Keeps it light";
   const left = pool(null).length + 1;
   host.innerHTML =
-    '<div class="stack"><div class="ghost g1"></div><div class="ghost g2"></div>' +
-    '<div class="qd-card"><div class="card-top">' +
+    '<div class="stack"><div class="qd-glow"></div><div class="ghost g1"></div><div class="ghost g2"></div>' +
+    '<div class="qd-card" id="qdCard">' +
+    '<div class="qd-verdict qd-pass">Pass</div><div class="qd-verdict qd-save">Save</div>' +
+    '<div class="card-top">' +
     '<span class="tag tag-outline">' + tagIcon + tagLabel + '</span>' +
     '<button class="star-btn" id="starBtn" aria-label="Save this question">' + (on ? STAR_ON : STAR_OFF) + '</button>' +
-    '</div><p class="q">' + esc(current.text) + '</p>' +
-    '<div><div class="hr"></div><div class="foot"><span>' +
+    '</div><p class="qd-q">' + esc(current.text) + '</p>' +
+    '<div><div class="hr"></div><div class="qd-meta"><span>' +
     (current.fresh ? "Freshly written" : "From the deck") + '</span><span>' + left + ' left</span></div></div>' +
     '</div></div>';
   el("starBtn").onclick = toggleSave;
+  const card = el("qdCard");
+  card.onpointerdown = onCardPointerDown;
+  card.onpointermove = onCardPointerMove;
+  card.onpointerup = onCardPointerUp;
+  card.onpointercancel = onCardPointerUp;
 }
 
 function renderSaved() {
@@ -641,17 +788,17 @@ function render() {
 }
 
 /* ---------------- wire up ---------------- */
-el("nextBtn").onclick = next;
-el("passBtn").onclick = pass;
+el("nextBtn").onclick = () => { buzz(8); withTransition(next); };
+el("passBtn").onclick = () => { buzz(8); withTransition(pass); };
 el("genBtn").onclick = generate;
-el("reshuffleBtn").onclick = reshuffle;
+el("reshuffleBtn").onclick = () => withTransition(reshuffle);
 el("toggleView").onclick = () => { view = "saved"; render(); };
 el("backBtn").onclick = () => { view = "deck"; render(); };
 
 document.addEventListener("keydown", e => {
   if (e.target && (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")) return;
   if (!isWide && view !== "deck") return;
-  if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); next(); }
+  if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); buzz(8); withTransition(next); }
   if (e.key === "s") toggleSave();
 });
 

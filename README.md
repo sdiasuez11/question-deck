@@ -7,11 +7,14 @@ Single file HTML app that shows one open ended question at a time for two people
 ## What it does
 
 - 155 questions tagged by vibe and topic
-- Four tabs: Playful, Mixed, Deep, Music
+- Four tabs: Playful, Deep, Music, Mixed
 - Star to save a question, saved list has its own view
 - Pass retires a question permanently, next just marks it seen
 - Reshuffle brings back everything except passed questions
 - Two column layout on wide screens, deck and saved list side by side; single column with a toggle below ~860px
+- Swipe the card left to pass, right to save (pointer events, works with mouse drag too), with a short vibration on release where the device supports it
+- Smooth cross-fade between questions on Next/Pass/Reshuffle/vibe change (View Transitions API, falls back to an instant swap where unsupported or under reduced motion)
+- Card font size and padding scale with the deck column's own width (CSS container queries), not the whole viewport
 - State persists per device in `localStorage`
 - Keyboard: space or right arrow advances, `s` saves (ignored while focus is in a text input)
 - Font is embedded, so the page makes zero external requests
@@ -40,9 +43,11 @@ Storage falls back in this order: `window.storage` (Claude artifact runtime), th
 
 ## Design
 
-Dark palette (Coolors `264653-2a9d8f-e9c46a-f4a261-e76f51`, adapted): `#101d24` ground, `#1a3039` card surface, sand `#e9c46a` accent, teal `#2a9d8f` accent-2. Newsreader for all type, single variable-weight woff2 file, weights 300-600 synthesized from it. Cards carry a three-layer texture: SVG fractal-noise grain blended `overlay`, a teal glow top-left, and a soft top-light gradient. Full CSS custom properties are in `index.html`'s `:root` block.
+Dark palette (Coolors `264653-2a9d8f-e9c46a-f4a261-e76f51`, adapted): `#101d24` ground, `#1a3039` card surface, sand `#e9c46a` accent, teal `#2a9d8f` accent-2. Newsreader for all type, single variable-weight woff2 file, weights 300-600 synthesized from it. Cards carry a three-layer texture (SVG fractal-noise grain blended `overlay`, a teal glow top-left, a soft top-light gradient) plus a frosted-glass surface (`backdrop-filter: blur(20px) saturate(1.5)`) and an ambient blurred glow behind the whole stack. The segmented vibe filter carries the same glass treatment one shadow step lighter.
 
-Redesign shipped 2026-08-10, replacing the original honey/paper palette. `setup.html` was intentionally left on the old palette, it's out of scope for the redesign and still functionally correct; a visual mismatch between the two pages is the known tradeoff.
+Redesign shipped 2026-08-10, replacing the original honey/paper palette. A second pass the same day added the swipe gesture, haptics, view transitions, glass, and container-query sizing. `setup.html` was intentionally left on the old palette both times, it's out of scope for either redesign and still functionally correct; a visual mismatch between the two pages is the known tradeoff.
+
+`--radius-md` (used by the segmented control) wasn't given a literal value in the design handoff, it's an inherited token from the design tool's own system. Set to `10px` here, one step softer than the card's `8px`.
 
 ## Known constraints
 
@@ -73,4 +78,4 @@ Append to `RAW` in `index.html`:
 ["Another one","deep","music"],
 ```
 
-A new topic tab needs the tag on the questions, an entry in the `opts` array inside `renderVibes`, and a branch in `matches()`. The grid is four columns, a fifth tab means changing the CSS and shortening the labels.
+A new topic tab needs the tag on the questions, an entry in the `opts` array inside `renderVibes`, and a branch in `matches()`. The segmented control clips with `overflow: hidden`, so a new option list still needs the first/last-of-type corner radius rule to reach the outer edges, or the selection ring on the endpoints will look clipped.
