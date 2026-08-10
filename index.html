@@ -151,6 +151,14 @@ body {
 .hidden { display: none !important; }
 button:focus-visible { outline: 2px solid var(--honey); outline-offset: 2px; }
 
+.setuplink {
+  align-self: center; margin-top: 4px; text-decoration: none;
+  font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted); border-bottom: 1px solid rgba(138,147,166,0.35); padding-bottom: 3px;
+}
+.setuplink:hover { color: var(--paper-2); border-color: rgba(228,215,197,0.5); }
+@media (display-mode: standalone) { .setuplink { display: none; } }
+
 @media (max-width: 380px) {
   .q { font-size: 24px; }
   .vibe { font-size: 10px; letter-spacing: 0.05em; }
@@ -195,6 +203,8 @@ button:focus-visible { outline: 2px solid var(--honey); outline-offset: 2px; }
   </div>
 
   <div id="savedView" class="hidden"></div>
+
+  <a class="setuplink" href="setup.html">Put this on your home screen</a>
 </div>
 
 <script>

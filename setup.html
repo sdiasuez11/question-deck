@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#171D2B" />
+<title>Put the deck on your home screen</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23171D2B'/%3E%3Ctext x='50' y='72' font-size='62' font-family='Georgia,serif' fill='%23E0A34E' text-anchor='middle'%3E%3F%3C/text%3E%3C/svg%3E" />
+<style>
+@font-face {
+  font-family: 'DM Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(dm-mono-400.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(newsreader-300.woff2) format('woff2');
+}
+
+:root {
+  --ink: #171D2B;
+  --ink-2: #10141F;
+  --paper: #F4ECE0;
+  --paper-2: #E4D7C5;
+  --honey: #E0A34E;
+  --sage: #7FA292;
+  --muted: #8A93A6;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  min-height: 100vh;
+  background: radial-gradient(120% 90% at 50% 0%, #202940 0%, var(--ink) 45%, var(--ink-2) 100%);
+  background-attachment: fixed;
+  color: var(--paper);
+  font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  display: flex;
+  justify-content: center;
+  padding: 22px 18px 44px;
+  -webkit-font-smoothing: antialiased;
+}
+.shell { width: 100%; max-width: 520px; }
+
+.eyebrow { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+h1 {
+  font-family: "Newsreader", Georgia, serif; font-weight: 300;
+  font-size: 30px; line-height: 1.24; letter-spacing: -0.01em;
+  margin: 14px 0 10px; text-wrap: balance;
+}
+.lede { font-size: 12px; line-height: 1.7; color: var(--paper-2); margin: 0 0 8px; }
+
+.steps { display: flex; flex-direction: column; gap: 14px; margin-top: 26px; }
+.step {
+  background: var(--paper); color: var(--ink);
+  border-radius: 16px; padding: 20px 20px 18px;
+  box-shadow: 0 18px 34px rgba(0,0,0,0.34);
+  display: flex; gap: 16px; align-items: flex-start;
+}
+.num {
+  flex: 0 0 auto; width: 26px; height: 26px; border-radius: 50%;
+  background: var(--ink); color: var(--paper);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; margin-top: 2px;
+}
+.body { flex: 1 1 auto; min-width: 0; }
+.title {
+  font-family: "Newsreader", Georgia, serif; font-weight: 300;
+  font-size: 21px; line-height: 1.3; color: #1A2030; margin: 0 0 6px;
+}
+.desc { font-size: 11px; line-height: 1.65; color: #5C5344; margin: 0; }
+.desc b { font-weight: 500; color: #1A2030; }
+
+.art { margin-top: 14px; }
+.art svg { display: block; width: 100%; height: auto; max-width: 260px; }
+
+.aside {
+  margin-top: 12px; padding-top: 11px; border-top: 1px solid rgba(26,32,48,0.14);
+  font-size: 10px; letter-spacing: 0.03em; line-height: 1.6; color: #7A705F;
+}
+
+.done {
+  background: rgba(255,255,255,0.04); border: 1px dashed rgba(244,236,224,0.22);
+  border-radius: 16px; padding: 24px 22px; margin-top: 14px;
+}
+.done p {
+  font-family: "Newsreader", Georgia, serif; font-size: 20px; font-weight: 300;
+  margin: 0 0 10px; line-height: 1.35;
+}
+.done span { font-size: 11px; line-height: 1.7; color: var(--muted); }
+
+.back {
+  display: inline-block; margin-top: 26px; color: var(--paper-2);
+  font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  text-decoration: none; border-bottom: 1px solid rgba(244,236,224,0.28); padding-bottom: 3px;
+}
+.back:hover { color: var(--paper); border-color: var(--paper); }
+
+@media (max-width: 380px) {
+  h1 { font-size: 26px; }
+  .step { padding: 18px 16px 16px; gap: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <span class="eyebrow">One question at a time</span>
+  <h1>Put the deck on your home screen</h1>
+  <p class="lede">Takes about twenty seconds. Once it's there it opens like a normal app, full screen, no address bar, and it remembers the questions you starred.</p>
+
+  <div class="steps">
+
+    <div class="step">
+      <div class="num">1</div>
+      <div class="body">
+        <p class="title">Open the link in Safari</p>
+        <p class="desc">If you tapped the link from a text or an email, you might be in a mini browser inside that app. Look at the bottom of the screen for the <b>compass icon</b> and tap it to jump over to real Safari.</p>
+        <div class="art">
+          <svg viewBox="0 0 240 132" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A message bubble with a link, and the Safari compass icon in the bottom bar">
+            <rect x="1" y="1" width="238" height="130" rx="12" fill="#F0E6D8" stroke="#D6C8B4"/>
+            <rect x="16" y="16" width="140" height="30" rx="10" fill="#DCE6E2"/>
+            <rect x="26" y="26" width="98" height="4" rx="2" fill="#8FA6A0"/>
+            <rect x="26" y="35" width="72" height="4" rx="2" fill="#8FA6A0"/>
+            <rect x="16" y="58" width="208" height="34" rx="9" fill="#FFFFFF" stroke="#DED2C0"/>
+            <circle cx="34" cy="75" r="9" fill="#E0A34E" opacity="0.22"/>
+            <text x="34" y="79" font-family="Georgia,serif" font-size="11" fill="#A9793B" text-anchor="middle">?</text>
+            <rect x="50" y="68" width="104" height="5" rx="2.5" fill="#C7BCAB"/>
+            <rect x="50" y="79" width="66" height="5" rx="2.5" fill="#DACFBF"/>
+            <rect x="1" y="102" width="238" height="29" rx="0" fill="#E6DACA"/>
+            <circle cx="196" cy="116" r="17" fill="none" stroke="#E0A34E" stroke-width="2.5"/>
+            <circle cx="196" cy="116" r="10.5" fill="none" stroke="#3A4256" stroke-width="1.6"/>
+            <path d="M200.6 111.4 L193.6 114.4 L191.4 120.6 L198.4 117.6 Z" fill="#E0A34E" stroke="#3A4256" stroke-width="0.8" stroke-linejoin="round"/>
+            <rect x="26" y="110" width="34" height="5" rx="2.5" fill="#C3B7A6"/>
+            <rect x="26" y="119" width="22" height="5" rx="2.5" fill="#D3C8B8"/>
+          </svg>
+        </div>
+        <p class="aside">Already in Safari? Skip straight to step 2.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">2</div>
+      <div class="body">
+        <p class="title">Tap the share button</p>
+        <p class="desc">It's the <b>square with an arrow pointing up</b>, in the bar at the bottom of the screen. On an older iPhone it may sit at the top right instead.</p>
+        <div class="art">
+          <svg viewBox="0 0 240 132" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Safari bottom toolbar with the share button, a square with an upward arrow, circled">
+            <rect x="1" y="1" width="238" height="130" rx="12" fill="#F0E6D8" stroke="#D6C8B4"/>
+            <rect x="20" y="20" width="200" height="60" rx="10" fill="#FFFFFF" stroke="#DED2C0"/>
+            <rect x="34" y="34" width="120" height="6" rx="3" fill="#CFC3B2"/>
+            <rect x="34" y="48" width="172" height="5" rx="2.5" fill="#E0D5C4"/>
+            <rect x="34" y="60" width="140" height="5" rx="2.5" fill="#E0D5C4"/>
+            <rect x="1" y="94" width="238" height="37" fill="#E6DACA"/>
+            <rect x="20" y="100" width="200" height="24" rx="12" fill="#F4ECE0"/>
+            <path d="M40 112 L32 112 M46 106 L52 112 L46 118" stroke="#9C917F" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="120" cy="112" r="18" fill="#E0A34E" opacity="0.2"/>
+            <circle cx="120" cy="112" r="18" fill="none" stroke="#E0A34E" stroke-width="2.5"/>
+            <rect x="113" y="110" width="14" height="12" rx="2.5" fill="none" stroke="#2B3247" stroke-width="2"/>
+            <path d="M120 116 L120 102 M115.6 106.4 L120 102 L124.4 106.4" stroke="#2B3247" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="186" y="106" width="14" height="12" rx="2.5" fill="none" stroke="#9C917F" stroke-width="2"/>
+            <rect x="190" y="102" width="14" height="12" rx="2.5" fill="#F4ECE0" stroke="#9C917F" stroke-width="2"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">3</div>
+      <div class="body">
+        <p class="title">Scroll down, tap Add to Home Screen</p>
+        <p class="desc">A menu slides up. Scroll past the row of apps and the copy and bookmark options. <b>Add to Home Screen</b> is in the lower list, next to a small plus in a square.</p>
+        <div class="art">
+          <svg viewBox="0 0 240 132" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The iOS share sheet with Add to Home Screen highlighted">
+            <rect x="1" y="1" width="238" height="130" rx="12" fill="#3B4257"/>
+            <rect x="12" y="14" width="216" height="112" rx="14" fill="#F0E6D8"/>
+            <rect x="106" y="21" width="28" height="4" rx="2" fill="#CFC3B2"/>
+            <rect x="24" y="34" width="192" height="20" rx="7" fill="#FFFFFF"/>
+            <circle cx="38" cy="44" r="7" fill="#E0A34E" opacity="0.24"/>
+            <text x="38" y="47.5" font-family="Georgia,serif" font-size="9" fill="#A9793B" text-anchor="middle">?</text>
+            <rect x="52" y="40" width="72" height="4" rx="2" fill="#CFC3B2"/>
+            <rect x="52" y="47" width="48" height="4" rx="2" fill="#E0D5C4"/>
+            <rect x="24" y="60" width="192" height="17" rx="7" fill="#FFFFFF"/>
+            <rect x="36" y="66" width="62" height="4.5" rx="2.25" fill="#DBD0BF"/>
+            <rect x="196" y="64.5" width="9" height="8" rx="1.6" fill="none" stroke="#C3B7A6" stroke-width="1.6"/>
+            <rect x="24" y="81" width="192" height="17" rx="7" fill="#FFFFFF"/>
+            <rect x="36" y="87" width="46" height="4.5" rx="2.25" fill="#DBD0BF"/>
+            <path d="M196 85.5 L196 93.5 M192 89.5 L200 89.5" stroke="#C3B7A6" stroke-width="1.6" stroke-linecap="round"/>
+            <rect x="20" y="100" width="200" height="22" rx="9" fill="#FFFFFF" stroke="#E0A34E" stroke-width="2.5"/>
+            <text x="36" y="114.5" font-family="'DM Mono',ui-monospace,monospace" font-size="9" fill="#2B3247">Add to Home Screen</text>
+            <rect x="192" y="105.5" width="12" height="11" rx="2.2" fill="none" stroke="#2B3247" stroke-width="1.8"/>
+            <path d="M198 108 L198 114 M195 111 L201 111" stroke="#2B3247" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <p class="aside">Don't see it? Tap Edit Actions at the very bottom of that list and switch it on. iPhone hides it sometimes.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">4</div>
+      <div class="body">
+        <p class="title">Tap Add</p>
+        <p class="desc">Top right corner. You can rename it first if you want, it comes in as <b>Questions</b>. The icon lands on your home screen on the last page.</p>
+        <div class="art">
+          <svg viewBox="0 0 240 132" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The Add to Home Screen confirmation with the Add button in the top right circled">
+            <rect x="1" y="1" width="238" height="130" rx="12" fill="#3B4257"/>
+            <rect x="12" y="14" width="216" height="104" rx="14" fill="#F0E6D8"/>
+            <text x="26" y="36" font-family="'DM Mono',ui-monospace,monospace" font-size="8.5" fill="#9C917F">Cancel</text>
+            <text x="120" y="36" font-family="'DM Mono',ui-monospace,monospace" font-size="8.5" fill="#2B3247" text-anchor="middle">Add to Home Screen</text>
+            <rect x="182" y="24" width="34" height="18" rx="9" fill="#E0A34E" opacity="0.2"/>
+            <rect x="182" y="24" width="34" height="18" rx="9" fill="none" stroke="#E0A34E" stroke-width="2.2"/>
+            <text x="199" y="36" font-family="'DM Mono',ui-monospace,monospace" font-size="8.5" fill="#2B3247" text-anchor="middle">Add</text>
+            <rect x="26" y="56" width="34" height="34" rx="9" fill="#171D2B"/>
+            <text x="43" y="80" font-family="Georgia,serif" font-size="20" fill="#E0A34E" text-anchor="middle">?</text>
+            <rect x="72" y="62" width="60" height="6" rx="3" fill="#2B3247"/>
+            <rect x="72" y="76" width="132" height="4.5" rx="2.25" fill="#DBD0BF"/>
+            <rect x="26" y="100" width="188" height="5" rx="2.5" fill="#E4D9C8"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="done">
+    <p>That's it. Open it from the home screen and take turns.</p>
+    <span>Whoever's phone it is keeps their own starred questions. Passing on a question only removes it from that phone, so you each get your own deck.</span>
+  </div>
+
+  <a class="back" href="./">Go to the deck</a>
+
+</div>
+</body>
+</html>
