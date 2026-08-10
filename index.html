@@ -38,13 +38,15 @@
 html, body { margin: 0; padding: 0; }
 body {
   min-height: 100vh;
+  min-height: 100svh;
   background: radial-gradient(120% 90% at 50% 0%, #202940 0%, var(--ink) 45%, var(--ink-2) 100%);
   background-attachment: fixed;
   color: var(--paper);
   font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   display: flex;
   justify-content: center;
-  padding: 22px 18px 40px;
+  align-items: center;
+  padding: calc(env(safe-area-inset-top, 0px) + 20px) 18px calc(env(safe-area-inset-bottom, 0px) + 24px);
   -webkit-font-smoothing: antialiased;
 }
 .shell { width: 100%; max-width: 520px; display: flex; flex-direction: column; gap: 20px; }
@@ -127,7 +129,7 @@ body {
 .ghostbtn:hover { border-color: rgba(244,236,224,0.45); }
 .ghostbtn:disabled { opacity: 0.4; cursor: default; }
 
-.note { font-size: 11px; color: var(--muted); text-align: center; min-height: 15px; line-height: 1.5; }
+.note { font-size: 11px; color: var(--muted); text-align: center; min-height: 30px; line-height: 1.5; }
 .meta {
   display: flex; justify-content: space-between; font-size: 10px;
   letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
