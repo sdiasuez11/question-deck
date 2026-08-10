@@ -43,7 +43,19 @@ The "Write new ones" button only appears inside the Claude artifact runtime, whe
 
 ## On a phone
 
-Open the link in Safari or Chrome, then Add to Home Screen. The PWA meta tags make it launch full screen with its own icon, titled "Questions". Saved stars and passed questions live in that device's `localStorage`, so each phone keeps its own deck state.
+Illustrated walkthrough: https://sdiasuez11.github.io/question-deck/setup.html
+
+Open the link in Safari, then Add to Home Screen. The PWA meta tags make it launch full screen with its own icon, titled "Questions". Saved stars and passed questions live in that device's `localStorage`, so each phone keeps its own deck state.
+
+The deck carries a discreet footer link to the setup page, and hides that link once it's running standalone from the home screen.
+
+## Files
+
+| File | What it is |
+|---|---|
+| `index.html` | The app. Fonts and favicon inlined as data URIs |
+| `setup.html` | Add to Home Screen walkthrough, four illustrated steps |
+| `*.woff2` | The same two faces as standalone files, so `setup.html` can use them without a second copy of the base64 |
 
 ## Adding questions
 
