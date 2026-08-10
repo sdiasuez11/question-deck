@@ -13,6 +13,7 @@ Single file HTML app that shows one open ended question at a time for two people
 - Reshuffle brings back everything except passed questions
 - State persists per device in `localStorage`
 - Keyboard: space or right arrow advances, `s` saves
+- Fonts and favicon are embedded, so the page makes zero external requests
 
 ## Question bank
 
@@ -40,7 +41,9 @@ Storage falls back in this order: `window.storage` (Claude artifact runtime), th
 
 The "Write new ones" button only appears inside the Claude artifact runtime, where the API key is handled for you. On the hosted version it hides itself and the deck runs on its 155 questions. Making generation work here would need a small backend holding a key.
 
-Fonts load from Google Fonts, so first paint needs a connection. Everything else works offline once cached.
+## On a phone
+
+Open the link in Safari or Chrome, then Add to Home Screen. The PWA meta tags make it launch full screen with its own icon, titled "Questions". Saved stars and passed questions live in that device's `localStorage`, so each phone keeps its own deck state.
 
 ## Adding questions
 
