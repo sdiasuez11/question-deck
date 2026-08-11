@@ -175,8 +175,8 @@ h4 { font-family: var(--font-heading); font-weight: 500; font-size: 17px; margin
   padding: 7px 12px; border-radius: var(--radius-lg); border: 1px solid currentColor;
   -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
 }
-.qd-pass { left: 20px; color: var(--color-hot); }
-.qd-save { right: 20px; color: var(--color-accent); }
+.qd-back { left: 20px; color: var(--color-neutral-400); }
+.qd-next { right: 20px; color: var(--color-accent-2); }
 
 .card-top { display: flex; align-items: center; justify-content: space-between; }
 .tag { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
@@ -208,7 +208,7 @@ h4 { font-family: var(--font-heading); font-weight: 500; font-size: 17px; margin
 }
 
 .note { font-size: 12px; color: color-mix(in srgb, var(--color-text) 55%, transparent); text-align: center; min-height: 30px; line-height: 1.5; }
-.meta { display: flex; justify-content: space-between; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 50%, transparent); }
+.meta { display: flex; justify-content: space-between; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 58%, transparent); }
 
 .empty { background: var(--color-surface); border: 1px dashed var(--color-divider); border-radius: var(--radius-lg); padding: 34px 24px; text-align: center; }
 .empty p { font-family: var(--font-heading); font-weight: 400; font-size: 20px; margin: 0 0 18px; }
@@ -224,7 +224,7 @@ h4 { font-family: var(--font-heading); font-weight: 500; font-size: 17px; margin
 .hidden { display: none !important; }
 button:focus-visible, a:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
 
-.setuplink { text-decoration: none; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 45%, transparent); border-bottom: 1px solid color-mix(in srgb, var(--color-text) 22%, transparent); padding-bottom: 3px; }
+.setuplink { text-decoration: none; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 62%, transparent); border-bottom: 1px solid color-mix(in srgb, var(--color-text) 22%, transparent); padding-bottom: 3px; }
 .setuplink:hover { color: var(--color-accent); border-color: var(--color-accent); }
 @media (display-mode: standalone) { .setuplink { display: none; } }
 
@@ -248,12 +248,11 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--color-accent); 
     <div id="cardHost"></div>
 
     <div style="display:flex; flex-direction:column; gap:9px;">
-      <button class="btn btn-primary btn-block" id="nextBtn">
-        Next question
-        <svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></svg>
+      <button class="btn btn-primary btn-block" id="discardBtn">
+        Discard Question
+        <svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96ZM192,208H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/></svg>
       </button>
-      <div class="row2" id="secondaryRow">
-        <button class="btn btn-secondary" id="passBtn">Pass on this</button>
+      <div class="row2 cols-1" id="secondaryRow">
         <button class="btn btn-secondary" id="genBtn">
           <svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M197.58,129.06,146,110l-19-51.62a15.92,15.92,0,0,0-29.88,0L78,110l-51.62,19a15.92,15.92,0,0,0,0,29.88L78,178l19,51.62a15.92,15.92,0,0,0,29.88,0L146,178l51.62-19a15.92,15.92,0,0,0,0-29.88ZM137,164.22a8,8,0,0,0-4.74,4.74L112,223.85,91.78,169A8,8,0,0,0,87,164.22L32.15,144,87,123.78A8,8,0,0,0,91.78,119L112,64.15,132.22,119a8,8,0,0,0,4.74,4.74L191.85,144ZM144,40a8,8,0,0,1,8-8h16V16a8,8,0,0,1,16,0V32h16a8,8,0,0,1,0,16H184V64a8,8,0,0,1-16,0V48H152A8,8,0,0,1,144,40ZM248,88a8,8,0,0,1-8,8h-8v8a8,8,0,0,1-16,0V96h-8a8,8,0,0,1,0-16h8V72a8,8,0,0,1,16,0v8h8A8,8,0,0,1,248,88Z"/></svg>
           <span id="genLabel">Write new ones</span>
@@ -450,17 +449,17 @@ const CAN_GENERATE = typeof window !== "undefined" && typeof window.claude !== "
 const ICONS = {
   playful: '<svg width="12" height="12" viewBox="0 0 256 256" fill="currentColor"><path d="M48,64 h160 a16,16 0 0 1 16,16 v96 a16,16 0 0 1 -16,16 H112 l-40,36 v-36 H48 a16,16 0 0 1 -16,-16 V80 A16,16 0 0 1 48,64 Z"/></svg>',
   mixed: '<svg width="12" height="12" viewBox="0 0 256 256" fill="currentColor"><rect x="40" y="40" width="120" height="120" rx="20" opacity="0.55"/><rect x="96" y="96" width="120" height="120" rx="20"/></svg>',
-  deep: '<svg width="12" height="12" viewBox="0 0 256 256" fill="currentColor"><path d="M128,24A104,104,0,1,0,128,232 A84,84,0,1,1,128,24 Z"/></svg>',
+  deep: '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-6.7-4.35-9.5-8.5C.5 9.42 2 6 5.5 6c2 0 3.5 1.5 4.5 3 1-1.5 2.5-3 4.5-3 3.5 0 5 3.42 3 6.5C18.7 16.65 12 21 12 21z"/></svg>',
   music: '<svg width="12" height="12" viewBox="0 0 256 256" fill="currentColor"><ellipse cx="90" cy="188" rx="38" ry="30" transform="rotate(-18 90 188)"/><rect x="118" y="50" width="14" height="150" rx="6"/><path d="M132,50 C170,60 190,90 190,120 L176,120 C176,96 160,74 132,66 Z"/></svg>'
 };
 const SEG_ICONS = {
   playful: '<svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M48,64 h160 a16,16 0 0 1 16,16 v96 a16,16 0 0 1 -16,16 H112 l-40,36 v-36 H48 a16,16 0 0 1 -16,-16 V80 A16,16 0 0 1 48,64 Z"/></svg>',
-  deep: '<svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M128,24A104,104,0,1,0,128,232 A84,84,0,1,1,128,24 Z"/></svg>',
+  deep: '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-6.7-4.35-9.5-8.5C.5 9.42 2 6 5.5 6c2 0 3.5 1.5 4.5 3 1-1.5 2.5-3 4.5-3 3.5 0 5 3.42 3 6.5C18.7 16.65 12 21 12 21z"/></svg>',
   music: '<svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><ellipse cx="90" cy="188" rx="38" ry="30" transform="rotate(-18 90 188)"/><rect x="118" y="50" width="14" height="150" rx="6"/><path d="M132,50 C170,60 190,90 190,120 L176,120 C176,96 160,74 132,66 Z"/></svg>',
   mixed: '<svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><rect x="40" y="40" width="120" height="120" rx="20" opacity="0.55"/><rect x="96" y="96" width="120" height="120" rx="20"/></svg>'
 };
-const STAR_ON = '<svg width="18" height="18" viewBox="0 0 256 256" fill="var(--color-accent)"><polygon points="128,24 152.7,94.0 226.9,95.9 168.0,141.0 189.1,212.1 128,170 66.9,212.1 88.0,141.0 29.1,95.9 103.3,94.0"/></svg>';
-const STAR_OFF = '<svg width="18" height="18" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="10" stroke-linejoin="round"><polygon points="128,24 152.7,94.0 226.9,95.9 168.0,141.0 189.1,212.1 128,170 66.9,212.1 88.0,141.0 29.1,95.9 103.3,94.0"/></svg>';
+const STAR_ON = '<svg width="36" height="36" viewBox="0 0 256 256" fill="var(--color-accent)"><polygon points="128,24 152.7,94.0 226.9,95.9 168.0,141.0 189.1,212.1 128,170 66.9,212.1 88.0,141.0 29.1,95.9 103.3,94.0"/></svg>';
+const STAR_OFF = '<svg width="36" height="36" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="10" stroke-linejoin="round"><polygon points="128,24 152.7,94.0 226.9,95.9 168.0,141.0 189.1,212.1 128,170 66.9,212.1 88.0,141.0 29.1,95.9 103.3,94.0"/></svg>';
 const X_ICON = '<svg width="12" height="12" viewBox="0 0 256 256" fill="currentColor"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg>';
 
 /* ---------------- storage ---------------- */
@@ -483,6 +482,8 @@ const store = {
 /* ---------------- state ---------------- */
 let state = { vibe: "mixed", generated: [], used: [], retired: [], saved: [] };
 let current = null;
+let history = [];
+let historyIndex = -1;
 let view = "deck";
 let busy = false;
 let note = "";
@@ -512,6 +513,9 @@ function draw(excludeId) {
   if (!p.length) { current = null; render(); return; }
   current = p[Math.floor(Math.random() * p.length)];
   if (state.used.indexOf(current.id) === -1) state.used.push(current.id);
+  history = history.slice(0, historyIndex + 1);
+  history.push(current);
+  historyIndex = history.length - 1;
   persist();
   render();
 }
@@ -533,11 +537,28 @@ function buzz(pattern) {
 /* ---------------- actions ---------------- */
 function setVibe(v) {
   state.vibe = v;
+  history = []; historyIndex = -1;
   if (!current || !matches(current, v)) draw(null);
   else { persist(); render(); }
 }
 
-function next() { note = ""; draw(current ? current.id : null); }
+function next() {
+  note = "";
+  if (historyIndex < history.length - 1) {
+    historyIndex++;
+    current = history[historyIndex];
+    render();
+    return;
+  }
+  draw(current ? current.id : null);
+}
+
+function back() {
+  if (historyIndex <= 0) { render(); return; }
+  historyIndex--;
+  current = history[historyIndex];
+  render();
+}
 
 function pass() {
   if (!current) return;
@@ -567,6 +588,7 @@ function removeSaved(id) {
 
 function reshuffle() {
   state.used = [];
+  history = []; historyIndex = -1;
   note = "Deck reshuffled. Everything you didn't pass is back in play.";
   draw(null);
 }
@@ -679,11 +701,9 @@ function onCardPointerUp(e) {
   const dx = e.clientX - d.x;
   if (dx < -100) {
     buzz([12, 40, 12]);
-    flingOut(d, -1, () => pass());
+    flingOut(d, -1, () => back());
   } else if (dx > 100) {
     buzz(18);
-    const already = current && state.saved.some(s => s.id === current.id);
-    if (!already) toggleSave();
     flingOut(d, 1, () => next());
   } else {
     paintSwipe(d, 0, true);
@@ -727,7 +747,7 @@ function renderCard() {
   host.innerHTML =
     '<div class="stack"><div class="qd-glow"></div><div class="ghost g1"></div><div class="ghost g2"></div>' +
     '<div class="qd-card" id="qdCard">' +
-    '<div class="qd-verdict qd-pass">Pass</div><div class="qd-verdict qd-save">Save</div>' +
+    '<div class="qd-verdict qd-back">Back</div><div class="qd-verdict qd-next">Next</div>' +
     '<div class="card-top">' +
     '<span class="tag tag-outline">' + tagIcon + tagLabel + '</span>' +
     '<button class="star-btn" id="starBtn" aria-label="Save this question">' + (on ? STAR_ON : STAR_OFF) + '</button>' +
@@ -774,12 +794,10 @@ function render() {
     el("toggleView").textContent = "Saved (" + state.saved.length + ")";
     renderVibes();
     renderCard();
-    el("passBtn").disabled = !current;
-    el("genBtn").classList.toggle("hidden", !CAN_GENERATE);
+    el("discardBtn").disabled = !current;
+    el("secondaryRow").classList.toggle("hidden", !CAN_GENERATE);
     el("genBtn").disabled = busy;
     el("genLabel").textContent = busy ? "Writing…" : "Write new ones";
-    el("secondaryRow").classList.toggle("cols-2", CAN_GENERATE);
-    el("secondaryRow").classList.toggle("cols-1", !CAN_GENERATE);
     el("note").textContent = note;
     el("counter").textContent = CAN_GENERATE
       ? state.generated.length + " written for you"
@@ -789,8 +807,7 @@ function render() {
 }
 
 /* ---------------- wire up ---------------- */
-el("nextBtn").onclick = () => { buzz(8); withTransition(next); };
-el("passBtn").onclick = () => { buzz(8); withTransition(pass); };
+el("discardBtn").onclick = () => { buzz(8); withTransition(pass); };
 el("genBtn").onclick = generate;
 el("reshuffleBtn").onclick = () => withTransition(reshuffle);
 el("toggleView").onclick = () => { view = "saved"; render(); };
@@ -800,6 +817,7 @@ document.addEventListener("keydown", e => {
   if (e.target && (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")) return;
   if (!isWide && view !== "deck") return;
   if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); buzz(8); withTransition(next); }
+  if (e.key === "ArrowLeft") { e.preventDefault(); buzz(8); withTransition(back); }
   if (e.key === "s") toggleSave();
 });
 
