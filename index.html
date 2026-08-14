@@ -477,7 +477,43 @@ const RAW = [
 ["What song would you play to explain how you're feeling right now, if words weren't an option?","deep","music"],
 ["What's a song that changed how you saw your own life the first time you really heard it?","deep","music"],
 ["What music was playing during a moment you'd like to relive exactly as it was?","deep","music"],
-["What song do you think tells the truth about us, even the parts we don't say out loud?","deep","music"]
+["What song do you think tells the truth about us, even the parts we don't say out loud?","deep","music"],
+["What album do you put on when you're cooking and want the night to go well?","playful","music"],
+["What song would you refuse to let me skip in the car?","playful","music"],
+["Which artist's whole catalog could you defend in an argument with a stranger?","playful","music"],
+["What's a song you loved before everyone else did, and did that ruin it?","playful","music"],
+["What's the pettiest reason you've ever turned off a song someone else picked?","playful","music"],
+["What song do you think I secretly like more than I admit?","playful","music"],
+["If we made a road trip playlist with no rules, what's track one?","playful","music"],
+["What's the most embarrassing concert you've ever paid money for?","playful","music"],
+["What song makes you drive faster without noticing?","playful","music"],
+["What artist would you rather see in a tiny room than an arena?","playful","music"],
+["What song have you ruined for yourself by overplaying it?","playful","music"],
+["What feature verse do you think outshines the whole song?","playful","music"],
+["What song got you through something you didn't talk about at the time?","deep","music"],
+["What music do you avoid because of who it reminds you of?","deep","music"],
+["What song makes you think about your mother?","deep","music"],
+["What did you listen to when you were figuring out who you wanted to be?","deep","music"],
+["What's a lyric that describes something about you that you've never said directly?","deep","music"],
+["What song would you want our kids to know we loved?","deep","music"],
+["What music takes you back to a version of yourself you miss?","deep","music"],
+["What song have you cried to and never told anyone about?","deep","music"],
+["What did you have on repeat the year before we met?","deep","music"],
+["What song feels like home in a way you can't explain?","deep","music"],
+["What music do you put on when you need to think something through?","deep","music"],
+["What album could you play start to finish and feel like it knows you?","deep","music"],
+["What do you think I'd be surprised to learn you worry about?","deep"],
+["What part of your day do you wish I could see for myself?","deep"],
+["When have you felt most proud to be with me?","deep"],
+["What's something you've stopped asking me for?","deep"],
+["What's a moment recently where you needed me and didn't say so?","deep"],
+["What's a way your family shaped you that you're still deciding how to feel about?","deep"],
+["What do you want more of in our life that money can't buy?","deep"],
+["What's a version of our future you think about but haven't said out loud?","deep"],
+["What's a truth about yourself you've only recently been able to admit?","deep"],
+["What's a responsibility you're carrying that you never agreed to take on?","deep"],
+["What do you think you'll regret if we don't change it?","deep"],
+["What's something about getting older together that you're looking forward to?","deep"]
 ];
 
 const BASE = RAW.map((r, i) => ({ id: "b" + i, text: r[0], vibe: r[1], topic: r[2] || null }));
@@ -536,6 +572,17 @@ function matches(q, v) {
   if (v === "mixed") return true;
   if (v === "music") return q.topic === "music";
   return q.vibe === v;
+}
+
+const VIBES = [["playful", "Playful"], ["deep", "Deep"], ["music", "Music"], ["mixed", "Mixed"]];
+
+function vibeLabel(v) {
+  const hit = VIBES.filter(o => o[0] === v)[0];
+  return hit ? hit[1] : v;
+}
+
+function poolTotal() {
+  return all().filter(q => matches(q, state.vibe) && state.retired.indexOf(q.id) === -1).length;
 }
 
 function pool(excludeId) {
@@ -792,8 +839,7 @@ const el = id => document.getElementById(id);
 const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 function renderVibes() {
-  const opts = [["playful", "Playful"], ["deep", "Deep"], ["music", "Music"], ["mixed", "Mixed"]];
-  el("vibes").innerHTML = opts.map(o =>
+  el("vibes").innerHTML = VIBES.map(o =>
     '<label class="seg-opt">' +
       '<input type="radio" name="qd-vibe" data-v="' + o[0] + '"' + (state.vibe === o[0] ? " checked" : "") + ' />' +
       SEG_ICONS[o[0]] + o[1] +
@@ -889,9 +935,8 @@ function render() {
     } else {
       el("note").textContent = note;
     }
-    el("counter").textContent = CAN_GENERATE
-      ? state.generated.length + " written for you"
-      : all().length + " questions total";
+    el("counter").textContent = (pool(null).length + (current ? 1 : 0)) +
+      " of " + poolTotal() + " left in " + vibeLabel(state.vibe);
   }
   if (savedVisible) renderSaved();
 }
