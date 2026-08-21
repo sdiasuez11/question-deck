@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="theme-color" content="#101d24" />
+<meta name="apple-mobile-web-app-title" content="Questions V2" />
+<title>Questions V2</title>
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23101d24'/%3E%3Ctext x='50' y='72' font-size='62' font-family='Georgia,serif' fill='%23e9c46a' text-anchor='middle'%3E%3F%3C/text%3E%3C/svg%3E" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23101d24'/%3E%3Ctext x='50' y='72' font-size='62' font-family='Georgia,serif' fill='%23e9c46a' text-anchor='middle'%3E%3F%3C/text%3E%3C/svg%3E" />
+<style>
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 300 600;
+  font-display: swap;
+  src: url(newsreader-300.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'DM Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(dm-mono-400.woff2) format('woff2');
+}
+
+:root {
+  --font-heading: 'Newsreader', Georgia, serif;
+  --font-body: 'Newsreader', Georgia, serif;
+  --font-mono: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --color-bg: #101d24;
+  --color-surface: #1a3039;
+  --color-text: #e8ece9;
+  --color-accent: #e9c46a;
+  --color-accent-2: #2a9d8f;
+  --color-accent-100: #fdf6e6;
+  --color-accent-200: #f8e8c2;
+  --color-accent-300: #f2d99a;
+  --color-accent-400: #e9c46a;
+  --color-accent-500: #d0a94c;
+  --color-accent-600: #a9873a;
+  --color-accent-700: #80662c;
+  --color-accent-800: #57461f;
+  --color-accent-900: #332913;
+  --color-accent-2-100: #e4f5f2;
+  --color-accent-2-200: #bfe6e0;
+  --color-accent-2-300: #8fd3ca;
+  --color-accent-2-400: #56b8ab;
+  --color-accent-2-500: #2a9d8f;
+  --color-accent-2-600: #217f74;
+  --color-accent-2-700: #1a6159;
+  --color-accent-2-800: #14453f;
+  --color-accent-2-900: #0f2b28;
+  --color-neutral-100: #eef2f1;
+  --color-neutral-200: #d6dedd;
+  --color-neutral-300: #b4c1c2;
+  --color-neutral-400: #8ea0a4;
+  --color-neutral-500: #6d8086;
+  --color-neutral-600: #56686e;
+  --color-neutral-700: #405056;
+  --color-neutral-800: #2c3a40;
+  --color-neutral-900: #1c272c;
+  --color-warm: #f4a261;
+  --color-hot: #e76f51;
+  --color-divider: var(--color-neutral-700);
+  --color-muted: color-mix(in srgb, var(--color-text) 72%, transparent);
+  --shadow-sm: 0 0 0 1px #2c3a40;
+  --shadow-md: 0 0 0 1px #405056, 0 6px 18px rgba(0,0,0,0.55);
+  --shadow-lg: 0 0 0 1px #6d8086, 0 16px 40px rgba(0,0,0,0.65);
+  --radius-lg: 8px;
+  --radius-md: 10px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; overflow-x: hidden; }
+body {
+  min-height: 100vh;
+  min-height: 100svh;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: calc(env(safe-area-inset-top, 0px) + clamp(20px, 4vw, 56px)) 18px calc(env(safe-area-inset-bottom, 0px) + 40px);
+  -webkit-font-smoothing: antialiased;
+}
+
+.rail { width: 100%; max-width: 840px; display: flex; flex-wrap: wrap; gap: 32px; justify-content: center; align-items: flex-start; }
+.deck-col {
+  flex: 1 1 420px; max-width: 480px; min-width: 300px; display: flex; flex-direction: column; gap: 20px;
+  container-type: inline-size; container-name: deck;
+}
+.saved-col { flex: 1 1 280px; max-width: 340px; min-width: 260px; display: flex; flex-direction: column; gap: 14px; }
+.setup-row { flex: 1 0 100%; display: flex; justify-content: center; padding-top: 8px; }
+
+.header-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-muted); }
+h1 { font-family: var(--font-heading); font-weight: 500; font-size: 20px; margin: 0; }
+h4 { font-family: var(--font-heading); font-weight: 500; font-size: 17px; margin: 0; }
+
+/* buttons */
+.btn {
+  font-family: var(--font-body); font-size: 13px; cursor: pointer;
+  border-radius: var(--radius-lg); padding: 12px 16px; min-height: 44px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  transition: background 140ms ease, border-color 140ms ease, color 140ms ease, transform 100ms ease;
+  background: transparent; color: var(--color-text); border: 1px solid var(--color-neutral-700);
+}
+.btn:hover { border-color: var(--color-accent); background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
+.btn:active { transform: translateY(1px); background: color-mix(in srgb, var(--color-accent-400) 16%, transparent); }
+.btn:disabled { opacity: 0.4; cursor: default; pointer-events: none; }
+.btn-primary { border-color: var(--color-accent); color: var(--color-text); }
+.btn-primary:hover { background: color-mix(in srgb, var(--color-accent) 16%, transparent); }
+.btn-secondary { border-color: var(--color-neutral-700); }
+.btn-ghost { border: none; padding: 6px 4px; min-height: 0; color: color-mix(in srgb, var(--color-text) 65%, transparent); font-size: 12px; }
+.btn-ghost:hover { border: none; background: none; color: var(--color-accent); }
+.btn-icon { padding: 6px; min-height: 44px; min-width: 44px; border: none; color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+.btn-icon:hover { border: none; background: none; color: var(--color-accent); }
+.btn-block { width: 100%; }
+.row2 { display: grid; gap: 9px; }
+.row2.cols-2 { grid-template-columns: 1fr 1fr; }
+.row2.cols-1 { grid-template-columns: 1fr; }
+
+/* segmented vibe filter */
+.seg {
+  display: flex; align-self: flex-start; border-radius: var(--radius-md); overflow: hidden;
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+.seg-opt {
+  display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 7px 12px;
+  font-size: 13px; color: color-mix(in srgb, var(--color-text) 55%, transparent);
+  transition: color 140ms ease, background 140ms ease, box-shadow 140ms ease;
+}
+.seg-opt input { position: absolute; opacity: 0; width: 0; height: 0; }
+.seg-opt:has(input:checked) { color: var(--color-text); background: color-mix(in srgb, var(--color-accent) 10%, transparent); box-shadow: inset 0 0 0 1px var(--color-accent); }
+.seg-opt:hover { color: var(--color-text); }
+.seg-opt:first-of-type { border-top-left-radius: calc(var(--radius-md) - 1px); border-bottom-left-radius: calc(var(--radius-md) - 1px); }
+.seg-opt:last-of-type { border-top-right-radius: calc(var(--radius-md) - 1px); border-bottom-right-radius: calc(var(--radius-md) - 1px); }
+
+/* card stack */
+.stack { position: relative; padding-bottom: 14px; }
+.qd-glow {
+  position: absolute; inset: -18% -12% 8%; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(50% 50% at 30% 35%, var(--color-accent-2) 0%, transparent 70%),
+              radial-gradient(46% 46% at 78% 68%, var(--color-accent) 0%, transparent 72%);
+  filter: blur(46px); opacity: 0.4;
+}
+.ghost { position: absolute; inset: 0 0 auto 0; height: 100%; border-radius: var(--radius-lg); }
+.ghost.g1 { background: var(--color-neutral-900); transform: translateY(14px) scale(0.95); opacity: 0.5; }
+.ghost.g2 { background: var(--color-neutral-800); transform: translateY(7px) scale(0.975); opacity: 0.7; }
+
+.qd-card {
+  position: relative; background-color: color-mix(in srgb, var(--color-surface) 68%, transparent);
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48ZmlsdGVyIGlkPSJuIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC44NSIgbnVtT2N0YXZlcz0iMyIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIiBmaWx0ZXI9InVybCgjbikiIG9wYWNpdHk9IjAuNSIvPjwvc3ZnPg=="),
+    radial-gradient(120% 90% at 12% 0%, color-mix(in srgb, var(--color-accent-2-800) 55%, transparent) 0%, transparent 62%),
+    linear-gradient(168deg, color-mix(in srgb, var(--color-neutral-100) 4%, transparent) 0%, transparent 45%);
+  background-blend-mode: overlay, normal, normal;
+  background-size: 140px 140px, auto, auto;
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  backdrop-filter: blur(20px) saturate(1.5);
+  border-radius: var(--radius-lg); padding: 26px 24px 22px; min-height: 260px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  box-shadow: var(--shadow-lg), inset 0 1px 0 color-mix(in srgb, var(--color-neutral-100) 9%, transparent);
+  animation: qdRise 420ms cubic-bezier(0.2, 0.8, 0.25, 1);
+  touch-action: pan-y; cursor: grab; will-change: transform; user-select: none;
+}
+.qd-card:active { cursor: grabbing; }
+@keyframes qdRise { from { opacity: 0; transform: translateY(14px) rotate(-0.4deg); } to { opacity: 1; transform: none; } }
+
+.qd-verdict {
+  position: absolute; top: 20px; pointer-events: none; opacity: 0;
+  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  padding: 7px 12px; border-radius: var(--radius-lg); border: 1px solid currentColor;
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+}
+.qd-back { left: 20px; color: var(--color-neutral-400); }
+.qd-next { right: 20px; color: var(--color-accent-2); }
+
+.card-top { display: flex; align-items: center; justify-content: space-between; }
+.tag { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
+.tag-outline { padding: 6px 10px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--color-text) 35%, transparent); color: color-mix(in srgb, var(--color-text) 80%, transparent); }
+.star-btn { background: none; border: none; cursor: pointer; padding: 2px; color: color-mix(in srgb, var(--color-text) 45%, transparent); }
+.star-btn:hover { color: var(--color-accent); }
+
+.qd-q { font-family: var(--font-heading); font-weight: 400; font-size: 24px; line-height: 1.3; letter-spacing: -0.01em; margin: 24px 0 20px; text-wrap: balance; view-transition-name: qd-question; }
+@container deck (min-width: 400px) {
+  .qd-q { font-size: 30px; }
+  .qd-card { padding: 32px 30px 26px; min-height: 300px; }
+}
+@container deck (max-width: 340px) {
+  .qd-q { font-size: 20px; }
+  .row2 { grid-template-columns: 1fr !important; }
+}
+.hr { height: 1px; background: color-mix(in srgb, var(--color-text) 14%, transparent); margin: 0 0 12px; }
+.qd-meta { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-muted); view-transition-name: qd-meta; }
+
+@keyframes qdVtOut { to { opacity: 0; transform: translateY(-10px) scale(0.98); filter: blur(3px); } }
+@keyframes qdVtIn { from { opacity: 0; transform: translateY(14px) scale(0.98); filter: blur(3px); } }
+::view-transition-old(qd-question) { animation: qdVtOut 200ms cubic-bezier(0.4,0,1,1) both; }
+::view-transition-new(qd-question) { animation: qdVtIn 340ms cubic-bezier(0.2,0.8,0.25,1) both; }
+::view-transition-old(qd-meta) { animation: qdVtOut 160ms ease-in both; }
+::view-transition-new(qd-meta) { animation: qdVtIn 260ms ease-out both; }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(qd-question), ::view-transition-new(qd-question),
+  ::view-transition-old(qd-meta), ::view-transition-new(qd-meta) { animation: none !important; }
+}
+
+.note { font-size: 12px; color: var(--color-muted); text-align: center; min-height: 30px; line-height: 1.5; }
+.meta { display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-muted); }
+
+.empty { background: var(--color-surface); border: 1px dashed var(--color-divider); border-radius: var(--radius-lg); padding: 34px 24px; text-align: center; }
+.empty p { font-family: var(--font-heading); font-weight: 400; font-size: 20px; margin: 0 0 18px; }
+.empty.small { padding: 28px 20px; }
+.empty.small p { font-size: 17px; margin: 0 0 8px; }
+.empty .btnrow { display: flex; gap: 9px; justify-content: center; flex-wrap: wrap; }
+
+.saved-list { display: flex; flex-direction: column; gap: 8px; }
+.saveditem { background: var(--color-surface); box-shadow: var(--shadow-sm); border-radius: var(--radius-lg); padding: 12px 14px; display: flex; gap: 10px; align-items: flex-start; justify-content: space-between; }
+.savedtext { font-family: var(--font-heading); font-weight: 400; font-size: 14px; line-height: 1.4; margin: 0; }
+.saveditem .btn-icon { min-width: 28px; min-height: 28px; width: 28px; height: 28px; flex: none; }
+
+.hidden { display: none !important; }
+button:focus-visible, a:focus-visible, [role="button"]:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+.setuplink { text-decoration: none; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 62%, transparent); border-bottom: 1px solid color-mix(in srgb, var(--color-text) 22%, transparent); padding-bottom: 3px; }
+.setuplink:hover { color: var(--color-accent); border-color: var(--color-accent); }
+@media (display-mode: standalone) { .setuplink { display: none; } }
+
+/* ------------ add panel ------------ */
+.add-panel {
+  background: var(--color-surface); border: 1px solid var(--color-divider);
+  border-radius: var(--radius-lg); padding: 18px 18px 14px; display: flex;
+  flex-direction: column; gap: 12px;
+}
+.add-panel textarea {
+  width: 100%; min-height: 72px; resize: vertical; background: transparent;
+  border: 1px solid var(--color-neutral-700); border-radius: var(--radius-lg);
+  padding: 10px 12px; font-family: var(--font-heading); font-size: 15px;
+  color: var(--color-text); outline: none; line-height: 1.4;
+}
+.add-panel textarea:focus { border-color: var(--color-accent); }
+.add-panel textarea::placeholder { color: color-mix(in srgb, var(--color-text) 38%, transparent); }
+.add-panel-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.add-panel-actions { display: flex; gap: 8px; }
+.panel-error { font-size: 12px; color: var(--color-warm); min-height: 16px; }
+.music-check { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-muted); cursor: pointer; }
+.music-check input { accent-color: var(--color-accent-2); width: 14px; height: 14px; }
+/* seed mode */
+.panel-mode-toggle { display: flex; gap: 0; }
+.panel-mode-toggle label {
+  flex: 1; text-align: center; cursor: pointer; padding: 6px 10px;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent);
+  background: var(--color-neutral-900); border: 1px solid var(--color-neutral-700);
+  transition: background 140ms, color 140ms;
+}
+.panel-mode-toggle label:first-of-type { border-radius: var(--radius-lg) 0 0 var(--radius-lg); }
+.panel-mode-toggle label:last-of-type  { border-radius: 0 var(--radius-lg) var(--radius-lg) 0; border-left: none; }
+.panel-mode-toggle input { position: absolute; opacity: 0; width: 0; height: 0; }
+.panel-mode-toggle label:has(input:checked) { color: var(--color-text); background: color-mix(in srgb, var(--color-accent) 12%, transparent); border-color: var(--color-accent); }
+/* variant cards */
+.variants { display: flex; flex-direction: column; gap: 10px; }
+.variant-card {
+  background: var(--color-neutral-900); border: 1px solid var(--color-neutral-700);
+  border-radius: var(--radius-lg); padding: 14px 14px 10px; cursor: pointer;
+  transition: border-color 140ms, background 140ms;
+}
+.variant-card:hover { border-color: var(--color-accent); background: color-mix(in srgb, var(--color-accent) 6%, transparent); }
+.variant-card p { font-family: var(--font-heading); font-size: 15px; line-height: 1.4; margin: 0 0 8px; }
+.variant-card .btn { font-size: 12px; padding: 6px 12px; min-height: 0; }
+/* my questions list in saved col */
+.my-q-section { display: flex; flex-direction: column; gap: 10px; }
+.my-q-header { display: flex; align-items: center; justify-content: space-between; }
+.my-q-list { display: flex; flex-direction: column; gap: 8px; }
+.my-q-item { background: var(--color-surface); box-shadow: var(--shadow-sm); border-radius: var(--radius-lg); padding: 10px 12px; display: flex; gap: 8px; align-items: flex-start; }
+.my-q-text { font-family: var(--font-heading); font-weight: 400; font-size: 13px; line-height: 1.4; margin: 0; flex: 1; color: color-mix(in srgb, var(--color-text) 88%, transparent); }
+.my-q-tag { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-muted); display: block; margin-top: 3px; }
+.my-q-btns { display: flex; gap: 2px; flex: none; }
+.my-q-btns .btn-icon { min-width: 28px; min-height: 28px; width: 28px; height: 28px; flex: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .qd-card { animation: none; }
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+<div class="rail">
+
+  <div class="deck-col" id="deckCol">
+    <div class="header-row">
+      <span class="eyebrow">Take turns. One question at a time.</span>
+      <button class="btn btn-ghost" id="toggleView">Saved (0)</button>
+    </div>
+
+    <div class="seg" id="vibes"></div>
+
+    <div id="cardHost" aria-live="polite" aria-atomic="true"></div>
+
+    <div style="display:flex; flex-direction:column; gap:9px;">
+      <button class="btn btn-primary btn-block" id="nextBtn">
+        Next question
+        <svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></svg>
+      </button>
+      <div class="row2 cols-2" id="secondaryRow">
+        <button class="btn btn-secondary" id="passBtn">
+          Pass this one
+          <svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96ZM192,208H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/></svg>
+        </button>
+        <button class="btn btn-secondary" id="genBtn">
+          <svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M197.58,129.06,146,110l-19-51.62a15.92,15.92,0,0,0-29.88,0L78,110l-51.62,19a15.92,15.92,0,0,0,0,29.88L78,178l19,51.62a15.92,15.92,0,0,0,29.88,0L146,178l51.62-19a15.92,15.92,0,0,0,0-29.88ZM137,164.22a8,8,0,0,0-4.74,4.74L112,223.85,91.78,169A8,8,0,0,0,87,164.22L32.15,144,87,123.78A8,8,0,0,0,91.78,119L112,64.15,132.22,119a8,8,0,0,0,4.74,4.74L191.85,144ZM144,40a8,8,0,0,1,8-8h16V16a8,8,0,0,1,16,0V32h16a8,8,0,0,1,0,16H184V64a8,8,0,0,1-16,0V48H152A8,8,0,0,1,144,40ZM248,88a8,8,0,0,1-8,8h-8v8a8,8,0,0,1-16,0V96h-8a8,8,0,0,1,0-16h8V72a8,8,0,0,1,16,0v8h8A8,8,0,0,1,248,88Z"/></svg>
+          <span id="genLabel">Write new ones</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="note" id="note"></div>
+
+    <div class="meta">
+      <span id="counter"></span>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="btn btn-ghost" id="reshuffleBtn">Reshuffle deck</button>
+        <button class="btn btn-ghost" id="addToggleBtn">+ Add a question</button>
+      </div>
+    </div>
+
+    <div id="addPanelHost"></div>
+  </div>
+
+  <div class="saved-col" id="savedCol">
+    <div class="header-row">
+      <h4>Saved questions</h4>
+      <button class="btn btn-ghost" id="backBtn">Back to deck</button>
+    </div>
+    <div id="savedHost"></div>
+    <div id="myQHost"></div>
+  </div>
+
+  <div class="setup-row" id="setupRow">
+    <a class="setuplink" href="setup.html">Put this on your home screen</a>
+  </div>
+
+</div>
+
+<script>
+/* ---------------- question bank ---------------- */
+const RAW = [
+["If we had to swap jobs for a week, what would you dread most about mine?","playful"],
+["What's a small, weird thing I do that you'd miss if I stopped?","playful"],
+["If we got dropped in any city tomorrow with no plan, where should the plane land?","playful"],
+["What's the most ridiculous argument we've ever had, and who was actually right?","playful"],
+["If our relationship had a theme song, what's playing?","playful"],
+["What's a hobby you secretly think you'd be great at if you had six months free?","playful"],
+["Which fictional couple do we most resemble, and is that a compliment?","playful"],
+["What would you buy immediately if money stopped being a factor?","playful"],
+["If you could master one skill overnight, what would you pick?","playful"],
+["What's the best meal we've ever eaten together?","playful"],
+["If we opened a business together, what would it be and who gets fired first?","playful"],
+["What's a movie you'd happily watch with me a hundred more times?","playful"],
+["What's the pettiest thing you've ever held a grudge about?","playful"],
+["If you had to describe me to a stranger in three words, what are they?","playful"],
+["What's a trend you refuse to participate in?","playful"],
+["Where would you want to live for one year if we had to move?","playful"],
+["What's the strangest thing you believed as a kid?","playful"],
+["If we had a completely free Saturday with no obligations, what does it look like?","playful"],
+["What's a compliment you got years ago that you still think about?","playful"],
+["Which of my habits would you keep if you could build a better version of me?","playful"],
+["What's your idea of a perfect lazy day?","playful"],
+["If you had to give up either coffee or your phone for a year, which one goes?","playful"],
+["What's a food you pretend to like for social reasons?","playful"],
+["What's the funniest thing you've ever seen me do?","playful"],
+["If we hosted a dinner party with any four people, alive or dead, who's coming?","playful"],
+["What song puts you in a good mood within about four seconds?","playful"],
+["What's the best gift you've ever received, and why did it land?","playful"],
+["If you had to compete on any game show, which one, and would you win?","playful"],
+["What are you weirdly competitive about?","playful"],
+["What's the last thing that made you laugh so hard you couldn't breathe?","playful"],
+["If someone wrote a book about our life together, what's the title?","playful"],
+["What smell takes you straight back to childhood?","playful"],
+["What's a place we've been that you'd go back to tomorrow?","playful"],
+["If you could relive one day of our relationship exactly as it happened, which one?","playful"],
+["What's a small luxury you think is completely worth the money?","playful"],
+["If I planned a surprise trip, what's the one thing that would make it perfect?","playful"],
+["What's your most irrational fear?","playful"],
+["What would you do with an unexpected free weekend, entirely alone?","playful"],
+["What's a talent of mine you think I underrate?","playful"],
+["Which season of your life so far has been the most fun?","playful"],
+["What's something you want to try that you've never told anyone about?","playful"],
+["If we had a mascot as a couple, what animal is it?","playful"],
+["What's the most spontaneous thing you've ever done?","playful"],
+["What's an unspoken rule between us that you'd quietly like to break?","playful"],
+["What's the best advice you've ever ignored?","playful"],
+["What does your ideal morning look like, start to finish?","playful"],
+["What's a story about me you like telling other people?","playful"],
+["If you had to pick a brand new first name, what are you going with?","playful"],
+["What do you find attractive that has nothing to do with looks?","playful"],
+["What's the most overrated thing everyone else seems to love?","playful"],
+["If we could add one room to our place, what's in it?","playful"],
+["What piece of my clothing would you quietly like to set on fire?","playful"],
+["What's the best trip you took before we met?","playful"],
+["If you had a week completely off the grid, where are you?","playful"],
+["What's something small I could do this week that would make you smile?","playful"],
+["What's the last thing you learned that genuinely surprised you?","playful"],
+["If our life were a TV show, what genre is it?","playful"],
+["What did you love as a teenager that you would still defend today?","playful"],
+["Which of us lasts longer in a zombie apocalypse, and what's your evidence?","playful"],
+["What's a tradition you want us to start?","playful"],
+["What's a chore you'd never give up, and one you'd outsource in a heartbeat?","playful"],
+["What's the pettiest reason you've ever judged a stranger?","playful"],
+["If we won a modest amount of money tomorrow, what's the first thing we do with it?","playful"],
+["What's a skill of mine you'd steal if you could?","playful"],
+["What's the strangest job you'd actually be good at?","playful"],
+["What song would you put on to get me dancing in the kitchen?","playful","music"],
+["What's the first album you bought with your own money?","playful","music"],
+["What song do you know every word to that you'd rather not admit?","playful","music"],
+["If our relationship got a soundtrack, what plays over the opening credits?","playful","music"],
+["What concert would you go back in time to see?","playful","music"],
+["What's a song you can't listen to anymore because something ruined it?","playful","music"],
+["What music did your parents play in the house, and did any of it stick?","playful","music"],
+["What's your karaoke song, and what's your backup when someone else takes it?","playful","music"],
+["What artist do you think I'd love if I gave them a real chance?","playful","music"],
+["What's the best live show you've ever been to?","playful","music"],
+["What song would you want playing when you walk into a room?","playful","music"],
+["What genre did you used to make fun of and now secretly like?","playful","music"],
+["If we could only listen to one artist for a twelve hour drive, who survives the vote?","playful","music"],
+["What's the most overplayed song that still works on you every time?","playful","music"],
+["What did you have on repeat at seventeen?","playful","music"],
+["What lyric do you think about more often than you'd expect?","playful","music"],
+["What would our wedding song be if we picked it today instead?","playful","music"],
+["What's a song you'd never skip, no matter how many times it comes around?","playful","music"],
+["What do you put on when you want the whole house to feel good?","playful","music"],
+["What artist did you find on your own and feel weirdly possessive about?","playful","music"],
+["What's a dream you quietly set aside that you'd like to pick back up?","deep"],
+["What does feeling loved actually look like on an ordinary Tuesday?","deep"],
+["What are you proud of that nobody ever congratulated you for?","deep"],
+["What are you most afraid of losing?","deep"],
+["When you picture us in ten years, what's the first image that comes to mind?","deep"],
+["What part of your childhood do you want to recreate for us, and what do you want to leave behind?","deep"],
+["What's a fear you have about us that you don't usually say out loud?","deep"],
+["When do you feel most like yourself?","deep"],
+["What have you changed your mind about in the last few years?","deep"],
+["What do you wish I asked you about more often?","deep"],
+["What was the hardest thing you went through before we met, and how did it shape you?","deep"],
+["What does a successful life look like to you, with money taken out of the picture?","deep"],
+["When was the last time you felt truly rested?","deep"],
+["How have I changed since we met in a way you appreciate?","deep"],
+["What do you need more of right now?","deep"],
+["What's a value we both hold but handle differently?","deep"],
+["Who do you miss?","deep"],
+["What's a conversation you've been avoiding?","deep"],
+["What do you want people to say about you at the end of your life?","deep"],
+["What are you carrying right now that you'd like to put down?","deep"],
+["When you're stressed, what does real support look like, specifically?","deep"],
+["What's a mistake you made that you're grateful for now?","deep"],
+["What part of your work actually matters to you?","deep"],
+["When was a moment you felt proud of us?","deep"],
+["Where do you think I sell myself short?","deep"],
+["Is there a relationship in your life you'd like to repair?","deep"],
+["What did your parents get right, and what will we do differently?","deep"],
+["What do you want to be better at as a partner?","deep"],
+["When have you felt most alone in the last year?","deep"],
+["What's a risk you want to take in the next five years?","deep"],
+["What do you believe that most people around you don't?","deep"],
+["What's the kindest thing anyone has ever done for you?","deep"],
+["How do you want us to handle money differently than we do now?","deep"],
+["What have you forgiven yourself for, and what haven't you?","deep"],
+["What does home mean to you, apart from a place?","deep"],
+["How has this relationship made your life bigger?","deep"],
+["What's a stress in your life right now that I might be underestimating?","deep"],
+["When you imagine us old together, what are we doing on a normal day?","deep"],
+["What do you most want to pass on to the people who come after us?","deep"],
+["What's the last thing that made you cry?","deep"],
+["What do you need from me when we disagree?","deep"],
+["What's a goal you have for yourself that has nothing to do with anyone else?","deep"],
+["What have you been thinking about lately when it comes to your health?","deep"],
+["Where do you feel most at peace?","deep"],
+["Which memory of us would you protect above all the others?","deep"],
+["How have you grown in a way that took you by surprise?","deep"],
+["What are we best at as a team?","deep"],
+["What's something you've never told me because the timing was never right?","deep"],
+["What hard truth have you accepted this year?","deep"],
+["How are our families more alike than you expected?","deep"],
+["What promise do you want us to make to each other now?","deep"],
+["What do you want us to spend more money on, and what should we stop funding?","deep"],
+["What role does faith or meaning play in your life right now?","deep"],
+["What boundary do you wish you were better at holding?","deep"],
+["When did you know you wanted this with me?","deep"],
+["What season of our relationship would you like to bring back?","deep"],
+["What do I do that makes you feel safe?","deep"],
+["What's a fear you've outgrown?","deep"],
+["What do you hope is true about us in twenty years that isn't guaranteed?","deep"],
+["What does rest look like for you that we never actually schedule?","deep"],
+["What's a version of yourself you're glad you left behind?","deep"],
+["Where do you feel unseen, at work or anywhere else?","deep"],
+["What would you want said about our marriage by someone who watched it closely?","deep"],
+["What's a decision we made together that you'd make again without hesitating?","deep"],
+["What do you think I'm avoiding?","deep"],
+["What song takes you straight back to a specific person or year?","deep","music"],
+["What music do you reach for when you're low, and does it lift you or just keep you company?","deep","music"],
+["What song do you want played at your funeral, and what should everyone be doing while it plays?","deep","music"],
+["What's a piece of music that made you feel something you couldn't name?","deep","music"],
+["What did music mean to you as a teenager that it doesn't mean now?","deep","music"],
+["If you could instantly swap wardrobes with me for a day, what's the first thing you'd wear?","playful"],
+["What's a rule from your childhood house you still follow without thinking about it?","playful"],
+["If we adopted a pet that matched our personalities as a couple, what would it be?","playful"],
+["What's the worst haircut you ever had, and do any photos survive?","playful"],
+["If you had to teach a class on one useless skill you're great at, what's the subject?","playful"],
+["What's a food combination you love that everyone else finds disturbing?","playful"],
+["If we swapped closets for a week, whose stuff would you actually wear?","playful"],
+["What's a weirdly specific thing you're an expert on?","playful"],
+["If you had a theme park built entirely around your personality, what's the star ride?","playful"],
+["What's the last thing you Googled at 2am?","playful"],
+["If we could only communicate in movie quotes for a day, which movie are we quoting?","playful"],
+["What's a childhood snack you'd still fight someone over?","playful"],
+["What's a song that instantly makes you forgive me, even mid-argument?","playful","music"],
+["If you had to pick the walkout song for every room you enter, what's playing?","playful","music"],
+["What's a guilty pleasure song you'd deny knowing the words to?","playful","music"],
+["What song from a movie soundtrack do you secretly think is better than the movie?","playful","music"],
+["What's something you needed to hear as a kid that nobody said to you?","deep"],
+["When do you feel most unnecessary, and what would change that?","deep"],
+["What's a habit of mine that quietly makes your life easier?","deep"],
+["What do you wish your younger self had known about love?","deep"],
+["What's a limit you've learned to respect in yourself this year?","deep"],
+["When did you last feel truly understood by someone outside us?","deep"],
+["What's a way I've shown up for you that you never actually thanked me for?","deep"],
+["What do you think we take for granted about each other?","deep"],
+["What's something you're grieving that isn't a death?","deep"],
+["What would you want to redo if we could relive our wedding day?","deep"],
+["What's a fear about getting older that you haven't said out loud?","deep"],
+["What does it look like when you're actually asking for help versus pretending you don't need it?","deep"],
+["What song would you play to explain how you're feeling right now, if words weren't an option?","deep","music"],
+["What's a song that changed how you saw your own life the first time you really heard it?","deep","music"],
+["What music was playing during a moment you'd like to relive exactly as it was?","deep","music"],
+["What song do you think tells the truth about us, even the parts we don't say out loud?","deep","music"],
+["What album do you put on when you're cooking and want the night to go well?","playful","music"],
+["What song would you refuse to let me skip in the car?","playful","music"],
+["Which artist's whole catalog could you defend in an argument with a stranger?","playful","music"],
+["What's a song you loved before everyone else did, and did that ruin it?","playful","music"],
+["What's the pettiest reason you've ever turned off a song someone else picked?","playful","music"],
+["What song do you think I secretly like more than I admit?","playful","music"],
+["If we made a road trip playlist with no rules, what's track one?","playful","music"],
+["What's the most embarrassing concert you've ever paid money for?","playful","music"],
+["What song makes you drive faster without noticing?","playful","music"],
+["What artist would you rather see in a tiny room than an arena?","playful","music"],
+["What song have you ruined for yourself by overplaying it?","playful","music"],
+["What feature verse do you think outshines the whole song?","playful","music"],
+["What song got you through something you didn't talk about at the time?","deep","music"],
+["What music do you avoid because of who it reminds you of?","deep","music"],
+["What song makes you think about your mother?","deep","music"],
+["What did you listen to when you were figuring out who you wanted to be?","deep","music"],
+["What's a lyric that describes something about you that you've never said directly?","deep","music"],
+["What song would you want our kids to know we loved?","deep","music"],
+["What music takes you back to a version of yourself you miss?","deep","music"],
+["What song have you cried to and never told anyone about?","deep","music"],
+["What did you have on repeat the year before we met?","deep","music"],
+["What song feels like home in a way you can't explain?","deep","music"],
+["What music do you put on when you need to think something through?","deep","music"],
+["What album could you play start to finish and feel like it knows you?","deep","music"],
+["What do you think I'd be surprised to learn you worry about?","deep"],
+["What part of your day do you wish I could see for myself?","deep"],
+["When have you felt most proud to be with me?","deep"],
+["What's something you've stopped asking me for?","deep"],
+["What's a moment recently where you needed me and didn't say so?","deep"],
+["What's a way your family shaped you that you're still deciding how to feel about?","deep"],
+["What do you want more of in our life that money can't buy?","deep"],
+["What's a version of our future you think about but haven't said out loud?","deep"],
+["What's a truth about yourself you've only recently been able to admit?","deep"],
+["What's a responsibility you're carrying that you never agreed to take on?","deep"],
+["What do you think you'll regret if we don't change it?","deep"],
+["What's something about getting older together that you're looking forward to?","deep"]
+];
+
+const BASE = RAW.map((r, i) => ({ id: "b" + i, text: r[0], vibe: r[1], topic: r[2] || null }));
+const KEY = "question-deck-v2";
+const WORKER_URL = ""; // set to your deployed Worker URL, e.g. "https://question-deck-ai.yourname.workers.dev"
+const CAN_GENERATE = !!WORKER_URL || (typeof window !== "undefined" && typeof window.claude !== "undefined" && typeof window.claude.complete === "function");
+
+const ICONS = {
+  playful: '<svg width="12" height="12" viewBox="0 0 256 256" fill="currentColor"><path d="M48,64 h160 a16,16 0 0 1 16,16 v96 a16,16 0 0 1 -16,16 H112 l-40,36 v-36 H48 a16,16 0 0 1 -16,-16 V80 A16,16 0 0 1 48,64 Z"/></svg>',
+  mixed: '<svg width="12" height="12" viewBox="0 0 256 256" fill="currentColor"><rect x="40" y="40" width="120" height="120" rx="20" opacity="0.55"/><rect x="96" y="96" width="120" height="120" rx="20"/></svg>',
+  deep: '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-6.7-4.35-9.5-8.5C.5 9.42 2 6 5.5 6c2 0 3.5 1.5 4.5 3 1-1.5 2.5-3 4.5-3 3.5 0 5 3.42 3 6.5C18.7 16.65 12 21 12 21z"/></svg>',
+  music: '<svg width="12" height="12" viewBox="0 0 256 256" fill="currentColor"><ellipse cx="90" cy="188" rx="38" ry="30" transform="rotate(-18 90 188)"/><rect x="118" y="50" width="14" height="150" rx="6"/><path d="M132,50 C170,60 190,90 190,120 L176,120 C176,96 160,74 132,66 Z"/></svg>'
+};
+const SEG_ICONS = {
+  playful: '<svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M48,64 h160 a16,16 0 0 1 16,16 v96 a16,16 0 0 1 -16,16 H112 l-40,36 v-36 H48 a16,16 0 0 1 -16,-16 V80 A16,16 0 0 1 48,64 Z"/></svg>',
+  deep: '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-6.7-4.35-9.5-8.5C.5 9.42 2 6 5.5 6c2 0 3.5 1.5 4.5 3 1-1.5 2.5-3 4.5-3 3.5 0 5 3.42 3 6.5C18.7 16.65 12 21 12 21z"/></svg>',
+  music: '<svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><ellipse cx="90" cy="188" rx="38" ry="30" transform="rotate(-18 90 188)"/><rect x="118" y="50" width="14" height="150" rx="6"/><path d="M132,50 C170,60 190,90 190,120 L176,120 C176,96 160,74 132,66 Z"/></svg>',
+  mixed: '<svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><rect x="40" y="40" width="120" height="120" rx="20" opacity="0.55"/><rect x="96" y="96" width="120" height="120" rx="20"/></svg>'
+};
+const STAR_ON = '<svg width="36" height="36" viewBox="0 0 256 256" fill="var(--color-accent)"><polygon points="128,24 152.7,94.0 226.9,95.9 168.0,141.0 189.1,212.1 128,170 66.9,212.1 88.0,141.0 29.1,95.9 103.3,94.0"/></svg>';
+const STAR_OFF = '<svg width="36" height="36" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="10" stroke-linejoin="round"><polygon points="128,24 152.7,94.0 226.9,95.9 168.0,141.0 189.1,212.1 128,170 66.9,212.1 88.0,141.0 29.1,95.9 103.3,94.0"/></svg>';
+const X_ICON = '<svg width="12" height="12" viewBox="0 0 256 256" fill="currentColor"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg>';
+
+/* ---------------- storage ---------------- */
+const store = {
+  async load() {
+    if (window.storage) {
+      try { const r = await window.storage.get(KEY); return r && r.value ? JSON.parse(r.value) : null; }
+      catch (e) { return null; }
+    }
+    try { const v = localStorage.getItem(KEY); return v ? JSON.parse(v) : null; }
+    catch (e) { return null; }
+  },
+  async save(obj) {
+    const s = JSON.stringify(obj);
+    if (window.storage) { try { await window.storage.set(KEY, s); } catch (e) {} return; }
+    try { localStorage.setItem(KEY, s); } catch (e) {}
+  }
+};
+
+/* ---------------- state ---------------- */
+let state = { vibe: "mixed", generated: [], used: [], retired: [], saved: [], custom: [] };
+let current = null;
+let history = [];
+let historyIndex = -1;
+let view = "deck";
+let busy = false;
+let note = "";
+let lastPass = null;
+let isWide = false;
+let standalone = false;
+
+const all = () => BASE.concat(state.generated, state.custom);
+const persist = () => store.save(state);
+
+function matches(q, v) {
+  if (v === "mixed") return true;
+  if (v === "music") return q.topic === "music";
+  return q.vibe === v;
+}
+
+const VIBES = [["playful", "Playful"], ["deep", "Deep"], ["music", "Music"], ["mixed", "Mixed"]];
+
+function vibeLabel(v) {
+  const hit = VIBES.filter(o => o[0] === v)[0];
+  return hit ? hit[1] : v;
+}
+
+function poolTotal() {
+  return all().filter(q => matches(q, state.vibe) && state.retired.indexOf(q.id) === -1).length;
+}
+
+function pool(excludeId) {
+  return all().filter(q =>
+    matches(q, state.vibe) &&
+    state.used.indexOf(q.id) === -1 &&
+    state.retired.indexOf(q.id) === -1 &&
+    q.id !== excludeId
+  );
+}
+
+function draw(excludeId) {
+  const p = pool(excludeId);
+  if (!p.length) { current = null; render(); return; }
+  current = p[Math.floor(Math.random() * p.length)];
+  if (state.used.indexOf(current.id) === -1) state.used.push(current.id);
+  history = history.slice(0, historyIndex + 1);
+  history.push(current);
+  historyIndex = history.length - 1;
+  persist();
+  render();
+}
+
+/* ---------------- reduced motion / view transitions ---------------- */
+function reduceMotion() {
+  try { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; }
+}
+
+function withTransition(fn) {
+  if (!document.startViewTransition || reduceMotion()) { fn(); return; }
+  document.startViewTransition(() => fn());
+}
+
+function buzz(pattern) {
+  try { if (navigator.vibrate) navigator.vibrate(pattern); } catch (e) {}
+}
+
+/* ---------------- actions ---------------- */
+function setVibe(v) {
+  lastPass = null;
+  state.vibe = v;
+  history = []; historyIndex = -1;
+  if (!current || !matches(current, v)) draw(null);
+  else { persist(); render(); }
+}
+
+function next() {
+  lastPass = null;
+  note = "";
+  if (historyIndex < history.length - 1) {
+    historyIndex++;
+    current = history[historyIndex];
+    render();
+    return;
+  }
+  draw(current ? current.id : null);
+}
+
+function back() {
+  lastPass = null;
+  if (historyIndex <= 0) { render(); return; }
+  historyIndex--;
+  current = history[historyIndex];
+  render();
+}
+
+function pass() {
+  if (!current) return;
+  const passedQuestion = current;
+  const wasSaved = state.saved.find(s => s.id === passedQuestion.id) || null;
+  state.retired.push(passedQuestion.id);
+  state.saved = state.saved.filter(s => s.id !== passedQuestion.id);
+  lastPass = { question: passedQuestion, wasSaved };
+  note = "Passed. That one is out of the deck for good.";
+  draw(passedQuestion.id);
+}
+
+function undoPass() {
+  if (!lastPass) return;
+  const question = lastPass.question, wasSaved = lastPass.wasSaved;
+  state.retired = state.retired.filter(id => id !== question.id);
+  if (wasSaved) state.saved.push(wasSaved);
+  current = question;
+  history = history.slice(0, historyIndex + 1);
+  history.push(current);
+  historyIndex = history.length - 1;
+  if (state.used.indexOf(current.id) === -1) state.used.push(current.id);
+  lastPass = null;
+  note = "Question restored.";
+  persist(); render();
+}
+
+function toggleSave() {
+  if (!current) return;
+  lastPass = null;
+  const on = state.saved.some(s => s.id === current.id);
+  if (on) {
+    state.saved = state.saved.filter(s => s.id !== current.id);
+    note = "Removed from saved.";
+  } else {
+    state.saved.push({ id: current.id, text: current.text, vibe: current.vibe });
+    note = CAN_GENERATE ? "Saved. New questions will lean this direction." : "Saved.";
+  }
+  persist(); render();
+}
+
+function removeSaved(id) {
+  state.saved = state.saved.filter(s => s.id !== id);
+  persist(); render();
+}
+
+function viewSaved(id) {
+  const s = state.saved.find(x => x.id === id);
+  if (!s) return;
+  lastPass = null;
+  current = all().find(x => x.id === id) || { id: s.id, text: s.text, vibe: s.vibe, topic: null };
+  history = history.slice(0, historyIndex + 1);
+  history.push(current);
+  historyIndex = history.length - 1;
+  if (state.used.indexOf(current.id) === -1) state.used.push(current.id);
+  note = "";
+  if (!isWide) view = "deck";
+  persist(); render();
+}
+
+function reshuffle() {
+  lastPass = null;
+  state.used = [];
+  history = []; historyIndex = -1;
+  note = "Deck reshuffled. Everything you didn't pass is back in play.";
+  draw(null);
+}
+
+/* ---------- worker call helper ---------- */
+async function callWorker(route, body) {
+  const resp = await fetch(WORKER_URL + route, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body)
+  });
+  if (!resp.ok) {
+    const err = await resp.json().catch(() => ({}));
+    throw new Error(err.error || "Worker error " + resp.status);
+  }
+  return resp.json();
+}
+
+function buildBatchPrompt(vibeLine, taste, recent) {
+  return [
+    "You write open ended questions for a married couple doing a Gottman informed check in. They take turns asking each other one question at a time.",
+    "The couple are college-educated millennials into 90s and current R&B and 2010s+ hip hop -- keep references and tone natural to that world when relevant, never forced.",
+    "", "Generate 8 new questions.", "Vibe: " + vibeLine, "", "Rules:",
+    "- Open ended. Never answerable with yes or no.",
+    "- One sentence, addressed to the partner as you.",
+    "- Specific and vivid, not generic self help phrasing.",
+    "- No therapy jargon, no clinical language, no em dashes.",
+    "- Fun ones should be genuinely funny, not cute.",
+    taste.length ? "\nThe couple saved these as favorites. Match this taste:\n" + taste.map(t => "- " + t).join("\n") : "",
+    recent.length ? "\nDo not repeat or closely mirror these:\n" + recent.map(t => "- " + t).join("\n") : "",
+    "", 'Return only a JSON array: [{"text": "...", "vibe": "playful"}]',
+    'vibe must be either "playful" or "deep".'
+  ].join("\n");
+}
+
+async function generate() {
+  lastPass = null;
+  busy = true; note = ""; render();
+  const taste = state.saved.slice(-10).map(s => s.text);
+  const recent = state.used.map(id => all().find(q => q.id === id)).filter(Boolean).slice(-25).map(q => q.text);
+  const vibeLine = state.vibe === "playful"
+    ? "Light, funny, curious. Nothing heavy."
+    : state.vibe === "deep"
+      ? "Reflective and revealing, the kind that opens a long conversation."
+      : state.vibe === "music"
+        ? "Every question must be about music. Songs, albums, concerts, artists, what music does to them, what it meant at different points in their life. Mix light ones with a few that go deep."
+        : "Half light and funny, half reflective and revealing.";
+
+  try {
+    let parsed;
+    if (WORKER_URL) {
+      const data = await callWorker("/batch", { prompt: buildBatchPrompt(vibeLine, taste, recent) });
+      parsed = data.questions;
+    } else {
+      const prompt = buildBatchPrompt(vibeLine, taste, recent);
+      const text = await window.claude.complete({ messages: [{ role: "user", content: prompt }], max_tokens: 1200 });
+      const clean = text.replace(/```json|```/g, "").trim();
+      parsed = JSON.parse(clean);
+    }
+    const stamp = Date.now();
+    const fresh = parsed.filter(q => q && typeof q.text === "string").map((q, i) => ({
+      id: "g" + stamp + "-" + i,
+      text: q.text.trim(),
+      vibe: q.vibe === "deep" ? "deep" : "playful",
+      topic: state.vibe === "music" ? "music" : null,
+      fresh: true
+    }));
+    if (!fresh.length) throw new Error("empty");
+    state.generated = state.generated.concat(fresh);
+    const match = fresh.filter(q => matches(q, state.vibe));
+    current = (match.length ? match : fresh)[0];
+    state.used.push(current.id);
+    note = "Added " + fresh.length + " fresh questions to the deck.";
+    persist();
+  } catch (e) {
+    note = "Couldn't reach the question writer. Check your connection and try again.";
+  }
+  busy = false; render();
+}
+
+/* ---------- add / seed panel state ---------- */
+let addPanelOpen = false;
+let addPanelMode = "manual"; // "manual" | "seed"
+let addEditId = null;        // id of custom question being edited, or null
+let seedPending = null;      // [{text, vibe}] during variant selection, or null
+let addBusy = false;
+
+function toggleAddPanel() {
+  addPanelOpen = !addPanelOpen;
+  if (!addPanelOpen) { addEditId = null; seedPending = null; addBusy = false; }
+  render();
+}
+
+function openEditCustom(id) {
+  addEditId = id;
+  addPanelMode = "manual";
+  seedPending = null;
+  addPanelOpen = true;
+  render();
+  const ta = el("addTextarea");
+  if (ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }
+}
+
+function deleteCustom(id) {
+  state.custom = state.custom.filter(q => q.id !== id);
+  state.saved   = state.saved.filter(s => s.id !== id);
+  state.used    = state.used.filter(u => u !== id);
+  state.retired = state.retired.filter(r => r !== id);
+  history = history.filter(h => h.id !== id);
+  historyIndex  = Math.min(historyIndex, history.length - 1);
+  if (current && current.id === id) { current = null; draw(null); return; }
+  persist(); render();
+}
+
+function commitCustom(text, vibe, music, seed) {
+  const trimmed = text.trim();
+  const errEl = el("addError");
+  if (!trimmed) { if (errEl) errEl.textContent = "Question can't be blank."; return; }
+  if (trimmed.length > 240) { if (errEl) errEl.textContent = "Keep it under 240 characters."; return; }
+  const lower = trimmed.toLowerCase();
+  const dupe = all().some(q => q.id !== addEditId && q.text.toLowerCase() === lower);
+  if (dupe) { if (errEl) errEl.textContent = "That question is already in the deck."; return; }
+
+  if (addEditId) {
+    const idx = state.custom.findIndex(q => q.id === addEditId);
+    if (idx !== -1) {
+      state.custom[idx].text  = trimmed;
+      state.custom[idx].vibe  = vibe;
+      state.custom[idx].topic = music ? "music" : null;
+      if (seed) state.custom[idx].seed = seed;
+    }
+    // keep saved copy in sync
+    const si = state.saved.findIndex(s => s.id === addEditId);
+    if (si !== -1) state.saved[si].text = trimmed;
+  } else {
+    const q = { id: "c" + Date.now(), text: trimmed, vibe, topic: music ? "music" : null, createdAt: Date.now() };
+    if (seed) q.seed = seed;
+    state.custom.push(q);
+  }
+
+  seedPending = null;
+  addEditId = null;
+  addPanelOpen = false;
+  note = addEditId ? "Question updated." : "Question added to the deck.";
+  persist(); render();
+}
+
+async function runSeed() {
+  const ta = el("addTextarea");
+  if (!ta) return;
+  const seedText = ta.value.trim();
+  const errEl = el("addError");
+  if (!seedText) { if (errEl) errEl.textContent = "Enter a rough idea first."; return; }
+
+  const vibeEl = el("addVibeSeed");
+  const seedVibe = vibeEl ? vibeEl.value : "playful";
+  const musicEl = document.getElementById("addMusicSeed");
+  const seedMusic = musicEl ? musicEl.checked : false;
+
+  addBusy = true;
+  if (errEl) errEl.textContent = "";
+  renderAddPanel();
+
+  const vibeLine = seedVibe === "playful" ? "Light, funny, curious. Nothing heavy."
+    : "Reflective and revealing, the kind that opens a long conversation.";
+  const prompt = [
+    "You write open ended questions for a married couple doing a Gottman informed check in.",
+    "The couple are college-educated millennials into 90s and current R&B and 2010s+ hip hop.",
+    "Rough idea from the user: " + seedText,
+    "Vibe: " + vibeLine,
+    seedMusic ? "Every variant must be about music." : "",
+    "", "Write exactly 3 genuinely distinct open-ended questions based on this idea.",
+    "Each should feel like a different angle, not three rewordings.",
+    "Rules: open ended, one sentence, addressed to the partner as you, specific and vivid,",
+    "no therapy jargon, no em dashes, no clinical language.",
+    "", 'Return only a JSON array: [{"text": "...", "vibe": "playful"}, ...]',
+    'vibe must be "playful" or "deep".'
+  ].filter(Boolean).join("\n");
+
+  try {
+    let variants;
+    if (WORKER_URL) {
+      const data = await callWorker("/seed", { prompt });
+      variants = data.variants;
+    } else if (window.claude && typeof window.claude.complete === "function") {
+      const raw = await window.claude.complete({ messages: [{ role: "user", content: prompt }], max_tokens: 600 });
+      variants = JSON.parse(raw.replace(/```json|```/g, "").trim());
+    } else {
+      throw new Error("no_ai");
+    }
+    if (!Array.isArray(variants) || !variants.length) throw new Error("empty");
+    seedPending = variants.slice(0, 3).map(v => ({
+      text: String(v.text || "").trim(),
+      vibe: v.vibe === "deep" ? "deep" : "playful"
+    })).filter(v => v.text);
+    if (!seedPending.length) throw new Error("empty");
+    addBusy = false;
+    renderAddPanel();
+  } catch (e) {
+    addBusy = false;
+    seedPending = null;
+    renderAddPanel();
+    const eEl = el("addError");
+    if (eEl) eEl.textContent = e.message === "no_ai"
+      ? "Set WORKER_URL to enable AI seeding."
+      : "Couldn't reach the question writer. Your idea is still there.";
+  }
+}
+
+function pickVariant(idx) {
+  if (!seedPending || !seedPending[idx]) return;
+  const v = seedPending[idx];
+  // stash seed text before clearing
+  const ta = el("addTextarea"); // may be gone after render; grab now
+  const seedText = ta ? ta.value.trim() : "";
+  seedPending = null;
+  addBusy = false;
+  addPanelMode = "manual"; // switch to manual so user can confirm / edit
+  renderAddPanel();
+  // pre-fill textarea and vibe
+  const newTa = el("addTextarea");
+  if (newTa) newTa.value = v.text;
+  const vibeM = el("addVibeManual");
+  if (vibeM) vibeM.value = v.vibe;
+  // stash seed for commit
+  el("addPanelHost").dataset.seed = seedText;
+}
+
+function renderAddPanel() {
+  const host = el("addPanelHost");
+  if (!addPanelOpen) { host.innerHTML = ""; host.dataset.seed = ""; return; }
+
+  const existingQ = addEditId ? state.custom.find(q => q.id === addEditId) : null;
+  const CAN_SEED = !!(WORKER_URL || (window.claude && typeof window.claude.complete === "function"));
+
+  if (seedPending) {
+    // show 3 variant cards
+    host.innerHTML = '<div class="add-panel"><p class="eyebrow" style="margin:0 0 4px;">Pick one</p>' +
+      '<div class="variants">' +
+      seedPending.map((v, i) =>
+        '<div class="variant-card" id="variant' + i + '">' +
+        '<p>' + esc(v.text) + '</p>' +
+        '<div style="display:flex;gap:8px;">' +
+        '<button class="btn btn-primary" style="font-size:12px;padding:6px 12px;min-height:0;" id="pickBtn' + i + '">Use this one</button>' +
+        '<span class="tag tag-outline" style="font-size:10px;">' + v.vibe + '</span>' +
+        '</div></div>'
+      ).join("") +
+      '</div>' +
+      '<button class="btn btn-ghost" id="cancelVariantsBtn">Start over</button>' +
+      '<p class="panel-error" id="addError"></p>' +
+      '</div>';
+    seedPending.forEach((_, i) => {
+      el("pickBtn" + i).onclick = () => pickVariant(i);
+    });
+    el("cancelVariantsBtn").onclick = () => { seedPending = null; renderAddPanel(); };
+    return;
+  }
+
+  const modeToggle = CAN_SEED
+    ? '<div class="panel-mode-toggle">' +
+        '<label><input type="radio" name="addMode" value="manual"' + (addPanelMode === "manual" ? " checked" : "") + ' id="modeManual" /> Write it myself</label>' +
+        '<label><input type="radio" name="addMode" value="seed"' + (addPanelMode === "seed" ? " checked" : "") + ' id="modeSeed" /> Rough idea</label>' +
+      '</div>'
+    : '';
+
+  if (addPanelMode === "seed") {
+    host.innerHTML = '<div class="add-panel">' + modeToggle +
+      '<textarea id="addTextarea" placeholder="Rough idea or topic — AI will turn it into 3 question options"' + (addBusy ? " disabled" : "") + '></textarea>' +
+      '<div class="add-panel-row">' +
+      '<select id="addVibeSeed" class="btn btn-secondary" style="padding:8px 10px;min-height:0;font-size:12px;cursor:pointer;flex:none;">' +
+      '<option value="playful">Playful</option><option value="deep">Deep</option></select>' +
+      '<label class="music-check"><input type="checkbox" id="addMusicSeed" /> Music</label>' +
+      '</div>' +
+      '<div class="add-panel-actions">' +
+      '<button class="btn btn-primary" id="seedBtn"' + (addBusy ? " disabled" : "") + '>' + (addBusy ? "Writing…" : "Shape it") + '</button>' +
+      '<button class="btn btn-secondary" id="cancelAddBtn">Cancel</button>' +
+      '</div>' +
+      '<p class="panel-error" id="addError"></p>' +
+      '</div>';
+    document.querySelectorAll('input[name="addMode"]').forEach(r => {
+      r.onchange = () => { addPanelMode = r.value; renderAddPanel(); };
+    });
+    el("seedBtn").onclick = runSeed;
+    el("cancelAddBtn").onclick = toggleAddPanel;
+    return;
+  }
+
+  // manual mode
+  const initText = existingQ ? existingQ.text : (host.dataset.seed ? "" : ""); // seed-picked text pre-filled via direct DOM earlier
+  const initVibe = existingQ ? existingQ.vibe : "playful";
+  const initMusic = existingQ ? (existingQ.topic === "music") : false;
+
+  host.innerHTML = '<div class="add-panel">' + modeToggle +
+    '<textarea id="addTextarea" maxlength="240" placeholder="Write your question here">' + esc(initText) + '</textarea>' +
+    '<div class="add-panel-row">' +
+    '<select id="addVibeManual" class="btn btn-secondary" style="padding:8px 10px;min-height:0;font-size:12px;cursor:pointer;flex:none;">' +
+    '<option value="playful"' + (initVibe === "playful" ? " selected" : "") + '>Playful</option>' +
+    '<option value="deep"' + (initVibe === "deep" ? " selected" : "") + '>Deep</option></select>' +
+    '<label class="music-check"><input type="checkbox" id="addMusicManual"' + (initMusic ? " checked" : "") + ' /> Music</label>' +
+    '</div>' +
+    '<div class="add-panel-actions">' +
+    '<button class="btn btn-primary" id="confirmAddBtn">' + (existingQ ? "Save changes" : "Add to deck") + '</button>' +
+    '<button class="btn btn-secondary" id="cancelAddBtn">Cancel</button>' +
+    '</div>' +
+    '<p class="panel-error" id="addError"></p>' +
+    '</div>';
+
+  if (CAN_SEED) {
+    document.querySelectorAll('input[name="addMode"]').forEach(r => {
+      r.onchange = () => { addPanelMode = r.value; renderAddPanel(); };
+    });
+  }
+
+  el("confirmAddBtn").onclick = () => {
+    const ta = el("addTextarea");
+    const vibeEl = el("addVibeManual");
+    const musicEl = el("addMusicManual");
+    const seed = host.dataset.seed || undefined;
+    commitCustom(ta ? ta.value : "", vibeEl ? vibeEl.value : "playful", musicEl ? musicEl.checked : false, seed);
+  };
+  el("cancelAddBtn").onclick = toggleAddPanel;
+
+  // auto-focus on open if empty (not edit)
+  if (!existingQ && !host.dataset.seed) {
+    const ta = el("addTextarea");
+    if (ta) ta.focus();
+  }
+}
+
+function renderMyQuestions() {
+  const host = el("myQHost");
+  if (!host) return;
+  if (!state.custom.length) { host.innerHTML = ""; return; }
+
+  const EDIT_ICON = '<svg width="12" height="12" viewBox="0 0 256 256" fill="currentColor"><path d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z"/></svg>';
+  const DEL_ICON = X_ICON;
+
+  host.innerHTML = '<div class="my-q-section">' +
+    '<div class="my-q-header"><span class="eyebrow">My questions (' + state.custom.length + ')</span></div>' +
+    '<div class="my-q-list">' +
+    state.custom.map(q =>
+      '<div class="my-q-item"><div style="flex:1;min-width:0;">' +
+      '<p class="my-q-text">' + esc(q.text) + '</p>' +
+      '<span class="my-q-tag">' + q.vibe + (q.topic === "music" ? " · music" : "") + '</span>' +
+      '</div><div class="my-q-btns">' +
+      '<button class="btn btn-icon" data-edit="' + q.id + '" aria-label="Edit">' + EDIT_ICON + '</button>' +
+      '<button class="btn btn-icon" data-del="' + q.id + '" aria-label="Delete">' + DEL_ICON + '</button>' +
+      '</div></div>'
+    ).join("") +
+    '</div></div>';
+
+  host.querySelectorAll("[data-edit]").forEach(b => {
+    b.onclick = () => openEditCustom(b.getAttribute("data-edit"));
+  });
+  host.querySelectorAll("[data-del]").forEach(b => {
+    b.onclick = () => deleteCustom(b.getAttribute("data-del"));
+  });
+}
+
+/* ---------------- swipe gesture ---------------- */
+let drag = null;
+let dragRaf = null;
+
+function paintSwipe(d, dx, animate) {
+  const t = Math.max(-1, Math.min(1, dx / 120));
+  d.card.style.transition = animate ? "transform 260ms cubic-bezier(0.2,0.8,0.25,1)" : "none";
+  d.card.style.transform = "translateX(" + dx + "px) rotate(" + (t * 5).toFixed(2) + "deg)";
+  if (d.passEl) d.passEl.style.opacity = String(Math.max(0, -t));
+  if (d.saveEl) d.saveEl.style.opacity = String(Math.max(0, t));
+}
+
+function flingOut(d, dir, then) {
+  d.card.style.transition = "transform 220ms ease-in, opacity 220ms ease-in";
+  d.card.style.transform = "translateX(" + (dir * 520) + "px) rotate(" + (dir * 14) + "deg)";
+  d.card.style.opacity = "0";
+  setTimeout(then, 200);
+}
+
+function onCardPointerDown(e) {
+  if (e.target.closest && e.target.closest("button")) return;
+  const card = e.currentTarget;
+  drag = {
+    id: e.pointerId, x: e.clientX, y: e.clientY, active: false, buzzed: 0, pending: 0,
+    card, passEl: card.querySelector(".qd-pass"), saveEl: card.querySelector(".qd-save")
+  };
+  if (card.setPointerCapture) { try { card.setPointerCapture(e.pointerId); } catch (err) {} }
+}
+
+function onCardPointerMove(e) {
+  if (!drag || drag.id !== e.pointerId) return;
+  const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+  if (!drag.active) {
+    if (Math.abs(dx) < 8 || Math.abs(dx) < Math.abs(dy)) return;
+    drag.active = true;
+  }
+  const past = Math.abs(dx) > 100 ? Math.sign(dx) : 0;
+  if (past && past !== drag.buzzed) { buzz(8); drag.buzzed = past; }
+  if (!past) drag.buzzed = 0;
+  drag.pending = dx;
+  if (dragRaf == null) {
+    dragRaf = requestAnimationFrame(() => {
+      dragRaf = null;
+      if (drag) paintSwipe(drag, drag.pending, false);
+    });
+  }
+}
+
+function onCardPointerUp(e) {
+  if (!drag || drag.id !== e.pointerId) return;
+  const d = drag; drag = null;
+  if (dragRaf != null) { cancelAnimationFrame(dragRaf); dragRaf = null; }
+  if (!d.active) { paintSwipe(d, 0, true); return; }
+  const dx = e.clientX - d.x;
+  if (dx < -100) {
+    buzz([12, 40, 12]);
+    flingOut(d, -1, () => back());
+  } else if (dx > 100) {
+    buzz(18);
+    flingOut(d, 1, () => next());
+  } else {
+    paintSwipe(d, 0, true);
+  }
+}
+
+/* ---------------- render ---------------- */
+const el = id => document.getElementById(id);
+const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+function renderVibes() {
+  el("vibes").innerHTML = VIBES.map(o =>
+    '<label class="seg-opt">' +
+      '<input type="radio" name="qd-vibe" data-v="' + o[0] + '"' + (state.vibe === o[0] ? " checked" : "") + ' />' +
+      SEG_ICONS[o[0]] + o[1] +
+    '</label>'
+  ).join("");
+  Array.prototype.forEach.call(el("vibes").querySelectorAll("input"), inp => {
+    inp.onchange = () => withTransition(() => setVibe(inp.getAttribute("data-v")));
+  });
+}
+
+function renderCard() {
+  const host = el("cardHost");
+  if (!current) {
+    host.innerHTML =
+      '<div class="empty"><p>You’ve been through every question in this vibe.</p>' +
+      '<div class="btnrow">' +
+      '<button class="btn btn-secondary" id="emptyShuffle">Reshuffle</button>' +
+      (CAN_GENERATE ? '<button class="btn btn-secondary" id="emptyGen">Write new ones</button>' : '') +
+      '</div></div>';
+    el("emptyShuffle").onclick = () => withTransition(reshuffle);
+    if (CAN_GENERATE) el("emptyGen").onclick = generate;
+    return;
+  }
+  const on = state.saved.some(s => s.id === current.id);
+  const tagIcon = state.vibe === "music" ? ICONS.music : current.vibe === "deep" ? ICONS.deep : ICONS.playful;
+  const tagLabel = state.vibe === "music" ? "All about music" : current.vibe === "deep" ? "Goes deep" : "Keeps it light";
+  const left = pool(null).length + 1;
+  host.innerHTML =
+    '<div class="stack"><div class="qd-glow"></div><div class="ghost g1"></div><div class="ghost g2"></div>' +
+    '<div class="qd-card" id="qdCard">' +
+    '<div class="qd-verdict qd-back">Back</div><div class="qd-verdict qd-next">Next</div>' +
+    '<div class="card-top">' +
+    '<span class="tag tag-outline">' + tagIcon + tagLabel + '</span>' +
+    '<button class="star-btn" id="starBtn" aria-label="Save this question">' + (on ? STAR_ON : STAR_OFF) + '</button>' +
+    '</div><p class="qd-q">' + esc(current.text) + '</p>' +
+    '<div><div class="hr"></div><div class="qd-meta"><span>' +
+    (current.fresh ? "Freshly written" : "From the deck") + '</span><span>' + left + ' left</span></div></div>' +
+    '</div></div>';
+  el("starBtn").onclick = toggleSave;
+  const card = el("qdCard");
+  card.onpointerdown = onCardPointerDown;
+  card.onpointermove = onCardPointerMove;
+  card.onpointerup = onCardPointerUp;
+  card.onpointercancel = onCardPointerUp;
+}
+
+function renderSaved() {
+  const host = el("savedHost");
+  if (!state.saved.length) {
+    host.innerHTML = '<div class="empty small"><p>Nothing saved yet.</p><span class="eyebrow" style="text-transform:none; letter-spacing:normal; font-size:12px;">' +
+      (CAN_GENERATE ? "Star the ones that land. New questions get written in their image." : "Star the ones that land so you can come back to them.") +
+      '</span></div>';
+    return;
+  }
+  host.innerHTML = '<div class="saved-list">' + state.saved.map(s =>
+    '<div class="saveditem" data-saved-id="' + s.id + '"><p class="savedtext" tabindex="0" role="button">' + esc(s.text) +
+    '</p><button class="btn btn-icon" data-id="' + s.id + '" aria-label="Remove">' + X_ICON + '</button></div>'
+  ).join("") + '</div>';
+  Array.prototype.forEach.call(host.querySelectorAll("[data-id]"), b => {
+    b.onclick = () => removeSaved(b.getAttribute("data-id"));
+  });
+  Array.prototype.forEach.call(host.querySelectorAll(".savedtext"), p => {
+    const open = () => withTransition(() => viewSaved(p.closest(".saveditem").getAttribute("data-saved-id")));
+    p.onclick = open;
+    p.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.stopPropagation(); open(); } };
+  });
+}
+
+function render() {
+  const deckVisible = isWide || view === "deck";
+  const savedVisible = isWide || view === "saved";
+
+  el("deckCol").classList.toggle("hidden", !deckVisible);
+  el("savedCol").classList.toggle("hidden", !savedVisible);
+  el("toggleView").classList.toggle("hidden", isWide);
+  el("backBtn").classList.toggle("hidden", isWide);
+  el("setupRow").classList.toggle("hidden", standalone);
+
+  if (deckVisible) {
+    el("toggleView").textContent = "Saved (" + state.saved.length + ")";
+    renderVibes();
+    renderCard();
+    el("nextBtn").disabled = !current;
+    el("passBtn").disabled = !current;
+    el("genBtn").classList.toggle("hidden", !CAN_GENERATE);
+    el("secondaryRow").classList.toggle("cols-2", CAN_GENERATE);
+    el("secondaryRow").classList.toggle("cols-1", !CAN_GENERATE);
+    el("genBtn").disabled = busy;
+    el("genLabel").textContent = busy ? "Writing…" : "Write new ones";
+    el("addToggleBtn").textContent = addPanelOpen ? "✕ Close" : "+ Add a question";
+    if (lastPass) {
+      el("note").innerHTML = esc(note) + ' <button type="button" class="btn btn-ghost" id="undoPassBtn" style="padding:2px 6px;">Undo</button>';
+      el("undoPassBtn").onclick = () => withTransition(undoPass);
+    } else {
+      el("note").textContent = note;
+    }
+    el("counter").textContent = (pool(null).length + (current ? 1 : 0)) +
+      " of " + poolTotal() + " left in " + vibeLabel(state.vibe);
+    renderAddPanel();
+  }
+  if (savedVisible) { renderSaved(); renderMyQuestions(); }
+}
+
+/* ---------------- wire up ---------------- */
+el("nextBtn").onclick = () => { buzz(8); withTransition(next); };
+el("passBtn").onclick = () => { buzz(8); withTransition(pass); };
+el("genBtn").onclick = generate;
+el("reshuffleBtn").onclick = () => withTransition(reshuffle);
+el("addToggleBtn").onclick = toggleAddPanel;
+el("toggleView").onclick = () => { view = "saved"; render(); };
+el("backBtn").onclick = () => { view = "deck"; render(); };
+
+document.addEventListener("keydown", e => {
+  if (e.target && (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")) return;
+  if (!isWide && view !== "deck") return;
+  if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); buzz(8); withTransition(next); }
+  if (e.key === "ArrowLeft") { e.preventDefault(); buzz(8); withTransition(back); }
+  if (e.key === "s") toggleSave();
+});
+
+const mq = window.matchMedia("(min-width: 860px)");
+const applyWide = () => { isWide = mq.matches; render(); };
+mq.addEventListener ? mq.addEventListener("change", applyWide) : mq.addListener(applyWide);
+
+try {
+  standalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+} catch (e) {}
+
+(async function init() {
+  const saved = await store.load();
+  if (saved) state = Object.assign(state, saved);
+  if (!Array.isArray(state.custom)) state.custom = [];
+  isWide = mq.matches;
+  draw(null);
+})();
+</script>
+</body>
+</html>
