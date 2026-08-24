@@ -51,7 +51,31 @@ Redesign shipped 2026-08-10, replacing the original honey/paper palette. A secon
 
 ## Known constraints
 
-The "Write new ones" button only appears inside a runtime that exposes `window.claude.complete` (the Claude artifact preview). On the hosted version it hides itself and the deck runs on its 155 questions. Making generation work here would need a small backend holding a key, and per the design handoff, an API key should never ship to the client.
+The "Write new ones" button only appears inside a runtime that exposes `window.claude.complete` (the Claude artifact preview). On the hosted version it hides itself and the deck runs on its 155 questions. Making generation work here would need a small backend holding a key, and per the design handoff, an API key should never ship to the client. V2 solves this with a Cloudflare Worker proxy — see below.
+
+## V2
+
+**Live:** https://sdiasuez11.github.io/question-deck/v2.html
+
+`v2.html` sits alongside `index.html` in the same repo. The original is never modified — both run independently, each keeping its own `localStorage` state (V2 uses key `question-deck-v2`, V1 uses `question-deck-nocturne-v1`).
+
+### What's new in V2
+
+- **Add your own questions** — expanding panel with a textarea, vibe selector (Playful / Deep), and a music toggle. Questions you add appear in a My Questions list in the saved column with edit and delete.
+- **AI seed flow** — type a rough topic or idea, get back three genuinely distinct open-ended variants, pick one. The two you don't pick are discarded. The picked question enters the deck as a custom question and stores its seed for reference. Requires the Cloudflare Worker deployed (see `worker/README.md`).
+- **"Write new ones" works on the hosted site** — the existing batch-of-8 generation is repointed to the Worker's `/batch` route once `WORKER_URL` is set.
+
+### Architecture delta
+
+```
+state  -> {vibe, generated[], used[], retired[], saved[], custom[]}
+all()   -> BASE.concat(state.generated, state.custom)
+pool()  filters all() — custom questions draw, save, and pass exactly like built-ins
+```
+
+### Enabling AI features
+
+`WORKER_URL` in `v2.html` is `""` by default, which hides the AI tabs — V2 is fully functional for manual add without the Worker. To enable: deploy `worker/` to Cloudflare, copy the Worker URL into `WORKER_URL`, and push. Full steps in `worker/README.md` and in the vault note `1_Projects/Question-Deck-V2-Worker-Deploy.md`.
 
 ## On a phone
 
@@ -66,8 +90,10 @@ The deck carries a discreet footer link to the setup page, and hides that link o
 | File | What it is |
 |---|---|
 | `index.html` | The app. Fonts and favicon inlined as data URIs |
+| `v2.html` | V2 of the app — manual add, AI seed flow, separate storage |
 | `setup.html` | Add to Home Screen walkthrough, four illustrated steps |
 | `*.woff2` | The same two faces as standalone files, so `setup.html` can use them without a second copy of the base64 |
+| `worker/` | Cloudflare Worker proxy for AI generation — holds the Anthropic API key server-side |
 
 ## Adding questions
 
