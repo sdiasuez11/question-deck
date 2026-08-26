@@ -1,6 +1,8 @@
 name = "question-deck-ai"
 main = "src/index.ts"
 compatibility_date = "2024-09-23"
+# Required: the Anthropic SDK statically imports node:fs and node:path in its credential chain
+compatibility_flags = ["nodejs_compat"]
 
 [vars]
 # Comma-separated list of origins allowed to call this Worker.
@@ -12,4 +14,4 @@ DAILY_CAP = "50"
 [[kv_namespaces]]
 binding = "RATE_LIMIT"
 # After `wrangler kv namespace create RATE_LIMIT`, paste the returned id here:
-id = "REPLACE_WITH_KV_NAMESPACE_ID"
+id = "49ffa752936b4c23acdd94400c1d8c1c"

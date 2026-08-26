@@ -576,7 +576,7 @@ const RAW = [
 
 const BASE = RAW.map((r, i) => ({ id: "b" + i, text: r[0], vibe: r[1], topic: r[2] || null }));
 const KEY = "question-deck-v2";
-const WORKER_URL = ""; // set to your deployed Worker URL, e.g. "https://question-deck-ai.yourname.workers.dev"
+const WORKER_URL = "https://question-deck-ai.qh7wfgwf2x.workers.dev"; // set to your deployed Worker URL, e.g. "https://question-deck-ai.yourname.workers.dev"
 const CAN_GENERATE = !!WORKER_URL || (typeof window !== "undefined" && typeof window.claude !== "undefined" && typeof window.claude.complete === "function");
 
 const ICONS = {
