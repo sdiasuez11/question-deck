@@ -50,8 +50,9 @@ async function checkDailyCap(env: Env): Promise<{ allowed: boolean; used: number
 async function callClaude(env: Env, prompt: string, maxTokens: number): Promise<string> {
   const client = new Anthropic({ apiKey: env.ANTHROPIC_API_KEY });
   const response = await client.messages.create({
-    model: "claude-opus-5",
+    model: "claude-sonnet-5",
     max_tokens: maxTokens,
+    system: "You are a JSON API. Return only valid JSON, no markdown, no commentary, no code fences.",
     messages: [{ role: "user", content: prompt }],
   });
   const block = response.content.find((b) => b.type === "text");
