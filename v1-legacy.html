@@ -83,7 +83,7 @@ body {
   font-family: var(--font-body);
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   padding: calc(env(safe-area-inset-top, 0px) + clamp(20px, 4vw, 56px)) 18px calc(env(safe-area-inset-bottom, 0px) + 40px);
   -webkit-font-smoothing: antialiased;
 }
@@ -115,7 +115,7 @@ h4 { font-family: var(--font-heading); font-weight: 500; font-size: 17px; margin
 .btn-primary { border-color: var(--color-accent); color: var(--color-text); }
 .btn-primary:hover { background: color-mix(in srgb, var(--color-accent) 16%, transparent); }
 .btn-secondary { border-color: var(--color-neutral-700); }
-.btn-ghost { border: none; padding: 6px 4px; min-height: 44px; color: color-mix(in srgb, var(--color-text) 65%, transparent); font-size: 12px; }
+.btn-ghost { border: none; padding: 6px 4px; min-height: 0; color: color-mix(in srgb, var(--color-text) 65%, transparent); font-size: 12px; }
 .btn-ghost:hover { border: none; background: none; color: var(--color-accent); }
 .btn-icon { padding: 6px; min-height: 44px; min-width: 44px; border: none; color: color-mix(in srgb, var(--color-text) 55%, transparent); }
 .btn-icon:hover { border: none; background: none; color: var(--color-accent); }
@@ -182,7 +182,7 @@ h4 { font-family: var(--font-heading); font-weight: 500; font-size: 17px; margin
 
 .card-top { display: flex; align-items: center; justify-content: space-between; }
 .tag { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
-.tag-outline { padding: 6px 10px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--color-text) 42%, transparent); color: color-mix(in srgb, var(--color-text) 80%, transparent); }
+.tag-outline { padding: 6px 10px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--color-text) 35%, transparent); color: color-mix(in srgb, var(--color-text) 80%, transparent); }
 .star-btn { background: none; border: none; cursor: pointer; padding: 2px; color: color-mix(in srgb, var(--color-text) 45%, transparent); }
 .star-btn:hover { color: var(--color-accent); }
 
@@ -230,58 +230,6 @@ button:focus-visible, a:focus-visible, [role="button"]:focus-visible { outline: 
 .setuplink:hover { color: var(--color-accent); border-color: var(--color-accent); }
 @media (display-mode: standalone) { .setuplink { display: none; } }
 
-/* ------------ add panel ------------ */
-.add-panel {
-  background: var(--color-surface); border: 1px solid var(--color-divider);
-  border-radius: var(--radius-lg); padding: 18px 18px 14px; display: flex;
-  flex-direction: column; gap: 12px;
-}
-.add-panel textarea {
-  width: 100%; min-height: 72px; resize: vertical; background: transparent;
-  border: 1px solid var(--color-neutral-700); border-radius: var(--radius-lg);
-  padding: 10px 12px; font-family: var(--font-heading); font-size: 15px;
-  color: var(--color-text); outline: none; line-height: 1.4;
-}
-.add-panel textarea:focus { border-color: var(--color-accent); }
-.add-panel textarea::placeholder { color: color-mix(in srgb, var(--color-text) 38%, transparent); }
-.add-panel-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.add-panel-actions { display: flex; gap: 8px; }
-.panel-error { font-size: 12px; color: var(--color-warm); min-height: 16px; }
-.music-check { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-muted); cursor: pointer; }
-.music-check input { accent-color: var(--color-accent-2); width: 14px; height: 14px; }
-/* seed mode */
-.panel-mode-toggle { display: flex; gap: 0; }
-.panel-mode-toggle label {
-  flex: 1; text-align: center; cursor: pointer; padding: 6px 10px;
-  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em;
-  text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent);
-  background: var(--color-neutral-900); border: 1px solid var(--color-neutral-700);
-  transition: background 140ms, color 140ms;
-}
-.panel-mode-toggle label:first-of-type { border-radius: var(--radius-lg) 0 0 var(--radius-lg); }
-.panel-mode-toggle label:last-of-type  { border-radius: 0 var(--radius-lg) var(--radius-lg) 0; border-left: none; }
-.panel-mode-toggle input { position: absolute; opacity: 0; width: 0; height: 0; }
-.panel-mode-toggle label:has(input:checked) { color: var(--color-text); background: color-mix(in srgb, var(--color-accent) 12%, transparent); border-color: var(--color-accent); }
-/* variant cards */
-.variants { display: flex; flex-direction: column; gap: 10px; }
-.variant-card {
-  background: var(--color-neutral-900); border: 1px solid var(--color-neutral-700);
-  border-radius: var(--radius-lg); padding: 14px 14px 10px; cursor: pointer;
-  transition: border-color 140ms, background 140ms;
-}
-.variant-card:hover { border-color: var(--color-accent); background: color-mix(in srgb, var(--color-accent) 6%, transparent); }
-.variant-card p { font-family: var(--font-heading); font-size: 15px; line-height: 1.4; margin: 0 0 8px; }
-.variant-card .btn { font-size: 12px; padding: 6px 12px; min-height: 0; }
-/* my questions list in saved col */
-.my-q-section { display: flex; flex-direction: column; gap: 10px; }
-.my-q-header { display: flex; align-items: center; justify-content: space-between; }
-.my-q-list { display: flex; flex-direction: column; gap: 8px; }
-.my-q-item { background: var(--color-surface); box-shadow: var(--shadow-sm); border-radius: var(--radius-lg); padding: 10px 12px; display: flex; gap: 8px; align-items: flex-start; }
-.my-q-text { font-family: var(--font-heading); font-weight: 400; font-size: 13px; line-height: 1.4; margin: 0; flex: 1; color: color-mix(in srgb, var(--color-text) 88%, transparent); }
-.my-q-tag { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-muted); display: block; margin-top: 3px; }
-.my-q-btns { display: flex; gap: 2px; flex: none; }
-.my-q-btns .btn-icon { min-width: 28px; min-height: 28px; width: 28px; height: 28px; flex: none; }
-
 @media (prefers-reduced-motion: reduce) {
   .qd-card { animation: none; }
   * { transition: none !important; }
@@ -304,22 +252,18 @@ button:focus-visible, a:focus-visible, [role="button"]:focus-visible { outline: 
     <div style="display:flex; flex-direction:column; gap:9px;">
       <button class="btn btn-primary btn-block" id="nextBtn">
         Next question
-        <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></svg>
+        <svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></svg>
       </button>
       <div class="row2 cols-2" id="secondaryRow">
-        <button class="btn btn-secondary" id="addToggleBtn">
-          <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"/></svg>
-          <span id="addToggleLabel">+ Add a question</span>
+        <button class="btn btn-secondary" id="passBtn">
+          Pass this one
+          <svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96ZM192,208H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/></svg>
         </button>
         <button class="btn btn-secondary" id="genBtn">
-          <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M197.58,129.06,146,110l-19-51.62a15.92,15.92,0,0,0-29.88,0L78,110l-51.62,19a15.92,15.92,0,0,0,0,29.88L78,178l19,51.62a15.92,15.92,0,0,0,29.88,0L146,178l51.62-19a15.92,15.92,0,0,0,0-29.88ZM137,164.22a8,8,0,0,0-4.74,4.74L112,223.85,91.78,169A8,8,0,0,0,87,164.22L32.15,144,87,123.78A8,8,0,0,0,91.78,119L112,64.15,132.22,119a8,8,0,0,0,4.74,4.74L191.85,144ZM144,40a8,8,0,0,1,8-8h16V16a8,8,0,0,1,16,0V32h16a8,8,0,0,1,0,16H184V64a8,8,0,0,1-16,0V48H152A8,8,0,0,1,144,40ZM248,88a8,8,0,0,1-8,8h-8v8a8,8,0,0,1-16,0V96h-8a8,8,0,0,1,0-16h8V72a8,8,0,0,1,16,0v8h8A8,8,0,0,1,248,88Z"/></svg>
+          <svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M197.58,129.06,146,110l-19-51.62a15.92,15.92,0,0,0-29.88,0L78,110l-51.62,19a15.92,15.92,0,0,0,0,29.88L78,178l19,51.62a15.92,15.92,0,0,0,29.88,0L146,178l51.62-19a15.92,15.92,0,0,0,0-29.88ZM137,164.22a8,8,0,0,0-4.74,4.74L112,223.85,91.78,169A8,8,0,0,0,87,164.22L32.15,144,87,123.78A8,8,0,0,0,91.78,119L112,64.15,132.22,119a8,8,0,0,0,4.74,4.74L191.85,144ZM144,40a8,8,0,0,1,8-8h16V16a8,8,0,0,1,16,0V32h16a8,8,0,0,1,0,16H184V64a8,8,0,0,1-16,0V48H152A8,8,0,0,1,144,40ZM248,88a8,8,0,0,1-8,8h-8v8a8,8,0,0,1-16,0V96h-8a8,8,0,0,1,0-16h8V72a8,8,0,0,1,16,0v8h8A8,8,0,0,1,248,88Z"/></svg>
           <span id="genLabel">Write new ones</span>
         </button>
       </div>
-      <button class="btn btn-secondary btn-block" id="passBtn">
-        Pass this one
-        <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96ZM192,208H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/></svg>
-      </button>
     </div>
 
     <div class="note" id="note"></div>
@@ -328,8 +272,6 @@ button:focus-visible, a:focus-visible, [role="button"]:focus-visible { outline: 
       <span id="counter"></span>
       <button class="btn btn-ghost" id="reshuffleBtn">Reshuffle deck</button>
     </div>
-
-    <div id="addPanelHost"></div>
   </div>
 
   <div class="saved-col" id="savedCol">
@@ -338,7 +280,6 @@ button:focus-visible, a:focus-visible, [role="button"]:focus-visible { outline: 
       <button class="btn btn-ghost" id="backBtn">Back to deck</button>
     </div>
     <div id="savedHost"></div>
-    <div id="myQHost"></div>
   </div>
 
   <div class="setup-row" id="setupRow">
@@ -576,25 +517,24 @@ const RAW = [
 ];
 
 const BASE = RAW.map((r, i) => ({ id: "b" + i, text: r[0], vibe: r[1], topic: r[2] || null }));
-const KEY = "question-deck-v2";
-const WORKER_URL = "https://question-deck-ai.qh7wfgwf2x.workers.dev"; // set to your deployed Worker URL, e.g. "https://question-deck-ai.yourname.workers.dev"
-const CAN_GENERATE = !!WORKER_URL || (typeof window !== "undefined" && typeof window.claude !== "undefined" && typeof window.claude.complete === "function");
+const KEY = "question-deck-nocturne-v1";
+const CAN_GENERATE = typeof window !== "undefined" && typeof window.claude !== "undefined" && typeof window.claude.complete === "function";
 
 const ICONS = {
-  playful: '<svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 256 256" fill="currentColor"><path d="M48,64 h160 a16,16 0 0 1 16,16 v96 a16,16 0 0 1 -16,16 H112 l-40,36 v-36 H48 a16,16 0 0 1 -16,-16 V80 A16,16 0 0 1 48,64 Z"/></svg>',
-  mixed: '<svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 256 256" fill="currentColor"><rect x="40" y="40" width="120" height="120" rx="20" opacity="0.55"/><rect x="96" y="96" width="120" height="120" rx="20"/></svg>',
-  deep: '<svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-6.7-4.35-9.5-8.5C.5 9.42 2 6 5.5 6c2 0 3.5 1.5 4.5 3 1-1.5 2.5-3 4.5-3 3.5 0 5 3.42 3 6.5C18.7 16.65 12 21 12 21z"/></svg>',
-  music: '<svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 256 256" fill="currentColor"><ellipse cx="90" cy="188" rx="38" ry="30" transform="rotate(-18 90 188)"/><rect x="118" y="50" width="14" height="150" rx="6"/><path d="M132,50 C170,60 190,90 190,120 L176,120 C176,96 160,74 132,66 Z"/></svg>'
+  playful: '<svg width="12" height="12" viewBox="0 0 256 256" fill="currentColor"><path d="M48,64 h160 a16,16 0 0 1 16,16 v96 a16,16 0 0 1 -16,16 H112 l-40,36 v-36 H48 a16,16 0 0 1 -16,-16 V80 A16,16 0 0 1 48,64 Z"/></svg>',
+  mixed: '<svg width="12" height="12" viewBox="0 0 256 256" fill="currentColor"><rect x="40" y="40" width="120" height="120" rx="20" opacity="0.55"/><rect x="96" y="96" width="120" height="120" rx="20"/></svg>',
+  deep: '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-6.7-4.35-9.5-8.5C.5 9.42 2 6 5.5 6c2 0 3.5 1.5 4.5 3 1-1.5 2.5-3 4.5-3 3.5 0 5 3.42 3 6.5C18.7 16.65 12 21 12 21z"/></svg>',
+  music: '<svg width="12" height="12" viewBox="0 0 256 256" fill="currentColor"><ellipse cx="90" cy="188" rx="38" ry="30" transform="rotate(-18 90 188)"/><rect x="118" y="50" width="14" height="150" rx="6"/><path d="M132,50 C170,60 190,90 190,120 L176,120 C176,96 160,74 132,66 Z"/></svg>'
 };
 const SEG_ICONS = {
-  playful: '<svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M48,64 h160 a16,16 0 0 1 16,16 v96 a16,16 0 0 1 -16,16 H112 l-40,36 v-36 H48 a16,16 0 0 1 -16,-16 V80 A16,16 0 0 1 48,64 Z"/></svg>',
-  deep: '<svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-6.7-4.35-9.5-8.5C.5 9.42 2 6 5.5 6c2 0 3.5 1.5 4.5 3 1-1.5 2.5-3 4.5-3 3.5 0 5 3.42 3 6.5C18.7 16.65 12 21 12 21z"/></svg>',
-  music: '<svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><ellipse cx="90" cy="188" rx="38" ry="30" transform="rotate(-18 90 188)"/><rect x="118" y="50" width="14" height="150" rx="6"/><path d="M132,50 C170,60 190,90 190,120 L176,120 C176,96 160,74 132,66 Z"/></svg>',
-  mixed: '<svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><rect x="40" y="40" width="120" height="120" rx="20" opacity="0.55"/><rect x="96" y="96" width="120" height="120" rx="20"/></svg>'
+  playful: '<svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M48,64 h160 a16,16 0 0 1 16,16 v96 a16,16 0 0 1 -16,16 H112 l-40,36 v-36 H48 a16,16 0 0 1 -16,-16 V80 A16,16 0 0 1 48,64 Z"/></svg>',
+  deep: '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-6.7-4.35-9.5-8.5C.5 9.42 2 6 5.5 6c2 0 3.5 1.5 4.5 3 1-1.5 2.5-3 4.5-3 3.5 0 5 3.42 3 6.5C18.7 16.65 12 21 12 21z"/></svg>',
+  music: '<svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><ellipse cx="90" cy="188" rx="38" ry="30" transform="rotate(-18 90 188)"/><rect x="118" y="50" width="14" height="150" rx="6"/><path d="M132,50 C170,60 190,90 190,120 L176,120 C176,96 160,74 132,66 Z"/></svg>',
+  mixed: '<svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><rect x="40" y="40" width="120" height="120" rx="20" opacity="0.55"/><rect x="96" y="96" width="120" height="120" rx="20"/></svg>'
 };
-const STAR_ON = '<svg aria-hidden="true" focusable="false" width="36" height="36" viewBox="0 0 256 256" fill="var(--color-accent)"><polygon points="128,24 152.7,94.0 226.9,95.9 168.0,141.0 189.1,212.1 128,170 66.9,212.1 88.0,141.0 29.1,95.9 103.3,94.0"/></svg>';
-const STAR_OFF = '<svg aria-hidden="true" focusable="false" width="36" height="36" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="10" stroke-linejoin="round"><polygon points="128,24 152.7,94.0 226.9,95.9 168.0,141.0 189.1,212.1 128,170 66.9,212.1 88.0,141.0 29.1,95.9 103.3,94.0"/></svg>';
-const X_ICON = '<svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 256 256" fill="currentColor"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg>';
+const STAR_ON = '<svg width="36" height="36" viewBox="0 0 256 256" fill="var(--color-accent)"><polygon points="128,24 152.7,94.0 226.9,95.9 168.0,141.0 189.1,212.1 128,170 66.9,212.1 88.0,141.0 29.1,95.9 103.3,94.0"/></svg>';
+const STAR_OFF = '<svg width="36" height="36" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="10" stroke-linejoin="round"><polygon points="128,24 152.7,94.0 226.9,95.9 168.0,141.0 189.1,212.1 128,170 66.9,212.1 88.0,141.0 29.1,95.9 103.3,94.0"/></svg>';
+const X_ICON = '<svg width="12" height="12" viewBox="0 0 256 256" fill="currentColor"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg>';
 
 /* ---------------- storage ---------------- */
 const store = {
@@ -614,7 +554,7 @@ const store = {
 };
 
 /* ---------------- state ---------------- */
-let state = { vibe: "mixed", generated: [], used: [], retired: [], saved: [], custom: [] };
+let state = { vibe: "mixed", generated: [], used: [], retired: [], saved: [] };
 let current = null;
 let history = [];
 let historyIndex = -1;
@@ -625,7 +565,7 @@ let lastPass = null;
 let isWide = false;
 let standalone = false;
 
-const all = () => BASE.concat(state.generated, state.custom);
+const all = () => BASE.concat(state.generated);
 const persist = () => store.save(state);
 
 function matches(q, v) {
@@ -776,37 +716,6 @@ function reshuffle() {
   draw(null);
 }
 
-/* ---------- worker call helper ---------- */
-async function callWorker(route, body) {
-  const resp = await fetch(WORKER_URL + route, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body)
-  });
-  if (!resp.ok) {
-    const err = await resp.json().catch(() => ({}));
-    throw new Error(err.error || "Worker error " + resp.status);
-  }
-  return resp.json();
-}
-
-function buildBatchPrompt(vibeLine, taste, recent) {
-  return [
-    "You write open ended questions for a married couple doing a Gottman informed check in. They take turns asking each other one question at a time.",
-    "The couple are college-educated millennials into 90s and current R&B and 2010s+ hip hop -- keep references and tone natural to that world when relevant, never forced.",
-    "", "Generate 8 new questions.", "Vibe: " + vibeLine, "", "Rules:",
-    "- Open ended. Never answerable with yes or no.",
-    "- One sentence, addressed to the partner as you.",
-    "- Specific and vivid, not generic self help phrasing.",
-    "- No therapy jargon, no clinical language, no em dashes.",
-    "- Fun ones should be genuinely funny, not cute.",
-    taste.length ? "\nThe couple saved these as favorites. Match this taste:\n" + taste.map(t => "- " + t).join("\n") : "",
-    recent.length ? "\nDo not repeat or closely mirror these:\n" + recent.map(t => "- " + t).join("\n") : "",
-    "", 'Return only a JSON array: [{"text": "...", "vibe": "playful"}]',
-    'vibe must be either "playful" or "deep".'
-  ].join("\n");
-}
-
 async function generate() {
   lastPass = null;
   busy = true; note = ""; render();
@@ -820,17 +729,25 @@ async function generate() {
         ? "Every question must be about music. Songs, albums, concerts, artists, what music does to them, what it meant at different points in their life. Mix light ones with a few that go deep."
         : "Half light and funny, half reflective and revealing.";
 
+  const prompt = [
+    "You write open ended questions for a married couple doing a Gottman informed check in. They take turns asking each other one question at a time.",
+    "The couple are college-educated millennials into 90s and current R&B and 2010s+ hip hop -- keep references and tone natural to that world when relevant, never forced.",
+    "", "Generate 8 new questions.", "Vibe: " + vibeLine, "", "Rules:",
+    "- Open ended. Never answerable with yes or no.",
+    "- One sentence, addressed to the partner as you.",
+    "- Specific and vivid, not generic self help phrasing.",
+    "- No therapy jargon, no clinical language, no em dashes.",
+    "- Fun ones should be genuinely funny, not cute.",
+    taste.length ? "\nThe couple saved these as favorites. Match this taste:\n" + taste.map(t => "- " + t).join("\n") : "",
+    recent.length ? "\nDo not repeat or closely mirror these:\n" + recent.map(t => "- " + t).join("\n") : "",
+    "", 'Return only a JSON array, no preamble and no markdown: [{"text": "...", "vibe": "playful"}]',
+    'vibe must be either "playful" or "deep".'
+  ].join("\n");
+
   try {
-    let parsed;
-    if (WORKER_URL) {
-      const data = await callWorker("/batch", { prompt: buildBatchPrompt(vibeLine, taste, recent) });
-      parsed = data.questions;
-    } else {
-      const prompt = buildBatchPrompt(vibeLine, taste, recent);
-      const text = await window.claude.complete({ messages: [{ role: "user", content: prompt }], max_tokens: 1200 });
-      const clean = text.replace(/```json|```/g, "").trim();
-      parsed = JSON.parse(clean);
-    }
+    const text = await window.claude.complete({ messages: [{ role: "user", content: prompt }], max_tokens: 1200 });
+    const clean = text.replace(/```json|```/g, "").trim();
+    const parsed = JSON.parse(clean);
     const stamp = Date.now();
     const fresh = parsed.filter(q => q && typeof q.text === "string").map((q, i) => ({
       id: "g" + stamp + "-" + i,
@@ -850,288 +767,6 @@ async function generate() {
     note = "Couldn't reach the question writer. Check your connection and try again.";
   }
   busy = false; render();
-}
-
-/* ---------- add / seed panel state ---------- */
-let addPanelOpen = false;
-let addPanelMode = "manual"; // "manual" | "seed"
-let addEditId = null;        // id of custom question being edited, or null
-let seedPending = null;      // [{text, vibe}] during variant selection, or null
-let addBusy = false;
-
-function toggleAddPanel() {
-  addPanelOpen = !addPanelOpen;
-  if (!addPanelOpen) { addEditId = null; seedPending = null; addBusy = false; }
-  render();
-  // The panel can render well below the fold on mobile with nothing else
-  // prompting a scroll, so the button appears to do nothing when tapped.
-  if (addPanelOpen) el("addPanelHost").scrollIntoView({ behavior: "smooth", block: "nearest" });
-}
-
-function openEditCustom(id) {
-  addEditId = id;
-  addPanelMode = "manual";
-  seedPending = null;
-  addPanelOpen = true;
-  render();
-  const ta = el("addTextarea");
-  if (ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }
-}
-
-function deleteCustom(id) {
-  state.custom = state.custom.filter(q => q.id !== id);
-  state.saved   = state.saved.filter(s => s.id !== id);
-  state.used    = state.used.filter(u => u !== id);
-  state.retired = state.retired.filter(r => r !== id);
-  history = history.filter(h => h.id !== id);
-  historyIndex  = Math.min(historyIndex, history.length - 1);
-  if (current && current.id === id) { current = null; draw(null); return; }
-  persist(); render();
-}
-
-function commitCustom(text, vibe, music, seed) {
-  const trimmed = text.trim();
-  const errEl = el("addError");
-  if (!trimmed) { if (errEl) errEl.textContent = "Question can't be blank."; return; }
-  if (trimmed.length > 240) { if (errEl) errEl.textContent = "Keep it under 240 characters."; return; }
-  const lower = trimmed.toLowerCase();
-  const dupe = all().some(q => q.id !== addEditId && q.text.toLowerCase() === lower);
-  if (dupe) { if (errEl) errEl.textContent = "That question is already in the deck."; return; }
-
-  if (addEditId) {
-    const idx = state.custom.findIndex(q => q.id === addEditId);
-    if (idx !== -1) {
-      state.custom[idx].text  = trimmed;
-      state.custom[idx].vibe  = vibe;
-      state.custom[idx].topic = music ? "music" : null;
-      if (seed) state.custom[idx].seed = seed;
-    }
-    // keep saved copy in sync
-    const si = state.saved.findIndex(s => s.id === addEditId);
-    if (si !== -1) state.saved[si].text = trimmed;
-  } else {
-    const q = { id: "c" + Date.now(), text: trimmed, vibe, topic: music ? "music" : null, createdAt: Date.now() };
-    if (seed) q.seed = seed;
-    state.custom.push(q);
-  }
-
-  seedPending = null;
-  addEditId = null;
-  addPanelOpen = false;
-  note = addEditId ? "Question updated." : "Question added to the deck.";
-  persist(); render();
-}
-
-async function runSeed() {
-  const ta = el("addTextarea");
-  if (!ta) return;
-  const seedText = ta.value.trim();
-  const errEl = el("addError");
-  if (!seedText) { if (errEl) errEl.textContent = "Enter a rough idea first."; return; }
-
-  const vibeEl = el("addVibeSeed");
-  const seedVibe = vibeEl ? vibeEl.value : "playful";
-  const musicEl = document.getElementById("addMusicSeed");
-  const seedMusic = musicEl ? musicEl.checked : false;
-
-  addBusy = true;
-  if (errEl) errEl.textContent = "";
-  renderAddPanel();
-
-  const vibeLine = seedVibe === "playful" ? "Light, funny, curious. Nothing heavy."
-    : "Reflective and revealing, the kind that opens a long conversation.";
-  const prompt = [
-    "You write open ended questions for a married couple doing a Gottman informed check in.",
-    "The couple are college-educated millennials into 90s and current R&B and 2010s+ hip hop.",
-    "Rough idea from the user: " + seedText,
-    "Vibe: " + vibeLine,
-    seedMusic ? "Every variant must be about music." : "",
-    "", "Write exactly 3 genuinely distinct open-ended questions based on this idea.",
-    "Each should feel like a different angle, not three rewordings.",
-    "Rules: open ended, one sentence, addressed to the partner as you, specific and vivid,",
-    "no therapy jargon, no em dashes, no clinical language.",
-    "", 'Return only a JSON array: [{"text": "...", "vibe": "playful"}, ...]',
-    'vibe must be "playful" or "deep".'
-  ].filter(Boolean).join("\n");
-
-  try {
-    let variants;
-    if (WORKER_URL) {
-      const data = await callWorker("/seed", { prompt });
-      variants = data.variants;
-    } else if (window.claude && typeof window.claude.complete === "function") {
-      const raw = await window.claude.complete({ messages: [{ role: "user", content: prompt }], max_tokens: 600 });
-      variants = JSON.parse(raw.replace(/```json|```/g, "").trim());
-    } else {
-      throw new Error("no_ai");
-    }
-    if (!Array.isArray(variants) || !variants.length) throw new Error("empty");
-    seedPending = variants.slice(0, 3).map(v => ({
-      text: String(v.text || "").trim(),
-      vibe: v.vibe === "deep" ? "deep" : "playful"
-    })).filter(v => v.text);
-    if (!seedPending.length) throw new Error("empty");
-    addBusy = false;
-    renderAddPanel();
-  } catch (e) {
-    addBusy = false;
-    seedPending = null;
-    renderAddPanel();
-    const eEl = el("addError");
-    if (eEl) eEl.textContent = e.message === "no_ai"
-      ? "Set WORKER_URL to enable AI seeding."
-      : "Couldn't reach the question writer. Your idea is still there.";
-  }
-}
-
-function pickVariant(idx) {
-  if (!seedPending || !seedPending[idx]) return;
-  const v = seedPending[idx];
-  // stash seed text before clearing
-  const ta = el("addTextarea"); // may be gone after render; grab now
-  const seedText = ta ? ta.value.trim() : "";
-  seedPending = null;
-  addBusy = false;
-  addPanelMode = "manual"; // switch to manual so user can confirm / edit
-  renderAddPanel();
-  // pre-fill textarea and vibe
-  const newTa = el("addTextarea");
-  if (newTa) newTa.value = v.text;
-  const vibeM = el("addVibeManual");
-  if (vibeM) vibeM.value = v.vibe;
-  // stash seed for commit
-  el("addPanelHost").dataset.seed = seedText;
-}
-
-function renderAddPanel() {
-  const host = el("addPanelHost");
-  if (!addPanelOpen) { host.innerHTML = ""; host.dataset.seed = ""; return; }
-
-  const existingQ = addEditId ? state.custom.find(q => q.id === addEditId) : null;
-  const CAN_SEED = !!(WORKER_URL || (window.claude && typeof window.claude.complete === "function"));
-
-  if (seedPending) {
-    // show 3 variant cards
-    host.innerHTML = '<div class="add-panel"><p class="eyebrow" style="margin:0 0 4px;">Pick one</p>' +
-      '<div class="variants">' +
-      seedPending.map((v, i) =>
-        '<div class="variant-card" id="variant' + i + '">' +
-        '<p>' + esc(v.text) + '</p>' +
-        '<div style="display:flex;gap:8px;">' +
-        '<button class="btn btn-primary" style="font-size:12px;padding:6px 12px;min-height:0;" id="pickBtn' + i + '">Use this one</button>' +
-        '<span class="tag tag-outline" style="font-size:10px;">' + v.vibe + '</span>' +
-        '</div></div>'
-      ).join("") +
-      '</div>' +
-      '<button class="btn btn-ghost" id="cancelVariantsBtn">Start over</button>' +
-      '<p class="panel-error" id="addError" role="alert"></p>' +
-      '</div>';
-    seedPending.forEach((_, i) => {
-      el("pickBtn" + i).onclick = () => pickVariant(i);
-    });
-    el("cancelVariantsBtn").onclick = () => { seedPending = null; renderAddPanel(); };
-    return;
-  }
-
-  const modeToggle = CAN_SEED
-    ? '<div class="panel-mode-toggle">' +
-        '<label><input type="radio" name="addMode" value="manual"' + (addPanelMode === "manual" ? " checked" : "") + ' id="modeManual" /> Write it myself</label>' +
-        '<label><input type="radio" name="addMode" value="seed"' + (addPanelMode === "seed" ? " checked" : "") + ' id="modeSeed" /> Rough idea</label>' +
-      '</div>'
-    : '';
-
-  if (addPanelMode === "seed") {
-    host.innerHTML = '<div class="add-panel">' + modeToggle +
-      '<textarea id="addTextarea" aria-describedby="addError" aria-label="Rough idea for a new question" placeholder="Rough idea or topic — AI will turn it into 3 question options"' + (addBusy ? " disabled" : "") + '></textarea>' +
-      '<div class="add-panel-row">' +
-      '<select id="addVibeSeed" class="btn btn-secondary" style="padding:8px 10px;min-height:0;font-size:12px;cursor:pointer;flex:none;">' +
-      '<option value="playful">Playful</option><option value="deep">Deep</option></select>' +
-      '<label class="music-check"><input type="checkbox" id="addMusicSeed" /> Music</label>' +
-      '</div>' +
-      '<div class="add-panel-actions">' +
-      '<button class="btn btn-primary" id="seedBtn"' + (addBusy ? " disabled" : "") + '>' + (addBusy ? "Writing…" : "Shape it") + '</button>' +
-      '<button class="btn btn-secondary" id="cancelAddBtn">Cancel</button>' +
-      '</div>' +
-      '<p class="panel-error" id="addError" role="alert"></p>' +
-      '</div>';
-    document.querySelectorAll('input[name="addMode"]').forEach(r => {
-      r.onchange = () => { addPanelMode = r.value; renderAddPanel(); };
-    });
-    el("seedBtn").onclick = runSeed;
-    el("cancelAddBtn").onclick = toggleAddPanel;
-    return;
-  }
-
-  // manual mode
-  const initText = existingQ ? existingQ.text : (host.dataset.seed ? "" : ""); // seed-picked text pre-filled via direct DOM earlier
-  const initVibe = existingQ ? existingQ.vibe : "playful";
-  const initMusic = existingQ ? (existingQ.topic === "music") : false;
-
-  host.innerHTML = '<div class="add-panel">' + modeToggle +
-    '<textarea id="addTextarea" maxlength="240" aria-describedby="addError" aria-label="Your question" placeholder="Write your question here">' + esc(initText) + '</textarea>' +
-    '<div class="add-panel-row">' +
-    '<select id="addVibeManual" class="btn btn-secondary" style="padding:8px 10px;min-height:0;font-size:12px;cursor:pointer;flex:none;">' +
-    '<option value="playful"' + (initVibe === "playful" ? " selected" : "") + '>Playful</option>' +
-    '<option value="deep"' + (initVibe === "deep" ? " selected" : "") + '>Deep</option></select>' +
-    '<label class="music-check"><input type="checkbox" id="addMusicManual"' + (initMusic ? " checked" : "") + ' /> Music</label>' +
-    '</div>' +
-    '<div class="add-panel-actions">' +
-    '<button class="btn btn-primary" id="confirmAddBtn">' + (existingQ ? "Save changes" : "Add to deck") + '</button>' +
-    '<button class="btn btn-secondary" id="cancelAddBtn">Cancel</button>' +
-    '</div>' +
-    '<p class="panel-error" id="addError" role="alert"></p>' +
-    '</div>';
-
-  if (CAN_SEED) {
-    document.querySelectorAll('input[name="addMode"]').forEach(r => {
-      r.onchange = () => { addPanelMode = r.value; renderAddPanel(); };
-    });
-  }
-
-  el("confirmAddBtn").onclick = () => {
-    const ta = el("addTextarea");
-    const vibeEl = el("addVibeManual");
-    const musicEl = el("addMusicManual");
-    const seed = host.dataset.seed || undefined;
-    commitCustom(ta ? ta.value : "", vibeEl ? vibeEl.value : "playful", musicEl ? musicEl.checked : false, seed);
-  };
-  el("cancelAddBtn").onclick = toggleAddPanel;
-
-  // auto-focus on open if empty (not edit)
-  if (!existingQ && !host.dataset.seed) {
-    const ta = el("addTextarea");
-    if (ta) ta.focus();
-  }
-}
-
-function renderMyQuestions() {
-  const host = el("myQHost");
-  if (!host) return;
-  if (!state.custom.length) { host.innerHTML = ""; return; }
-
-  const EDIT_ICON = '<svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 256 256" fill="currentColor"><path d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z"/></svg>';
-  const DEL_ICON = X_ICON;
-
-  host.innerHTML = '<div class="my-q-section">' +
-    '<div class="my-q-header"><span class="eyebrow">My questions (' + state.custom.length + ')</span></div>' +
-    '<div class="my-q-list">' +
-    state.custom.map(q =>
-      '<div class="my-q-item"><div style="flex:1;min-width:0;">' +
-      '<p class="my-q-text">' + esc(q.text) + '</p>' +
-      '<span class="my-q-tag">' + q.vibe + (q.topic === "music" ? " · music" : "") + '</span>' +
-      '</div><div class="my-q-btns">' +
-      '<button class="btn btn-icon" data-edit="' + q.id + '" aria-label="Edit">' + EDIT_ICON + '</button>' +
-      '<button class="btn btn-icon" data-del="' + q.id + '" aria-label="Delete">' + DEL_ICON + '</button>' +
-      '</div></div>'
-    ).join("") +
-    '</div></div>';
-
-  host.querySelectorAll("[data-edit]").forEach(b => {
-    b.onclick = () => openEditCustom(b.getAttribute("data-edit"));
-  });
-  host.querySelectorAll("[data-del]").forEach(b => {
-    b.onclick = () => deleteCustom(b.getAttribute("data-del"));
-  });
 }
 
 /* ---------------- swipe gesture ---------------- */
@@ -1294,7 +929,6 @@ function render() {
     el("secondaryRow").classList.toggle("cols-1", !CAN_GENERATE);
     el("genBtn").disabled = busy;
     el("genLabel").textContent = busy ? "Writing…" : "Write new ones";
-    el("addToggleLabel").textContent = addPanelOpen ? "Close" : "+ Add a question";
     if (lastPass) {
       el("note").innerHTML = esc(note) + ' <button type="button" class="btn btn-ghost" id="undoPassBtn" style="padding:2px 6px;">Undo</button>';
       el("undoPassBtn").onclick = () => withTransition(undoPass);
@@ -1303,9 +937,8 @@ function render() {
     }
     el("counter").textContent = (pool(null).length + (current ? 1 : 0)) +
       " of " + poolTotal() + " left in " + vibeLabel(state.vibe);
-    renderAddPanel();
   }
-  if (savedVisible) { renderSaved(); renderMyQuestions(); }
+  if (savedVisible) renderSaved();
 }
 
 /* ---------------- wire up ---------------- */
@@ -1313,20 +946,8 @@ el("nextBtn").onclick = () => { buzz(8); withTransition(next); };
 el("passBtn").onclick = () => { buzz(8); withTransition(pass); };
 el("genBtn").onclick = generate;
 el("reshuffleBtn").onclick = () => withTransition(reshuffle);
-el("addToggleBtn").onclick = toggleAddPanel;
 el("toggleView").onclick = () => { view = "saved"; render(); };
 el("backBtn").onclick = () => { view = "deck"; render(); };
-
-// Escape closes the add panel from anywhere, including while typing in it.
-// Runs before the shortcut handler's INPUT/TEXTAREA bail-out, which would
-// otherwise make Escape dead exactly where it is most needed.
-document.addEventListener("keydown", e => {
-  if (e.key !== "Escape" || !addPanelOpen) return;
-  e.preventDefault();
-  toggleAddPanel();
-  const opener = el("addToggleBtn");
-  if (opener) opener.focus();
-});
 
 document.addEventListener("keydown", e => {
   if (e.target && (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")) return;
@@ -1347,7 +968,6 @@ try {
 (async function init() {
   const saved = await store.load();
   if (saved) state = Object.assign(state, saved);
-  if (!Array.isArray(state.custom)) state.custom = [];
   isWide = mq.matches;
   draw(null);
 })();
