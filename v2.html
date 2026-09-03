@@ -83,7 +83,7 @@ body {
   font-family: var(--font-body);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   padding: calc(env(safe-area-inset-top, 0px) + clamp(20px, 4vw, 56px)) 18px calc(env(safe-area-inset-bottom, 0px) + 40px);
   -webkit-font-smoothing: antialiased;
 }
@@ -115,7 +115,7 @@ h4 { font-family: var(--font-heading); font-weight: 500; font-size: 17px; margin
 .btn-primary { border-color: var(--color-accent); color: var(--color-text); }
 .btn-primary:hover { background: color-mix(in srgb, var(--color-accent) 16%, transparent); }
 .btn-secondary { border-color: var(--color-neutral-700); }
-.btn-ghost { border: none; padding: 6px 4px; min-height: 0; color: color-mix(in srgb, var(--color-text) 65%, transparent); font-size: 12px; }
+.btn-ghost { border: none; padding: 6px 4px; min-height: 44px; color: color-mix(in srgb, var(--color-text) 65%, transparent); font-size: 12px; }
 .btn-ghost:hover { border: none; background: none; color: var(--color-accent); }
 .btn-icon { padding: 6px; min-height: 44px; min-width: 44px; border: none; color: color-mix(in srgb, var(--color-text) 55%, transparent); }
 .btn-icon:hover { border: none; background: none; color: var(--color-accent); }
@@ -862,6 +862,9 @@ function toggleAddPanel() {
   addPanelOpen = !addPanelOpen;
   if (!addPanelOpen) { addEditId = null; seedPending = null; addBusy = false; }
   render();
+  // The panel can render well below the fold on mobile with nothing else
+  // prompting a scroll, so the button appears to do nothing when tapped.
+  if (addPanelOpen) el("addPanelHost").scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
 function openEditCustom(id) {
