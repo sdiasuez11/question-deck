@@ -307,25 +307,26 @@ button:focus-visible, a:focus-visible, [role="button"]:focus-visible { outline: 
         <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></svg>
       </button>
       <div class="row2 cols-2" id="secondaryRow">
-        <button class="btn btn-secondary" id="passBtn">
-          Pass this one
-          <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96ZM192,208H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/></svg>
+        <button class="btn btn-secondary" id="addToggleBtn">
+          <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"/></svg>
+          <span id="addToggleLabel">+ Add a question</span>
         </button>
         <button class="btn btn-secondary" id="genBtn">
           <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M197.58,129.06,146,110l-19-51.62a15.92,15.92,0,0,0-29.88,0L78,110l-51.62,19a15.92,15.92,0,0,0,0,29.88L78,178l19,51.62a15.92,15.92,0,0,0,29.88,0L146,178l51.62-19a15.92,15.92,0,0,0,0-29.88ZM137,164.22a8,8,0,0,0-4.74,4.74L112,223.85,91.78,169A8,8,0,0,0,87,164.22L32.15,144,87,123.78A8,8,0,0,0,91.78,119L112,64.15,132.22,119a8,8,0,0,0,4.74,4.74L191.85,144ZM144,40a8,8,0,0,1,8-8h16V16a8,8,0,0,1,16,0V32h16a8,8,0,0,1,0,16H184V64a8,8,0,0,1-16,0V48H152A8,8,0,0,1,144,40ZM248,88a8,8,0,0,1-8,8h-8v8a8,8,0,0,1-16,0V96h-8a8,8,0,0,1,0-16h8V72a8,8,0,0,1,16,0v8h8A8,8,0,0,1,248,88Z"/></svg>
           <span id="genLabel">Write new ones</span>
         </button>
       </div>
+      <button class="btn btn-secondary btn-block" id="passBtn">
+        Pass this one
+        <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 256 256" fill="currentColor"><path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96ZM192,208H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/></svg>
+      </button>
     </div>
 
     <div class="note" id="note"></div>
 
     <div class="meta">
       <span id="counter"></span>
-      <div style="display:flex;gap:8px;align-items:center;">
-        <button class="btn btn-ghost" id="reshuffleBtn">Reshuffle deck</button>
-        <button class="btn btn-ghost" id="addToggleBtn">+ Add a question</button>
-      </div>
+      <button class="btn btn-ghost" id="reshuffleBtn">Reshuffle deck</button>
     </div>
 
     <div id="addPanelHost"></div>
@@ -1293,7 +1294,7 @@ function render() {
     el("secondaryRow").classList.toggle("cols-1", !CAN_GENERATE);
     el("genBtn").disabled = busy;
     el("genLabel").textContent = busy ? "Writing…" : "Write new ones";
-    el("addToggleBtn").textContent = addPanelOpen ? "✕ Close" : "+ Add a question";
+    el("addToggleLabel").textContent = addPanelOpen ? "Close" : "+ Add a question";
     if (lastPass) {
       el("note").innerHTML = esc(note) + ' <button type="button" class="btn btn-ghost" id="undoPassBtn" style="padding:2px 6px;">Undo</button>';
       el("undoPassBtn").onclick = () => withTransition(undoPass);
