@@ -154,14 +154,12 @@ h4 { font-family: var(--font-heading); font-weight: 500; font-size: 17px; margin
 .ghost.g2 { background: var(--color-neutral-800); transform: translateY(7px) scale(0.975); opacity: 0.7; }
 
 .qd-card {
-  position: relative; background-color: color-mix(in srgb, var(--color-surface) 68%, transparent);
+  position: relative; background-color: color-mix(in srgb, var(--color-surface) 94%, transparent);
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48ZmlsdGVyIGlkPSJuIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC44NSIgbnVtT2N0YXZlcz0iMyIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIiBmaWx0ZXI9InVybCgjbikiIG9wYWNpdHk9IjAuNSIvPjwvc3ZnPg=="),
     radial-gradient(120% 90% at 12% 0%, color-mix(in srgb, var(--color-accent-2-800) 55%, transparent) 0%, transparent 62%),
     linear-gradient(168deg, color-mix(in srgb, var(--color-neutral-100) 4%, transparent) 0%, transparent 45%);
   background-blend-mode: overlay, normal, normal;
   background-size: 140px 140px, auto, auto;
-  -webkit-backdrop-filter: blur(20px) saturate(1.5);
-  backdrop-filter: blur(20px) saturate(1.5);
   border-radius: var(--radius-lg); padding: 26px 24px 22px; min-height: 260px;
   display: flex; flex-direction: column; justify-content: space-between;
   box-shadow: var(--shadow-lg), inset 0 1px 0 color-mix(in srgb, var(--color-neutral-100) 9%, transparent);
@@ -175,7 +173,7 @@ h4 { font-family: var(--font-heading); font-weight: 500; font-size: 17px; margin
   position: absolute; top: 20px; pointer-events: none; opacity: 0;
   font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
   padding: 7px 12px; border-radius: var(--radius-lg); border: 1px solid currentColor;
-  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  background: color-mix(in srgb, var(--color-neutral-900) 55%, transparent);
 }
 .qd-back { left: 20px; color: var(--color-neutral-400); }
 .qd-next { right: 20px; color: var(--color-accent-2); }
@@ -624,9 +622,10 @@ let note = "";
 let lastPass = null;
 let isWide = false;
 let standalone = false;
+let lastCardId = null;
 
 const all = () => BASE.concat(state.generated, state.custom);
-const persist = () => store.save(state);
+const persist = () => setTimeout(() => store.save(state), 0);
 
 function matches(q, v) {
   if (v === "mixed") return true;
@@ -642,14 +641,17 @@ function vibeLabel(v) {
 }
 
 function poolTotal() {
-  return all().filter(q => matches(q, state.vibe) && state.retired.indexOf(q.id) === -1).length;
+  const retired = new Set(state.retired);
+  return all().filter(q => matches(q, state.vibe) && !retired.has(q.id)).length;
 }
 
 function pool(excludeId) {
+  const used = new Set(state.used);
+  const retired = new Set(state.retired);
   return all().filter(q =>
     matches(q, state.vibe) &&
-    state.used.indexOf(q.id) === -1 &&
-    state.retired.indexOf(q.id) === -1 &&
+    !used.has(q.id) &&
+    !retired.has(q.id) &&
     q.id !== excludeId
   );
 }
@@ -811,7 +813,8 @@ async function generate() {
   lastPass = null;
   busy = true; note = ""; render();
   const taste = state.saved.slice(-10).map(s => s.text);
-  const recent = state.used.map(id => all().find(q => q.id === id)).filter(Boolean).slice(-25).map(q => q.text);
+  const byId = new Map(all().map(q => [q.id, q]));
+  const recent = state.used.map(id => byId.get(id)).filter(Boolean).slice(-25).map(q => q.text);
   const vibeLine = state.vibe === "playful"
     ? "Light, funny, curious. Nothing heavy."
     : state.vibe === "deep"
@@ -1150,7 +1153,7 @@ function flingOut(d, dir, then) {
   d.card.style.transition = "transform 220ms ease-in, opacity 220ms ease-in";
   d.card.style.transform = "translateX(" + (dir * 520) + "px) rotate(" + (dir * 14) + "deg)";
   d.card.style.opacity = "0";
-  setTimeout(then, 200);
+  setTimeout(then, 220);
 }
 
 function onCardPointerDown(e) {
@@ -1158,7 +1161,7 @@ function onCardPointerDown(e) {
   const card = e.currentTarget;
   drag = {
     id: e.pointerId, x: e.clientX, y: e.clientY, active: false, buzzed: 0, pending: 0,
-    card, passEl: card.querySelector(".qd-pass"), saveEl: card.querySelector(".qd-save")
+    card, passEl: card.querySelector(".qd-back"), saveEl: card.querySelector(".qd-next")
   };
   if (card.setPointerCapture) { try { card.setPointerCapture(e.pointerId); } catch (err) {} }
 }
@@ -1218,6 +1221,7 @@ function renderVibes() {
 function renderCard() {
   const host = el("cardHost");
   if (!current) {
+    lastCardId = null;
     host.innerHTML =
       '<div class="empty"><p>You’ve been through every question in this vibe.</p>' +
       '<div class="btnrow">' +
@@ -1232,6 +1236,18 @@ function renderCard() {
   const tagIcon = state.vibe === "music" ? ICONS.music : current.vibe === "deep" ? ICONS.deep : ICONS.playful;
   const tagLabel = state.vibe === "music" ? "All about music" : current.vibe === "deep" ? "Goes deep" : "Keeps it light";
   const left = pool(null).length + 1;
+
+  // Same question already on screen (star tap, add-panel toggle, saved-view toggle):
+  // patch the bits that can change instead of rebuilding the card, so its entrance
+  // animation doesn't restart and collide with the view transition.
+  if (lastCardId === current.id && el("qdCard")) {
+    const starBtn = el("starBtn");
+    if (starBtn) starBtn.innerHTML = on ? STAR_ON : STAR_OFF;
+    const leftEl = host.querySelector(".qd-meta span:last-child");
+    if (leftEl) leftEl.textContent = left + " left";
+    return;
+  }
+  lastCardId = current.id;
   host.innerHTML =
     '<div class="stack"><div class="qd-glow"></div><div class="ghost g1"></div><div class="ghost g2"></div>' +
     '<div class="qd-card" id="qdCard">' +

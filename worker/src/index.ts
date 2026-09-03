@@ -52,6 +52,7 @@ async function callClaude(env: Env, prompt: string, maxTokens: number): Promise<
   const response = await client.messages.create({
     model: "claude-sonnet-5",
     max_tokens: maxTokens,
+    thinking: { type: "disabled" },
     system: "You are a JSON API. Return only valid JSON, no markdown, no commentary, no code fences.",
     messages: [{ role: "user", content: prompt }],
   });
